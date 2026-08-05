@@ -39,16 +39,9 @@
             --card-bg: rgba(25, 10, 30, 0.92);
         }
 
-        /* ANIMAÇÕES */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 5px var(--primary-color); }
-            50% { box-shadow: 0 0 15px var(--primary-color); }
-            100% { box-shadow: 0 0 5px var(--primary-color); }
         }
 
         * {
@@ -72,18 +65,6 @@
             background: var(--bg-overlay); z-index: -1;
         }
 
-        /* LINKS WIKI AQW */
-        a.wiki-link {
-            color: var(--primary-color);
-            text-decoration: none; font-weight: bold;
-            border-bottom: 1px dotted var(--primary-color);
-        }
-        a.wiki-link:hover {
-            color: #fff; text-shadow: 0 0 5px var(--primary-color);
-            border-bottom: 1px solid #fff;
-        }
-
-        /* HEADER */
         header {
             width: 100%; padding: 15px 30px;
             display: flex; justify-content: space-between; align-items: center;
@@ -114,9 +95,7 @@
 
         main { max-width: 1100px; width: 90%; margin: 30px 0; }
 
-        /* ==========================================
-           2. TELA LANDING PAGE PÚBLICA (DESLOGADO)
-           ========================================== */
+        /* LANDING PAGE (DESLOGADO) */
         .landing-grid { display: grid; grid-template-columns: 1fr 350px; gap: 25px; animation: fadeIn 0.4s ease-out; }
 
         .news-section {
@@ -154,9 +133,7 @@
             margin-top: 10px; cursor: pointer; text-decoration: underline;
         }
 
-        /* ==========================================
-           3. DASHBOARD PRIVADO DO USUÁRIO (POS-LOGIN)
-           ========================================== */
+        /* DASHBOARD PRIVADO (PÓS-LOGIN) */
         #user-dashboard { display: none; animation: fadeIn 0.4s ease-out; }
 
         .dashboard-welcome {
@@ -192,7 +169,7 @@
         .dash-panel { display: none; }
         .dash-panel.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-        /* BARRAS DE PROGRESSO INTERATIVAS */
+        /* BARRAS DE PROGRESSO E CONTEÚDO NATIVO */
         .progress-bar-container {
             width: 100%; background: rgba(0,0,0,0.6);
             border: 1px solid var(--border-color); border-radius: 10px;
@@ -210,13 +187,12 @@
         }
 
         .checklist-item {
-            display: flex; align-items: center; gap: 10px; padding: 8px 0;
+            display: flex; align-items: center; gap: 10px; padding: 10px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem;
         }
 
         .checklist-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
 
-        /* CALCULADORA DE MOCHILA/BAG */
         .bag-calc-box {
             background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-color);
             padding: 15px; border-radius: 6px; margin-top: 15px;
@@ -227,13 +203,17 @@
             color: #fff; border-radius: 4px; width: 100px; outline: none; margin-left: 10px;
         }
 
-        /* SIMULADOR */
         .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .sim-group { margin-bottom: 12px; }
         .sim-group label { display: block; font-size: 0.8rem; color: var(--primary-color); margin-bottom: 4px; font-weight: bold; }
         .sim-group select { width: 100%; padding: 8px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; }
         .sim-box { background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: 6px; padding: 15px; }
         .sim-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; }
+
+        .guide-box {
+            background: rgba(0,0,0,0.4); border-left: 4px solid var(--primary-color);
+            padding: 12px 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; font-size: 0.88rem; line-height: 1.6;
+        }
 
         .char-search-inline { display: flex; gap: 10px; margin-bottom: 20px; }
         .char-search-inline input { flex: 1; padding: 10px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: white; border-radius: 4px; }
@@ -246,7 +226,7 @@
 </head>
 <body>
 
-    <!-- CABEÇALHO DA PLATAFORMA -->
+    <!-- CABEÇALHO -->
     <header>
         <div class="logo">
             <h1>⚔️ AQWorlds BR</h1>
@@ -261,14 +241,11 @@
     </header>
 
     <main>
-        <!-- ==========================================
-             1. PÁGINA INICIAL PÚBLICA (DESLOGADO)
-             ========================================== -->
+        <!-- PÁGINA PÚBLICA (DESLOGADO) -->
         <div id="public-landing" class="landing-grid">
-            
             <section class="news-section">
                 <h2 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-                    📰 Design Notes & Notícias do AQW
+                    📰 Notícias & Atualizações do AQW
                 </h2>
 
                 <article class="news-article">
@@ -277,7 +254,7 @@
                     </span>
                     <h3 style="color: #fff; margin: 8px 0;">🔥 Guerra Sombria: Invasão das Sombras</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Esta semana o evento principal traz batalhas em <a href="http://aqwwiki.wikidot.com/shadowinvasion" target="_blank" class="wiki-link">/shadowinvasion</a>. Aproveite o bônus de <b>2x Reputação e XP</b> ativo durante todo o fim de semana!
+                        Esta semana o evento principal traz batalhas no mapa <b>/shadowinvasion</b>. Aproveite o bônus de <b>2x Reputação e XP</b> ativo durante todo o fim de semana para upar suas classes rapidamente!
                     </p>
                 </article>
 
@@ -287,23 +264,21 @@
                     </span>
                     <h3 style="color: #fff; margin: 8px 0;">🛡️ Ajustes de Classes de Suporte</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Confira os detalhes oficiais das mudanças nas classes <a href="http://aqwwiki.wikidot.com/archpaladin-class" target="_blank" class="wiki-link">ArchPaladin</a> e <a href="http://aqwwiki.wikidot.com/lord-of-order" target="_blank" class="wiki-link">Lord of Order</a>.
+                        A equipe oficial aplicou melhorias na sinergia das classes <b>ArchPaladin</b> e <b>Lord of Order</b>, otimizando a mitigação de dano para confrontos contra chefes difíceis.
                     </p>
                 </article>
             </section>
 
-            <!-- CARD DE LOGIN / CADASTRO COM SENHA E CONFIRMAÇÃO -->
+            <!-- CARD DE LOGIN / CADASTRO -->
             <aside class="auth-card">
                 <h3 id="auth-title">🔐 Área do Jogador</h3>
                 <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">
-                    Acesse seu painel com Simulador de Status, Rota de Nível e Calculadora de Inventário.
+                    Faça login ou cadastre-se para acessar o simulador de status, progresso e ferramentas completas.
                 </p>
 
                 <form class="auth-form" onsubmit="handleAuth(event)">
                     <input type="text" id="auth-username" placeholder="Nome de Usuário" required>
                     <input type="password" id="auth-password" placeholder="Sua Senha" required>
-                    
-                    <!-- CAMPO DE CONFIRMAÇÃO DE SENHA (SÓ NO CADASTRO) -->
                     <input type="password" id="auth-confirm-password" placeholder="Confirme a Senha" style="display: none;">
 
                     <button type="submit" class="auth-btn" id="auth-submit-btn">Entrar na Conta</button>
@@ -315,34 +290,31 @@
             </aside>
         </div>
 
-        <!-- ==========================================
-             2. DASHBOARD PRIVADO DO USUÁRIO (POS-LOGIN)
-             ========================================== -->
+        <!-- DASHBOARD PRIVADO (PÓS-LOGIN) -->
         <div id="user-dashboard">
-            
             <div class="dashboard-welcome">
                 <div>
                     <h2>Bem-vindo, <span id="user-display-name" style="color: var(--primary-color);">Hero</span>! 👋</h2>
-                    <p style="font-size: 0.8rem; color: #aaa;">Sua central interativa de progresso e ferramentas de AQW.</p>
+                    <p style="font-size: 0.8rem; color: #aaa;">Sua central interativa de guias e ferramentas do AQW.</p>
                 </div>
                 <button class="auth-btn" style="padding: 6px 15px;" onclick="switchDashTab('charsearch')">🔎 Buscar Charpage</button>
             </div>
 
-            <!-- NAVEGAÇÃO COMPLETA DAS VERSÕES 2.0 / 3.0 -->
+            <!-- NAVEGAÇÃO DE ABAS -->
             <nav class="dashboard-nav">
                 <button class="dash-tab active" onclick="switchDashTab('simulator')">🧪 Simulador de Forge</button>
                 <button class="dash-tab" onclick="switchDashTab('progression')">🗺️ Progresso (Checklist)</button>
-                <button class="dash-tab" onclick="switchDashTab('inventory')">🎒 Sacolas / Inventory</button>
-                <button class="dash-tab" onclick="switchDashTab('ultras')">🐉 Ultra Bosses</button>
+                <button class="dash-tab" onclick="switchDashTab('inventory')">🎒 Sacolas / Bag</button>
+                <button class="dash-tab" onclick="switchDashTab('ultras')">🐉 Guia de Ultra Bosses</button>
                 <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage Viewer</button>
             </nav>
 
             <div class="dash-content-container">
                 
-                <!-- ABA 1: SIMULADOR DE FORGE ENHANCEMENTS -->
+                <!-- ABA 1: SIMULADOR DE FORGE -->
                 <div id="dash-simulator" class="dash-panel active">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧪 Simulador de Encantamentos & Status Previsto</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Simule suas combinações e acesse a documentação em <a href="http://aqwwiki.wikidot.com/forge-enhancements" target="_blank" class="wiki-link">Forge Enhancements Wiki ↗</a>.</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧪 Simulador de Encantamentos Forge & Atributos</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Simule combinações avançadas dos encantamentos do complexo Forge. Todos os bônus calculados em tempo real:</p>
 
                     <div class="sim-grid">
                         <div>
@@ -358,26 +330,26 @@
                                 <label>Arma (Forge Weapon):</label>
                                 <select id="sim-weapon" onchange="runSimulation()">
                                     <option value="none">Lucky Standard</option>
-                                    <option value="valiant">Valiant (+Stats Gerais)</option>
-                                    <option value="smite">Smite (+Crit Burst)</option>
-                                    <option value="elysium">Elysium (Recupera Mana)</option>
+                                    <option value="valiant">Valiant (+Atributos Gerais e Segurança)</option>
+                                    <option value="smite">Smite (+Dano Crítico Burst Explosivo)</option>
+                                    <option value="elysium">Elysium (Foco em Recuperação de Mana)</option>
                                 </select>
                             </div>
                             <div class="sim-group">
                                 <label>Capacete (Forge Helm):</label>
                                 <select id="sim-helm" onchange="runSimulation()">
                                     <option value="none">Lucky Standard</option>
-                                    <option value="pneuma">Pneuma (+INT / -HP)</option>
-                                    <option value="anima">Anima (+STR / -HP)</option>
-                                    <option value="vim">Vim (+DEX / -STR)</option>
+                                    <option value="pneuma">Pneuma (+INT / Reduz HP - Ideal para Mágicos)</option>
+                                    <option value="anima">Anima (+STR / Reduz HP - Ideal para Físicos)</option>
+                                    <option value="vim">Vim (+DEX / Reduz Força)</option>
                                 </select>
                             </div>
                             <div class="sim-group">
                                 <label>Capa (Forge Cape):</label>
                                 <select id="sim-cape" onchange="runSimulation()">
                                     <option value="none">Lucky Standard</option>
-                                    <option value="vainglory">Vainglory (+Dano / Zero Cura Aliada)</option>
-                                    <option value="penitence">Penitence (+Defesa / -Evasão)</option>
+                                    <option value="vainglory">Vainglory (+Dano / Anula Cura de Suportes)</option>
+                                    <option value="penitence">Penitence (+Redução de Dano / Reduz Evasão)</option>
                                 </select>
                             </div>
                         </div>
@@ -396,10 +368,10 @@
                     </div>
                 </div>
 
-                <!-- ABA 2: CHECKLIST INTERATIVO DE PROGRESSÃO DA CONTA -->
+                <!-- ABA 2: CHECKLIST DE PROGRESSÃO -->
                 <div id="dash-progression" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 5px;">🗺️ Rota de Progressão & Conquistas da Conta</h3>
-                    <p style="font-size: 0.85rem; color: #ccc;">Marque os objetivos concluídos para calcular a porcentagem de evolução da sua conta:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 5px;">🗺️ Rota Oficial de Progressão (1 a 100)</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">Marque as etapas já concluídas para calcular a porcentagem de evolução da sua conta:</p>
 
                     <div class="progress-bar-container">
                         <div class="progress-bar-fill" id="progression-bar-fill"></div>
@@ -409,63 +381,74 @@
                     <div style="margin-top: 15px;">
                         <div class="checklist-item">
                             <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span>Concluir a Saga dos <a href="http://aqwwiki.wikidot.com/13-chaos-lords-sagas" target="_blank" class="wiki-link">13 Chaos Lords</a> (Nível 1 - 30)</span>
+                            <span><b>Fase Inicial (Nível 1 - 30):</b> Conclusão da saga dos 13 Lordes do Caos principais para entender a história base.</span>
                         </div>
                         <div class="checklist-item">
                             <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span>Obter a classe de Farm <a href="http://aqwwiki.wikidot.com/shaman" target="_blank" class="wiki-link">Shaman</a> ou Scarlet Sorceress</span>
+                            <span><b>Primeira Classe de Farm:</b> Desbloquear Shaman ou Scarlet Sorceress para limpar monstros em grupo rapidamente.</span>
                         </div>
                         <div class="checklist-item">
                             <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span>Concluir as quests diárias para <a href="http://aqwwiki.wikidot.com/lord-of-order-quests" target="_blank" class="wiki-link">Lord of Order (LoO)</a></span>
+                            <span><b>Suporte Essencial:</b> Completar as missões diárias para obter o Lord of Order (LoO).</span>
                         </div>
                         <div class="checklist-item">
                             <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span>Desbloquear os encantamentos no mapa <a href="http://aqwwiki.wikidot.com/forge" target="_blank" class="wiki-link">/forge</a></span>
+                            <span><b>Desbloqueio do Forge:</b> Visitar o mapa /forge e realizar os desafios iniciais de encantamento.</span>
                         </div>
                         <div class="checklist-item">
                             <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span>Obter uma classe Endgame Solo: <a href="http://aqwwiki.wikidot.com/void-highlord-class" target="_blank" class="wiki-link">Void Highlord</a> ou <a href="http://aqwwiki.wikidot.com/chaos-avenger" target="_blank" class="wiki-link">Chaos Avenger</a></span>
+                            <span><b>Classe Endgame Solo:</b> Conquistar Void Highlord (VHL) ou Chaos Avenger para lutas individuais de alto nível.</span>
                         </div>
                         <div class="checklist-item">
                             <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span>Obter uma Arma de +50/51% de Dano: <a href="http://aqwwiki.wikidot.com/necrotic-sword-of-doom-weapon" target="_blank" class="wiki-link">NSOD</a> ou <a href="http://aqwwiki.wikidot.com/exalted-apocalypse" target="_blank" class="wiki-link">Exalted Apocalypse</a></span>
+                            <span><b>Arma de Dano Máximo (+51%):</b> Obter a Necrotic Sword of Doom (NSOD) ou Exalted Apocalypse.</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- ABA 3: GERENCIADOR E CALCULADORA DE SACOLAS / INVENTÁRIO -->
+                <!-- ABA 3: INVENTÁRIO / SACOLAS -->
                 <div id="dash-inventory" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🎒 Calculadora de Expansão de Inventário (Bag Slots)</h3>
-                    <p style="font-size: 0.85rem; color: #ccc;">Insira a quantidade de espaço que você possui atualmente na sua mochila para calcular o custo até o limite máximo do jogo.</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🎒 Calculadora de Espaço na Mochila (Bag Slots)</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">Insira o número atual de espaços na sua mochila para calcular o custo exato em AdventureCoins até o limite máximo do jogo (300 slots).</p>
 
                     <div class="bag-calc-box">
-                        <label style="font-size:0.9rem; font-weight:bold;">Sua quantidade de espaços atual:</label>
+                        <label style="font-size:0.9rem; font-weight:bold;">Seus slots atuais:</label>
                         <input type="number" id="current-bag-slots" value="40" min="40" max="300" oninput="calculateBagCost()">
                         
                         <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; font-size: 0.9rem; line-height: 1.8;">
                             <p><b>Espaços Faltantes para o Limite (300):</b> <span id="calc-missing-slots" style="color:var(--primary-color);">260</span> slots</p>
-                            <p><b>Custo estimado em AdventureCoins (200 ACs por slot):</b> <span id="calc-ac-cost" style="color:#ffca28; font-weight:bold;">52,000 ACs</span></p>
+                            <p><b>Custo Total Estimado (200 ACs por slot):</b> <span id="calc-ac-cost" style="color:#ffca28; font-weight:bold;">52,000 ACs</span></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- ABA 4: ULTRA BOSSES -->
+                <!-- ABA 4: GUIA DE ULTRA BOSSES -->
                 <div id="dash-ultras" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🐉 Guia Rápido & Mapas de Ultra Bosses</h3>
-                    <p style="font-size: 0.88rem; color: #ccc;">Estratégias e composições obrigatórias:</p>
-                    <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.88rem; color: #ddd; line-height: 1.8;">
-                        <li><b><a href="http://aqwwiki.wikidot.com/ultra-speaker" target="_blank" class="wiki-link">Ultra Speaker (/ultraspeaker)</a>:</b> Requer rodízio exato de taunts com Loop Taunt e composições de <a href="http://aqwwiki.wikidot.com/lord-of-order" target="_blank" class="wiki-link">LoO</a> + <a href="http://aqwwiki.wikidot.com/archpaladin-class" target="_blank" class="wiki-link">AP</a>.</li>
-                        <li><b><a href="http://aqwwiki.wikidot.com/ultra-dage" target="_blank" class="wiki-link">Ultra Dage (/ultradage)</a>:</b> Proibido utilizar curas do tipo HoT. Usar <a href="http://aqwwiki.wikidot.com/lightcaster" target="_blank" class="wiki-link">LightCaster</a>.</li>
-                    </ul>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🐉 Guia Completo & Estratégias de Ultra Bosses</h3>
+                    <p style="font-size: 0.88rem; color: #ccc; margin-bottom: 15px;">Instruções traduzidas das composições e táticas obrigatórias:</p>
+
+                    <div class="guide-box">
+                        <strong style="color: var(--primary-color); font-size: 1rem;">1. Ultra Speaker (/ultraspeaker)</strong>
+                        <p style="margin-top: 5px; color: #ddd;">
+                            Exige sincronia perfeita de rodízio de provocação (*Loop Taunt*). A equipe padrão recomendada inclui <b>Lord of Order (LoO)</b> para mitigação global, <b>ArchPaladin (AP)</b> para reduzir o dano do chefe, <b>StoneCrusher</b> para aceleração e uma classe de dano consistente. Nunca ataque fora do momento correto ou o grupo sofrerá dano letal em área.
+                        </p>
+                    </div>
+
+                    <div class="guide-box">
+                        <strong style="color: var(--primary-color); font-size: 1rem;">2. Ultra Dage (/ultradage)</strong>
+                        <p style="margin-top: 5px; color: #ddd;">
+                            <b>Atenção Crítica:</b> Proibido o uso de classes que aplicam cura contínua baseada em tempo (*HoT - Heal over Time*), pois o Ultra Dage pune o grupo instantaneamente se curas periódicas estiverem ativas. Utilize classes de escudo direto e dano mágico como <b>LightCaster</b>.
+                        </p>
+                    </div>
                 </div>
 
                 <!-- ABA 5: CHARPAGE VIEWER -->
                 <div id="dash-charsearch" class="dash-panel">
                     <h3 style="color: var(--primary-color); margin-bottom: 10px;">🔍 Visualizador de Charpage Oficial</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Digite o nome do personagem para abrir o perfil diretamente no servidor do jogo:</p>
                     <div class="char-search-inline">
-                        <input type="text" id="dash-search-input" placeholder="Digite o nickname exato do jogador (ex: Artix)...">
-                        <button class="auth-btn" style="width: auto; padding: 0 20px;" onclick="searchCharpageDash()">Buscar</button>
+                        <input type="text" id="dash-search-input" placeholder="Digite o nickname exato (ex: Artix)...">
+                        <button class="auth-btn" style="width: auto; padding: 0 20px;" onclick="searchCharpageDash()">Pesquisar</button>
                     </div>
                 </div>
 
@@ -473,7 +456,7 @@
         </div>
     </main>
 
-    <!-- LOGICA E SCRIPTS DO SITE -->
+    <!-- SCRIPTS -->
     <script>
         let isRegisterMode = false;
 
@@ -486,8 +469,6 @@
             document.getElementById('auth-title').innerText = isRegisterMode ? "📝 Criar Nova Conta" : "🔐 Área do Jogador";
             document.getElementById('auth-submit-btn').innerText = isRegisterMode ? "Cadastrar" : "Entrar na Conta";
             document.getElementById('auth-toggle-btn').innerText = isRegisterMode ? "Já tem conta? Faça Login" : "Não tem uma conta? Cadastre-se";
-            
-            // EXIBE OU OCULTA O CAMPO DE CONFIRMAR SENHA
             document.getElementById('auth-confirm-password').style.display = isRegisterMode ? "block" : "none";
         }
 
@@ -500,14 +481,12 @@
             if (!user || !pass) return;
 
             if (isRegisterMode) {
-                // VALIDAÇÃO DE CONFIRMAÇÃO DE SENHA
                 if (pass !== confirmPass) {
-                    alert('As senhas não coincidem! Por favor, digite a mesma senha nos dois campos.');
+                    alert('As senhas não coincidem! Digite a mesma senha em ambos os campos.');
                     return;
                 }
-
                 localStorage.setItem(`user_${user}`, pass);
-                alert('Conta cadastrada com sucesso! Você já pode realizar o login.');
+                alert('Conta cadastrada com sucesso! Faça seu login.');
                 isRegisterMode = false;
                 toggleAuthMode();
             } else {
@@ -515,7 +494,7 @@
                 if (savedPass && savedPass === pass) {
                     loginUser(user);
                 } else {
-                    alert('Usuário ou senha incorretos! Se ainda não possui conta, selecione "Cadastre-se".');
+                    alert('Usuário ou senha incorretos! Se não possui cadastro, clique em "Cadastre-se".');
                 }
             }
         }
@@ -526,7 +505,6 @@
             document.getElementById('btn-logout').style.display = 'block';
             document.getElementById('user-display-name').innerText = username;
             
-            // INICIALIZA RECURSOS
             runSimulation();
             calculateBagCost();
             updateProgress();
@@ -546,34 +524,26 @@
             event.target.classList.add('active');
         }
 
-        /* CÁLCULO DE MOCHILA/BAG */
         function calculateBagCost() {
             const current = parseInt(document.getElementById('current-bag-slots').value) || 40;
-            const maxSlots = 300;
-            
-            let missing = maxSlots - current;
+            let missing = 300 - current;
             if (missing < 0) missing = 0;
 
             const acCost = missing * 200;
-
             document.getElementById('calc-missing-slots').innerText = missing;
             document.getElementById('calc-ac-cost').innerText = acCost.toLocaleString('en-US') + " ACs";
         }
 
-        /* CHECKLIST DE PROGRESSO DA CONTA */
         function updateProgress() {
             const checkboxes = document.querySelectorAll('.prog-check');
             let checked = 0;
-
             checkboxes.forEach(cb => { if (cb.checked) checked++; });
 
             const percentage = Math.round((checked / checkboxes.length) * 100);
-            
             document.getElementById('progression-bar-fill').style.width = percentage + "%";
             document.getElementById('progression-bar-text').innerText = percentage + "% Concluído";
         }
 
-        /* SIMULADOR DE FORGE */
         function runSimulation() {
             const cls = document.getElementById('sim-class').value;
             const weapon = document.getElementById('sim-weapon').value;
@@ -584,18 +554,18 @@
             let tips = [];
 
             if (cls === 'vhl') { crit += 15; critDmg += 25; }
-            if (weapon === 'valiant') { crit += 5; def += 5; tips.push("Valiant melhora os atributos gerais com segurança."); }
-            if (weapon === 'smite') { critDmg += 35; tips.push("Smite aplica alto dano instantâneo no início."); }
-            if (helm === 'pneuma' && cls === 'vhl') { tips.push("⚠️ Aviso: Pneuma reduz HP e beneficia apenas classes mágicas!"); }
-            if (cape === 'vainglory') { critDmg += 30; tips.push("⚠️ Atenção: Vainglory anula o recebimento de curas de suporte!"); }
+            if (weapon === 'valiant') { crit += 5; def += 5; tips.push("Valiant melhora atributos gerais com segurança equilibrada."); }
+            if (weapon === 'smite') { critDmg += 35; tips.push("Smite aplica alto dano instantâneo explosivo (Burst)."); }
+            if (helm === 'pneuma' && cls === 'vhl') { tips.push("⚠️ Aviso: Pneuma reduz HP e beneficia primariamente classes de Inteligência!"); }
+            if (cape === 'vainglory') { critDmg += 30; tips.push("⚠️ Atenção: Vainglory aumenta o dano mas anula curas recebidas de suportes!"); }
 
             document.getElementById('res-crit').innerText = crit.toFixed(1) + "%";
             document.getElementById('res-critdmg').innerText = critDmg + "%";
             document.getElementById('res-hit').innerText = hit.toFixed(1) + "%";
             document.getElementById('res-def').innerText = def.toFixed(1) + "%";
 
-            if (tips.length === 0) tips.push("Build equilibrada e sem penalidades críticas.");
-            document.getElementById('sim-tips').innerHTML = "💡 <b>Análise do Build:</b><br>• " + tips.join("<br>• ");
+            if (tips.length === 0) tips.push("Build perfeitamente equilibrada e sem penalidades severas.");
+            document.getElementById('sim-tips').innerHTML = "💡 <b>Análise da Build:</b><br>• " + tips.join("<br>• ");
         }
 
         function searchCharpageDash() {
