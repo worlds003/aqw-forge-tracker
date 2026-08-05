@@ -1,481 +1,535 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQW Forge Command Center v4.0</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Portal do Jogo - Clãs & Notícias</title>
     <style>
+        /* ==========================================
+           1. VARIÁVEIS DE CORES & TEMAS
+           ========================================== */
         :root {
-            --bg-primary: #0a0c10;
-            --bg-secondary: #141824;
-            --bg-card: #1e2436;
-            --accent-gold: #ffc107;
-            --accent-purple: #a855f7;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border-color: #2e374e;
+            --bg-overlay: rgba(10, 10, 15, 0.85);
+            --primary-color: #6c5ce7;
+            --accent-color: #a29bfe;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.2);
+            --bg-image: url('https://i.gifer.com/fetch/w300-preview/38/38a081e7d958d53b925b39bf3ca36e9c.gif');
         }
 
-        [data-theme="nulgath"] {
-            --bg-primary: #0d0203;
-            --bg-secondary: #1a0507;
-            --bg-card: #280a0e;
-            --accent-gold: #ef4444;
-            --accent-purple: #dc2626;
-            --accent-blue: #f87171;
-            --text-main: #fecdd3;
-            --border-color: #450a0a;
+        /* Tema: Legion (Vermelho / Fogo) */
+        [data-theme="legion"] {
+            --bg-overlay: rgba(20, 5, 10, 0.85);
+            --primary-color: #ff2a2a;
+            --accent-color: #ff7675;
+            --card-bg: rgba(60, 10, 15, 0.4);
+            --border-color: #ff2a2a;
+            --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2eHhhM3A4NWZ3ZGR2Y3E3ZW05ZnJ2NDJjczM0N3I0ZzByOXB3byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L2Xf6J2R6I5wI/giphy.gif');
         }
 
-        [data-theme="golden"] {
-            --bg-primary: #120e03;
-            --bg-secondary: #211a08;
-            --bg-card: #30260e;
-            --accent-gold: #f59e0b;
-            --accent-purple: #d97706;
-            --accent-blue: #fbbf24;
-            --text-main: #fef3c7;
-            --border-color: #45330e;
+        /* Tema: Nation (Dourado / Nobre) */
+        [data-theme="nation"] {
+            --bg-overlay: rgba(5, 15, 30, 0.85);
+            --primary-color: #e1b12c;
+            --accent-color: #fbc531;
+            --card-bg: rgba(10, 30, 60, 0.4);
+            --border-color: #e1b12c;
+            --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3I4ZGN5Z3c5Ynk4bmEzeTF2bnR5NzVzdmtrNDBvNDJicDFidCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o85xoi6nNqJQJ954s/giphy.gif');
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-primary); color: var(--text-main); padding: 20px; transition: background 0.3s; }
-        .container { max-width: 1400px; margin: 0 auto; }
+        /* Tema: Shadow (Místico / Roxo) */
+        [data-theme="shadow"] {
+            --bg-overlay: rgba(15, 5, 25, 0.85);
+            --primary-color: #9b59b6;
+            --accent-color: #8e44ad;
+            --card-bg: rgba(40, 10, 50, 0.4);
+            --border-color: #9b59b6;
+            --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3I4ZGN5Z3c5Ynk4bmEzeTF2bnR5NzVzdmtrNDBvNDJicDFidCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26hb3X0YQ1X8c/giphy.gif');
+        }
+
+        /* ==========================================
+           2. ESTILOS GERAIS
+           ========================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+        }
+
+        body {
+            color: var(--text-color);
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-overlay);
+            z-index: -1;
+        }
 
         header {
-            background: linear-gradient(180deg, rgba(255, 193, 7, 0.15) 0%, rgba(20, 24, 36, 0.95) 100%);
-            border: 1px solid var(--accent-gold);
-            border-radius: 12px; padding: 20px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid var(--primary-color);
+            backdrop-filter: blur(8px);
         }
-        header h1 { color: var(--accent-gold); font-size: 1.8rem; display: flex; align-items: center; gap: 10px; }
 
-        .header-widgets { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-        .widget-box { background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; }
-        .widget-box span { color: var(--accent-gold); font-weight: bold; }
-
-        .controls-bar {
-            background: var(--bg-secondary); padding: 15px; border-radius: 10px;
-            border: 1px solid var(--border-color); margin-bottom: 20px;
-            display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; align-items: center;
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--primary-color);
         }
-        .search-box { flex: 1; min-width: 220px; position: relative; }
-        .search-box input {
-            width: 100%; padding: 8px 12px 8px 35px; background: var(--bg-primary);
-            border: 1px solid var(--border-color); color: #fff; border-radius: 6px;
+
+        .theme-selector {
+            display: flex;
+            gap: 10px;
         }
-        .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-        .btn-filter, .btn-action {
-            background: var(--bg-primary); color: var(--text-main); border: 1px solid var(--border-color);
-            padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: bold;
+        .clan-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
         }
-        .btn-filter.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
 
-        .overall-progress-card { background: var(--bg-secondary); padding: 18px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px; }
-        .progress-bar-bg { background: #0f172a; height: 24px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); position: relative; margin-top: 8px; }
-        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); width: 0%; transition: width 0.4s ease; }
-        .progress-text-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; font-size: 0.85rem; text-shadow: 1px 1px 3px #000; }
-
-        /* PAINEL DE SELEÇÃO DE OBJETIVOS ATIVOS */
-        .selector-box {
-            background: var(--bg-secondary); border: 1px solid var(--border-color);
-            border-radius: 10px; padding: 15px; margin-bottom: 20px;
+        .clan-btn:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
         }
-        .selector-title { font-size: 0.95rem; font-weight: bold; color: var(--accent-gold); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .selector-grid { display: flex; gap: 8px; flex-wrap: wrap; }
-        .target-tag {
-            background: var(--bg-primary); border: 1px solid var(--border-color);
-            padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; cursor: pointer; user-select: none; transition: all 0.2s;
+
+        /* NAVEGAÇÃO ENTRE ABAS */
+        nav {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
         }
-        .target-tag.active { background: rgba(255, 193, 7, 0.2); border-color: var(--accent-gold); color: var(--accent-gold); font-weight: bold; }
 
-        .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-btn {
-            background: var(--bg-secondary); color: var(--text-main); border: 1px solid var(--border-color);
-            padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 6px;
+        .nav-tab {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
         }
-        .tab-btn.active { border-color: var(--accent-gold); background: rgba(255, 193, 7, 0.15); color: var(--accent-gold); }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; }
-        .items-grid.hud-view { grid-template-columns: 1fr !important; }
+        .nav-tab.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 12px var(--primary-color);
+        }
 
-        .item-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
-        .counter-controls { display: flex; align-items: center; justify-content: space-between; background: var(--bg-secondary); padding: 6px 10px; border-radius: 6px; margin-top: 10px; }
-        .btn-count { background: #334155; color: #fff; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .count-input { width: 60px; text-align: center; background: transparent; border: 1px solid var(--border-color); color: #fff; padding: 3px; border-radius: 4px; font-weight: bold; }
+        /* ==========================================
+           3. LAYOUT E CONTEÚDO
+           ========================================== */
+        main {
+            max-width: 1100px;
+            width: 90%;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+        }
 
-        .card-complete { border-left: 4px solid var(--accent-green); }
-        .card-partial { border-left: 4px solid var(--accent-gold); }
-        .card-zero { border-left: 4px solid var(--accent-red); }
+        .content-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
 
-        .tool-panel { background: var(--bg-secondary); padding: 20px; border-radius: 10px; border: 1px solid var(--border-color); margin-top: 20px; }
-        .tool-panel h3 { color: var(--accent-gold); margin-bottom: 12px; font-size: 1.1rem; }
+        .tab-content {
+            display: none;
+        }
 
-        .news-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; margin-bottom: 15px; }
-        .news-date { font-size: 0.75rem; color: var(--accent-gold); text-transform: uppercase; font-weight: bold; }
-        .news-title { font-size: 1.1rem; font-weight: bold; color: #fff; margin: 5px 0 10px 0; }
-        .news-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
-        .news-link { display: inline-block; margin-top: 10px; color: var(--accent-blue); text-decoration: none; font-size: 0.85rem; font-weight: bold; }
+        .tab-content.active {
+            display: block;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ESTILOS DAS NOTÍCIAS */
+        .news-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .news-item h4 {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .news-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        /* ==========================================
+           4. PERFIL DO PERSONAGEM & LOGIN
+           ========================================== */
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .auth-card h3 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            outline: none;
+            margin-top: 3px;
+        }
+
+        .btn-action {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        /* CARTÃO DE CHARPAGE DO JOGADOR */
+        .char-card {
+            display: none;
+            text-align: center;
+        }
+
+        .char-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin: 10px auto;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .char-info-list {
+            list-style: none;
+            text-align: left;
+            margin: 15px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .char-info-list li {
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .char-info-list span {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            main { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 15px; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
+    <!-- CABEÇALHO -->
     <header>
-        <div>
-            <h1><i class="fa-solid fa-anvil"></i> AQW Forge Command Center v4.0</h1>
-            <p>Gerenciador Completo de Quests de Forja (Weapons, Helms & Capes)</p>
+        <div class="logo">
+            <h1>Game Universe</h1>
         </div>
-        <div class="header-widgets">
-            <div class="widget-box"><i class="fa-solid fa-arrows-rotate"></i> RESET DE ULTRAS: <span id="weekly-timer">Calculando...</span></div>
-            <div class="widget-box"><i class="fa-solid fa-bullhorn"></i> PRÓXIMA ATUALIZAÇÃO: <span id="game-update-timer">Calculando...</span></div>
-            <select id="theme-select" onchange="changeTheme(this.value)" style="background:var(--bg-primary); color:#fff; border:1px solid var(--border-color); padding:5px; border-radius:6px;">
-                <option value="dark">Tema: Dark Forge</option>
-                <option value="nulgath">Tema: Nulgath Void</option>
-                <option value="golden">Tema: Golden AQW</option>
-            </select>
+        <div class="theme-selector">
+            <button class="clan-btn" onclick="setTheme('legion')">Legion</button>
+            <button class="clan-btn" onclick="setTheme('nation')">Nation</button>
+            <button class="clan-btn" onclick="setTheme('shadow')">Shadow</button>
         </div>
     </header>
 
-    <!-- PAINEL DE CONTROLES -->
-    <div class="controls-bar">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="search-input" placeholder="Buscar reagente, mapa ou boss..." oninput="filterItems()">
-        </div>
-        <div style="display:flex; gap:6px;">
-            <button class="btn-filter active" onclick="setFilter('all', this)">Todos</button>
-            <button class="btn-filter" onclick="setFilter('pending', this)">Pendentes</button>
-            <button class="btn-filter" onclick="setFilter('done', this)">Concluídos</button>
-        </div>
-        <div style="display:flex; gap:6px;">
-            <button class="btn-action" onclick="toggleHUDMode()"><i class="fa-solid fa-list"></i> Modo HUD</button>
-            <button class="btn-action" onclick="exportData()"><i class="fa-solid fa-download"></i> Exportar</button>
-            <button class="btn-action" onclick="document.getElementById('import-file').click()"><i class="fa-solid fa-upload"></i> Importar</button>
-            <input type="file" id="import-file" style="display:none" onchange="importData(event)">
-        </div>
-    </div>
+    <!-- NAVEGAÇÃO DE ABAS -->
+    <nav>
+        <button class="nav-tab active" onclick="switchTab('clans')">Clãs & Galeria</button>
+        <button class="nav-tab" onclick="switchTab('news')">Notícias do Jogo</button>
+    </nav>
 
-    <!-- SELETOR DE OBJETIVOS ATIVOS (QUAL FORGE VOCÊ ESTÁ FAZENDO) -->
-    <div class="selector-box">
-        <div class="selector-title">
-            <span><i class="fa-solid fa-crosshairs"></i> Selecione os Enhancements que você está focado no momento:</span>
-            <span style="font-size:0.75rem; font-weight:normal; color:var(--text-muted);">(Clique para ativar/desativar o filtro na aba Objetivos)</span>
-        </div>
-        <div class="selector-grid" id="targets-selector">
-            <!-- Gerado via JavaScript -->
-        </div>
-    </div>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <section class="content-card">
+            
+            <!-- ABA 1: CLÃS E GALERIA -->
+            <div id="tab-clans" class="tab-content active">
+                <h2 id="clan-title" style="color: var(--primary-color);">Escolha o seu Clã</h2>
+                <p id="clan-desc" style="margin-top: 10px; line-height: 1.6;">
+                    Selecione um clã no menu superior para alterar a atmosfera, imagens e artes visuais do portal.
+                </p>
 
-    <!-- PROGRESSO GERAL -->
-    <div class="overall-progress-card">
-        <div style="display: flex; justify-content: space-between; font-weight: bold;">
-            <span>Progresso Global da Forja</span>
-            <span id="overall-percentage">0%</span>
-        </div>
-        <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="overall-bar"></div>
-            <div class="progress-text-overlay" id="overall-text">0 de 0 Reagentes Obtidos</div>
-        </div>
-    </div>
-
-    <!-- ABAS PRINCIPAIS -->
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('active_targets')"><i class="fa-solid fa-star"></i> Meus Objetivos Ativos</button>
-        <button class="tab-btn" onclick="switchTab('weapons')"><i class="fa-solid fa-sword"></i> Weapon Enhancements</button>
-        <button class="tab-btn" onclick="switchTab('helms')"><i class="fa-solid fa-helmet-safety"></i> Helm Enhancements</button>
-        <button class="tab-btn" onclick="switchTab('capes')"><i class="fa-solid fa-vest"></i> Cape Enhancements</button>
-        <button class="tab-btn" onclick="switchTab('news')"><i class="fa-solid fa-newspaper"></i> Notícias & Design Notes</button>
-        <button class="tab-btn" onclick="switchTab('tools')"><i class="fa-solid fa-toolbox"></i> Ferramentas Táticas</button>
-    </div>
-
-    <!-- GRIDS DE CADA CATEGORIA -->
-    <div class="tab-content active" id="tab-active_targets"><div class="items-grid" id="grid-active_targets"></div></div>
-    <div class="tab-content" id="tab-weapons"><div class="items-grid" id="grid-weapons"></div></div>
-    <div class="tab-content" id="tab-helms"><div class="items-grid" id="grid-helms"></div></div>
-    <div class="tab-content" id="tab-capes"><div class="items-grid" id="grid-capes"></div></div>
-
-    <!-- ABA NOTÍCIAS -->
-    <div class="tab-content" id="tab-news">
-        <div class="tool-panel">
-            <h3><i class="fa-solid fa-newspaper"></i> Últimas Atualizações & Game Design Notes (Resumo em Português)</h3>
-            <div class="news-card">
-                <div class="news-date">Lançamento Semanal de Sexta-Feira</div>
-                <div class="news-title">⚔️ Novas Quests, Eventos de Sexta e Server Boosts</div>
-                <div class="news-desc">
-                    Acompanhe as atualizações semanais oficiais diretamente no blog da Artix Entertainment. Lembre-se de aproveitar os finais de semana para realizar Farms com <strong>Server Double Boosts</strong> ativos!
+                <h3 style="margin-top: 25px; color: var(--accent-color);">Destaques do Clã</h3>
+                <div class="gallery" id="clan-gallery">
+                    <!-- Injetado via JS -->
                 </div>
-                <a href="https://www.aq.com/gamedesignnotes/" target="_blank" class="news-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Acessar Game Design Notes Oficial</a>
             </div>
-        </div>
-    </div>
 
-    <!-- ABA FERRAMENTAS -->
-    <div class="tab-content" id="tab-tools">
-        <div class="tool-panel">
-            <h3><i class="fa-solid fa-flask"></i> Checklist de Poções para Ultra Bosses</h3>
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:10px;">
-                <div style="background:var(--bg-primary); padding:10px; border-radius:6px; border:1px solid var(--border-color);"><input type="checkbox"> <strong>Fate Tonic:</strong> +Crit/Dmg (+15 min)</div>
-                <div style="background:var(--bg-primary); padding:10px; border-radius:6px; border:1px solid var(--border-color);"><input type="checkbox"> <strong>Potent Honor Potion:</strong> +50% Dano extra</div>
-                <div style="background:var(--bg-primary); padding:10px; border-radius:6px; border:1px solid var(--border-color);"><input type="checkbox"> <strong>Elixir of Phantasm:</strong> Evasion / Mana Sustentável</div>
-                <div style="background:var(--bg-primary); padding:10px; border-radius:6px; border:1px solid var(--border-color);"><input type="checkbox"> <strong>Scroll of Enrage:</strong> Taunt Obrigatório em Ultras</div>
+            <!-- ABA 2: NOTÍCIAS EM PORTUGUÊS -->
+            <div id="tab-news" class="tab-content">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;">Últimas Atualizações & Notícias</h2>
+                
+                <div class="news-item">
+                    <h4>🔥 Evento de Guerra de Clãs Liberado!</h4>
+                    <div class="news-date">Publicado em: 04 de Agosto, 2026</div>
+                    <p>Preparem seus equipamentos! A grande batalha entre Legion, Nation e Shadow começou. Conquiste territórios para garantir bônus exclusivos de experiência e itens raros para seu clã durante toda a semana.</p>
+                </div>
+
+                <div class="news-item">
+                    <h4>⚔️ Nova Classe Revelada: Mestre das Sombras</h4>
+                    <div class="news-date">Publicado em: 28 de Julho, 2026</div>
+                    <p>Chegou a nova classe focada em acertos críticos e furtividade! Disponível para todos os jogadores acima do nível 80. Fale com o NPC na cidade principal para iniciar a sequência de missões de transição.</p>
+                </div>
+
+                <div class="news-item">
+                    <h4>🛠️ Notas da Atualização v4.2</h4>
+                    <div class="news-date">Publicado em: 15 de Julho, 2026</div>
+                    <p>Rebalanceamento de habilidades dos tanques, melhoria no tempo de resposta do servidor e inclusão da nova interface do portal de personagens (Charpage).</p>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<script>
-// BANCO DE DADOS COMPLETO DE TODAS AS QUESTS DE FORGE DO AQW
-const forgeQuests = [
-    // WEAPONS
-    { id: 'w_lacerate', category: 'weapons', enhancement: 'Lacerate', name: 'Blacksmithing Rank 1', current: 0, max: 1, map: '/join forge', monster: 'Slimes', drop: 'Blacksmithing Rep', type: 'Weapon Forge' },
-    { id: 'w_smite', category: 'weapons', enhancement: 'Smite', name: 'Smite Reagents', current: 0, max: 50, map: '/join timeinn', monster: 'Ezrajal', drop: 'Ezrajal Essentials', type: 'Weapon Forge' },
-    { id: 'w_valiance', category: 'weapons', enhancement: 'Valiance', name: 'Valiance Token', current: 0, max: 1, map: '/join museum', monster: 'Fire Avatar', drop: 'Fire Avatar Token', type: 'Weapon Forge' },
-    { id: 'w_arcana', category: 'weapons', enhancement: 'Arcana\'s Concerto', name: 'Synthetic Magi Fluid', current: 0, max: 300, map: '/join darkcarnax', monster: 'Nightmarish Carnax', drop: 'Synthetic Magi Fluid', type: 'Weapon Forge' },
-    { id: 'w_elysium', category: 'weapons', enhancement: 'Elysium', name: 'Bone from Void Realm', current: 0, max: 15, map: '/join voidflibbi', monster: 'Ultra Flibbitiest', drop: 'Void Bone', type: 'Weapon Forge' },
-    { id: 'w_acheron', category: 'weapons', enhancement: 'Acheron', name: 'Dark Box & Dark Key Drops', current: 0, max: 1, map: '/join tercessuinotlim', monster: 'Nulgath', drop: 'Acheron Signal', type: 'Weapon Forge' },
-    { id: 'w_praxis', category: 'weapons', enhancement: 'Praxis', name: 'Praxis Token', current: 0, max: 1, map: '/join elemental', monster: 'Elemental Core', drop: 'Praxis Reagents', type: 'Weapon Forge' },
-    { id: 'w_dauntless', category: 'weapons', enhancement: 'Dauntless', name: 'Speaker Insignia', current: 0, max: 20, map: '/join ultraspeaker', monster: 'Ultra Speaker', drop: 'Speaker Insignia', type: 'Weapon Forge' },
+        </section>
 
-    // HELMS
-    { id: 'h_anima', category: 'helms', enhancement: 'Anima', name: 'Anima Helm Essence', current: 0, max: 100, map: '/join forge', monster: 'Forge Boss', drop: 'Anima Shard', type: 'Helm Forge' },
-    { id: 'h_ataraxia', category: 'helms', enhancement: 'Ataraxia', name: 'Ataraxia Gem', current: 0, max: 50, map: '/join archportal', monster: 'High Legion Guard', drop: 'Ataraxia Core', type: 'Helm Forge' },
-    { id: 'h_examen', category: 'helms', enhancement: 'Examen', name: 'Examen Token', current: 0, max: 100, map: '/join timeinn', monster: 'Warden Elfhame', drop: 'Warden Essentials', type: 'Helm Forge' },
-    { id: 'h_pneuma', category: 'helms', enhancement: 'Pneuma', name: 'Pneuma Shard', current: 0, max: 150, map: '/join mana-core', monster: 'Mana Boss', drop: 'Pneuma Crystal', type: 'Helm Forge' },
-    { id: 'h_vim', category: 'helms', enhancement: 'Vim', name: 'Vim Fragment', current: 0, max: 100, map: '/join void', monster: 'Void Fiend', drop: 'Vim Token', type: 'Helm Forge' },
-    { id: 'h_warden', category: 'helms', enhancement: 'Warden', name: 'Warden Helm Seal', current: 0, max: 1, map: '/join streamwar', monster: 'Second Speaker', drop: 'Warden Seal', type: 'Helm Forge' },
+        <!-- PAINEL DE LOGIN E CHARPAGE DO JOGADOR -->
+        <aside class="auth-card">
+            
+            <!-- Formulário de Registro/Login -->
+            <div id="login-form">
+                <h3>Vincular Personagem</h3>
+                <div class="input-group">
+                    <label>Nick no Jogo:</label>
+                    <input type="text" id="in-nick" placeholder="Ex: HeroiLendario">
+                </div>
+                <div class="input-group">
+                    <label>Nível:</label>
+                    <input type="number" id="in-level" placeholder="Ex: 100">
+                </div>
+                <div class="input-group">
+                    <label>Classe:</label>
+                    <input type="text" id="in-class" placeholder="Ex: Paladino, Mago...">
+                </div>
+                <div class="input-group">
+                    <label>Link da Charpage:</label>
+                    <input type="url" id="in-charpage" placeholder="https://jogo.com/char/SeuNick">
+                </div>
+                <button class="btn-action" style="width:100%" onclick="saveProfile()">Salvar Personagem</button>
+            </div>
 
-    // CAPES
-    { id: 'c_absolution', category: 'capes', enhancement: 'Absolution', name: 'Absolution Emblem', current: 0, max: 1, map: '/join forge', monster: 'Forge Guardian', drop: 'Absolution Rune', type: 'Cape Forge' },
-    { id: 'c_avarice', category: 'capes', enhancement: 'Avarice', name: 'Indulgence & Gluttony', current: 0, max: 300, map: '/join timeinn', monster: 'Ezrajal & Warden', drop: 'TimeInn Reagents', type: 'Cape Forge' },
-    { id: 'c_lament', category: 'capes', enhancement: 'Lament', name: 'Lamentation Shard', current: 0, max: 100, map: '/join icestormarena', monster: 'Warlord Icewing', drop: 'Icewing Insignia', type: 'Cape Forge' },
-    { id: 'c_vainglory', category: 'capes', enhancement: 'Vainglory', name: 'Vainglory Core', current: 0, max: 50, map: '/join gaiazor', monster: 'Gaiazor', drop: 'Primal Essence', type: 'Cape Forge' }
-];
+            <!-- Exibição do Perfil do Jogador (Charpage integrada) -->
+            <div id="char-card" class="char-card">
+                <h3>Perfil do Jogador</h3>
+                
+                <div class="char-avatar">⚔️</div>
+                <h2 id="disp-nick" style="color: var(--primary-color);">NickDoPlayer</h2>
+                
+                <ul class="char-info-list">
+                    <li>Nível: <span id="disp-level">100</span></li>
+                    <li>Classe: <span id="disp-class">Guerreiro</span></li>
+                    <li>Status da Conta: <span>Ativa</span></li>
+                    <li>Servidor: <span>Global Alpha</span></li>
+                </ul>
 
-let activeEnhancements = ['Dauntless', 'Elysium', 'Avarice', 'Vim']; // Padrão inicial de objetivos
-let currentFilter = 'all', isHUD = false;
+                <!-- Link Direto para a Charpage Oficial -->
+                <a id="disp-link" href="#" target="_blank" class="btn-action">Ver Charpage Oficial 🔗</a>
+                <button class="btn-action" style="width:100%; margin-top: 8px; background: #d63031;" onclick="logout()">Editar / Sair</button>
+            </div>
 
-// SALVAMENTO E CARREGAMENTO
-function loadProgress() {
-    const saved = localStorage.getItem('aqw_forge_v4_data');
-    if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.progress) {
-            forgeQuests.forEach(q => { if (parsed.progress[q.id] !== undefined) q.current = parsed.progress[q.id]; });
-        }
-        if (parsed.activeEnhancements) activeEnhancements = parsed.activeEnhancements;
-    }
-}
+        </aside>
+    </main>
 
-function saveProgress() {
-    const progress = {};
-    forgeQuests.forEach(q => progress[q.id] = q.current);
-    localStorage.setItem('aqw_forge_v4_data', JSON.stringify({ progress, activeEnhancements }));
-    updateOverall();
-}
-
-// RENDERIZAÇÃO DOS ENHANMENTS NO SELETOR DE OBJETIVOS
-function renderTargetsSelector() {
-    const container = document.getElementById('targets-selector');
-    container.innerHTML = '';
-    const allEnhancements = [...new Set(forgeQuests.map(q => q.enhancement))];
-
-    allEnhancements.forEach(enh => {
-        const tag = document.createElement('div');
-        tag.className = `target-tag ${activeEnhancements.includes(enh) ? 'active' : ''}`;
-        tag.innerText = enh;
-        tag.onclick = () => {
-            if (activeEnhancements.includes(enh)) {
-                activeEnhancements = activeEnhancements.filter(e => e !== enh);
-            } else {
-                activeEnhancements.push(enh);
+    <script>
+        // --- DADOS DOS CLÃS ---
+        const clanData = {
+            legion: {
+                title: "A Legião de Ferro",
+                desc: "Guerreiros implacáveis dominados pelo fogo e pelo desejo de conquista. Destaque para artes avermelhadas e batalhas intensas.",
+                images: [
+                    "https://picsum.photos/id/1025/300/200",
+                    "https://picsum.photos/id/1069/300/200",
+                    "https://picsum.photos/id/1062/300/200"
+                ]
+            },
+            nation: {
+                title: "A Nação Dourada",
+                desc: "Guardiões da ordem, honra e da magia luminosa. Um clã focado na nobreza e grandes impérios.",
+                images: [
+                    "https://picsum.photos/id/1040/300/200",
+                    "https://picsum.photos/id/1050/300/200",
+                    "https://picsum.photos/id/1015/300/200"
+                ]
+            },
+            shadow: {
+                title: "O Clã das Sombras",
+                desc: "Assassinos e mestres do oculto que operam na calada da noite. Preferem a magia arcana e a furtividade.",
+                images: [
+                    "https://picsum.photos/id/1033/300/200",
+                    "https://picsum.photos/id/1043/300/200",
+                    "https://picsum.photos/id/1051/300/200"
+                ]
             }
-            saveProgress();
-            renderTargetsSelector();
-            renderAllCategories();
         };
-        container.appendChild(tag);
-    });
-}
 
-// RENDERIZAÇÃO DOS CARDS
-function createCardElement(item) {
-    const percentage = Math.min(100, Math.round((item.current / item.max) * 100));
-    let statusClass = percentage === 100 ? 'card-complete' : percentage > 0 ? 'card-partial' : 'card-zero';
+        // --- TROCAR CLÃ / TEMA ---
+        function setTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            
+            if (clanData[themeName]) {
+                document.getElementById('clan-title').innerText = clanData[themeName].title;
+                document.getElementById('clan-desc').innerText = clanData[themeName].desc;
+                
+                const gallery = document.getElementById('clan-gallery');
+                gallery.innerHTML = clanData[themeName].images.map(url => `<img src="${url}" alt="Arte do Clã">`).join('');
+            }
+        }
 
-    const card = document.createElement('div');
-    card.className = `item-card ${statusClass}`;
-    card.setAttribute('data-name', `${item.name} ${item.enhancement}`.toLowerCase());
-    card.setAttribute('data-status', percentage === 100 ? 'done' : 'pending');
+        // --- NAVEGAÇÃO ENTRE ABAS (CLÃS / NOTÍCIAS) ---
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
 
-    card.innerHTML = `
-        <div>
-            <div style="font-size:0.75rem; color:var(--accent-gold); font-weight:bold;">[${item.enhancement}] - ${item.type}</div>
-            <div style="font-weight:bold; font-size:1.05rem; color:#fff;">${item.name}</div>
-            <div style="font-size:0.85rem; color:var(--text-muted); margin-top:5px;">
-                📍 <strong>Mapa:</strong> ${item.map}<br>⚔️ <strong>Drop:</strong> ${item.drop}
-            </div>
-        </div>
-        <div>
-            <div class="counter-controls">
-                <button class="btn-count" onclick="updateItem('${item.id}', -1)">-</button>
-                <input type="number" class="count-input" value="${item.current}" max="${item.max}" min="0" onchange="setItem('${item.id}', this.value)">
-                <span style="color:var(--text-muted); font-size:0.85rem;">/ ${item.max}</span>
-                <button class="btn-count" onclick="updateItem('${item.id}', 1)">+</button>
-            </div>
-        </div>
-    `;
-    return card;
-}
+            if (tabName === 'clans') {
+                document.getElementById('tab-clans').classList.add('active');
+                event.target.classList.add('active');
+            } else if (tabName === 'news') {
+                document.getElementById('tab-news').classList.add('active');
+                event.target.classList.add('active');
+            }
+        }
 
-function renderCategory(catId) {
-    const container = document.getElementById(`grid-${catId}`);
-    if (!container) return;
-    container.innerHTML = '';
+        // --- PERFIL DO PERSONAGEM (CHARPAGE LOCAL) ---
+        function saveProfile() {
+            const nick = document.getElementById('in-nick').value.trim();
+            const level = document.getElementById('in-level').value.trim();
+            const charClass = document.getElementById('in-class').value.trim();
+            const charpage = document.getElementById('in-charpage').value.trim();
 
-    let itemsToRender = [];
-    if (catId === 'active_targets') {
-        itemsToRender = forgeQuests.filter(q => activeEnhancements.includes(q.enhancement));
-    } else {
-        itemsToRender = forgeQuests.filter(q => q.category === catId);
-    }
+            if (!nick || !level) {
+                alert("Por favor, preencha pelo menos o Nick e o Nível do seu personagem!");
+                return;
+            }
 
-    if (itemsToRender.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; color: var(--text-muted); padding: 20px; text-align: center;">Nenhum enhancement selecionado como ativo. Marque os seus objetivos no painel superior!</div>`;
-        return;
-    }
+            const playerData = {
+                nick: nick,
+                level: level,
+                charClass: charClass || 'Aventureiro',
+                charpage: charpage || '#'
+            };
 
-    itemsToRender.forEach(item => container.appendChild(createCardElement(item)));
-}
+            // Salva no navegador
+            localStorage.setItem('game_player_profile', JSON.stringify(playerData));
+            loadProfile();
+        }
 
-function renderAllCategories() {
-    ['active_targets', 'weapons', 'helms', 'capes'].forEach(renderCategory);
-    filterItems();
-}
+        function loadProfile() {
+            const saved = localStorage.getItem('game_player_profile');
+            if (saved) {
+                const data = JSON.parse(saved);
+                
+                document.getElementById('disp-nick').innerText = data.nick;
+                document.getElementById('disp-level').innerText = data.level;
+                document.getElementById('disp-class').innerText = data.charClass;
+                
+                const linkBtn = document.getElementById('disp-link');
+                linkBtn.href = data.charpage;
+                if(data.charpage === '#') {
+                    linkBtn.style.display = 'none';
+                } else {
+                    linkBtn.style.display = 'block';
+                }
 
-function updateItem(id, delta) {
-    const item = forgeQuests.find(i => i.id === id);
-    if (item) {
-        item.current = Math.max(0, Math.min(item.max, item.current + delta));
-        saveProgress();
-        renderAllCategories();
-    }
-}
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('char-card').style.display = 'block';
+            }
+        }
 
-function setItem(id, val) {
-    const item = forgeQuests.find(i => i.id === id);
-    if (item) {
-        item.current = Math.max(0, Math.min(item.max, parseInt(val) || 0));
-        saveProgress();
-        renderAllCategories();
-    }
-}
+        function logout() {
+            localStorage.removeItem('game_player_profile');
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('char-card').style.display = 'none';
+        }
 
-function updateOverall() {
-    let totalMax = 0, totalCurrent = 0;
-    forgeQuests.forEach(item => { totalMax += item.max; totalCurrent += item.current; });
-    const pct = totalMax > 0 ? Math.round((totalCurrent / totalMax) * 100) : 0;
-    document.getElementById('overall-percentage').innerText = `${pct}%`;
-    document.getElementById('overall-bar').style.width = `${pct}%`;
-    document.getElementById('overall-text').innerText = `${totalCurrent} de ${totalMax} Reagentes Totais de Forge Obtidos`;
-}
-
-function setFilter(filter, btn) {
-    currentFilter = filter;
-    document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    filterItems();
-}
-
-function filterItems() {
-    const query = document.getElementById('search-input').value.toLowerCase();
-    document.querySelectorAll('.item-card').forEach(card => {
-        const name = card.getAttribute('data-name');
-        const status = card.getAttribute('data-status');
-        const matchesQuery = name.includes(query);
-        const matchesStatus = (currentFilter === 'all') || (currentFilter === status);
-        card.style.display = (matchesQuery && matchesStatus) ? 'flex' : 'none';
-    });
-}
-
-function switchTab(tabId) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    
-    const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(`'${tabId}'`));
-    if (targetBtn) targetBtn.classList.add('active');
-    
-    const targetContent = document.getElementById(`tab-${tabId}`);
-    if (targetContent) targetContent.classList.add('active');
-}
-
-function toggleHUDMode() {
-    isHUD = !isHUD;
-    document.querySelectorAll('.items-grid').forEach(g => g.classList.toggle('hud-view', isHUD));
-}
-
-// TIMERS DO JOGO
-function updateGameTimers() {
-    const now = new Date();
-    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const serverTime = new Date(utcTime + (3600000 * -5));
-
-    // Reset Ultras (Sexta 00:00 EST)
-    const nextReset = new Date(serverTime);
-    let daysToFriday = (5 - serverTime.getDay() + 7) % 7;
-    if (daysToFriday === 0 && serverTime.getHours() >= 0) daysToFriday = 7;
-    nextReset.setDate(serverTime.getDate() + daysToFriday);
-    nextReset.setHours(0, 0, 0, 0);
-
-    const diffReset = nextReset - serverTime;
-    document.getElementById('weekly-timer').innerText = `${Math.floor(diffReset / 86400000)}d ${Math.floor((diffReset % 86400000) / 3600000)}h ${Math.floor((diffReset % 3600000) / 60000)}m`;
-
-    // Atualização Jogo (Sexta 18:00 EST)
-    const nextUpdate = new Date(serverTime);
-    let daysToUpdate = (5 - serverTime.getDay() + 7) % 7;
-    if (daysToUpdate === 0 && serverTime.getHours() >= 18) daysToUpdate = 7;
-    nextUpdate.setDate(serverTime.getDate() + daysToUpdate);
-    nextUpdate.setHours(18, 0, 0, 0);
-
-    const diffUpdate = nextUpdate - serverTime;
-    document.getElementById('game-update-timer').innerText = `${Math.floor(diffUpdate / 86400000)}d ${Math.floor((diffUpdate % 86400000) / 3600000)}h ${Math.floor((diffUpdate % 3600000) / 60000)}m`;
-}
-
-setInterval(updateGameTimers, 60000);
-updateGameTimers();
-
-function changeTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('aqw_theme', theme);
-}
-
-function exportData() {
-    const blob = new Blob([localStorage.getItem('aqw_forge_v4_data')], { type: 'application/json' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = `AQW_Forge_v4_Backup.json`; a.click();
-}
-
-function importData(e) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-        localStorage.setItem('aqw_forge_v4_data', evt.target.result);
-        loadProgress(); renderTargetsSelector(); renderAllCategories(); alert('Progresso carregado!');
-    };
-    reader.readAsText(e.target.files[0]);
-}
-
-// INICIALIZAÇÃO
-loadProgress();
-renderTargetsSelector();
-renderAllCategories();
-updateOverall();
-</script>
+        // Carregar tema inicial e perfil salvo (se existir)
+        setTheme('legion');
+        loadProfile();
+    </script>
 </body>
 </html>
