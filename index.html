@@ -3,68 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdventureQuest Worlds BR - Portal da Comunidade</title>
+    <title>AQWorlds BR - Hub da Comunidade</title>
     <style>
         /* ==========================================
-           1. TEMAS & PALETAS INSPIRADAS NAS FACÇÕES
+           1. TEMAS & IMAGENS DE FUNDO
            ========================================== */
         :root {
-            --bg-overlay: rgba(10, 10, 15, 0.88);
-            --primary-color: #ffb703;
-            --accent-color: #fb8500;
-            --text-color: #f1f1f1;
-            --card-bg: rgba(20, 20, 28, 0.75);
-            --border-color: rgba(255, 183, 3, 0.3);
-            --bg-image: url('https://images.alphacoders.com/518/thumb-1920-518296.png');
-        }
-
-        /* Tema: Undead Legion (Dage - Azul/Cinza Sombrio) */
-        [data-theme="legion"] {
-            --bg-overlay: rgba(5, 12, 24, 0.90);
+            --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBlYj_R1BXPxaOT04B0vE57iDUfqW31nLhDAZz6GwnvMGTa3IYtU54ydrw&s=10');
+            --bg-overlay: rgba(6, 11, 20, 0.82); /* Escurecimento sutil para leitura */
             --primary-color: #00d2ff;
             --accent-color: #3a7bd5;
-            --card-bg: rgba(10, 20, 35, 0.8);
-            --border-color: #00d2ff;
-            --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2eHhhM3A4NWZ3ZGR2Y3E3ZW05ZnJ2NDJjczM0N3I0ZzByOXB3byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L2Xf6J2R6I5wI/giphy.gif');
+            --text-color: #f1f1f1;
+            --card-bg: rgba(10, 20, 35, 0.88);
+            --border-color: rgba(0, 210, 255, 0.4);
         }
 
-        /* Tema: Nulgath Nation (Nulgath - Vermelho/Ouro Sombrio) */
+        /* FUNDO DA LEGION */
+        [data-theme="legion"] {
+            --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBlYj_R1BXPxaOT04B0vE57iDUfqW31nLhDAZz6GwnvMGTa3IYtU54ydrw&s=10');
+            --bg-overlay: rgba(6, 11, 20, 0.82);
+            --primary-color: #00d2ff;
+            --accent-color: #3a7bd5;
+            --card-bg: rgba(10, 20, 35, 0.88);
+            --border-color: rgba(0, 210, 255, 0.4);
+        }
+
+        /* FUNDO DA NATION */
         [data-theme="nation"] {
-            --bg-overlay: rgba(20, 5, 5, 0.90);
+            --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUN0Dox83HvX8qM74IPxJHHFNPXoqTp0_YZkIIe_IbftVHTaxdtDeYC96j&s=10');
+            --bg-overlay: rgba(20, 6, 6, 0.82);
             --primary-color: #ff2a2a;
             --accent-color: #d63031;
-            --card-bg: rgba(35, 10, 10, 0.8);
-            --border-color: #ff2a2a;
-            --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3I4ZGN5Z3c5Ynk4bmEzeTF2bnR5NzVzdmtrNDBvNDJicDFidCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o85xoi6nNqJQJ954s/giphy.gif');
+            --card-bg: rgba(35, 10, 10, 0.88);
+            --border-color: rgba(255, 42, 42, 0.4);
         }
 
-        /* Tema: Shadowscythe / Darkovia (Roxo/Trevas) */
+        /* FUNDO SHADOW (SEM IMAGEM AINDA) */
         [data-theme="shadow"] {
-            --bg-overlay: rgba(15, 5, 20, 0.90);
+            --bg-image: linear-gradient(135deg, #0f0614 0%, #1e0b29 100%);
+            --bg-overlay: rgba(15, 6, 20, 0.6);
             --primary-color: #a29bfe;
             --accent-color: #6c5ce7;
-            --card-bg: rgba(25, 10, 30, 0.8);
-            --border-color: #a29bfe;
-            --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3I4ZGN5Z3c5Ynk4bmEzeTF2bnR5NzVzdmtrNDBvNDJicDFidCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26hb3X0YQ1X8c/giphy.gif');
+            --card-bg: rgba(25, 10, 30, 0.88);
+            --border-color: rgba(162, 155, 254, 0.4);
         }
 
-        /* ==========================================
-           2. ESTILOS GERAIS
-           ========================================== */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            transition: background 0.4s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
+        /* CONFIGURAÇÃO DA IMAGEM DE FUNDO EM TELA CHEIA */
         body {
             color: var(--text-color);
             background-image: var(--bg-image);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-size: cover;          /* Preenche a tela toda sem distorcer */
+            background-position: center;      /* Centraliza a imagem */
+            background-repeat: no-repeat;
+            background-attachment: fixed;    /* Deixa o fundo fixo ao rolar a página */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -72,24 +71,26 @@
             position: relative;
         }
 
+        /* MÁSCARA ESCURA PARA DAR LEITURA AO TEXTO */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg-overlay);
             z-index: -1;
+            transition: background 0.4s ease;
         }
 
-        /* NAVEGAÇÃO SUPERIOR */
+        /* HEADER & NAVBAR */
         header {
             width: 100%;
-            padding: 15px 40px;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             border-bottom: 2px solid var(--primary-color);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -102,22 +103,45 @@
         }
 
         .logo h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--primary-color);
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 0 0 10px var(--primary-color);
         }
 
-        .header-actions {
+        .header-tools {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .theme-selector {
+        /* BARRA DE BUSCA DE CHARPAGE */
+        .char-search-box {
             display: flex;
-            gap: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2px 8px;
+        }
+
+        .char-search-box input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 6px 10px;
+            outline: none;
+            width: 140px;
+            font-size: 0.85rem;
+        }
+
+        .char-search-box button {
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 0 5px;
+            font-weight: bold;
         }
 
         .clan-btn {
@@ -127,8 +151,8 @@
             padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
             font-size: 0.85rem;
+            font-weight: bold;
         }
 
         .clan-btn:hover {
@@ -136,109 +160,234 @@
             box-shadow: 0 0 10px var(--primary-color);
         }
 
-        /* ==========================================
-           3. LAYOUT CENTRALIZADO (ESTILO DESIGN NOTES)
-           ========================================== */
-        main {
-            max-width: 900px;
-            width: 90%;
-            margin: 30px auto;
+        /* NAVEGAÇÃO DE ABAS */
+        nav {
             display: flex;
-            flex-direction: column;
-            gap: 25px;
+            gap: 10px;
+            margin-top: 20px;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .nav-tab {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 12px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-tab.active {
+            background: var(--card-bg);
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* LAYOUT PRINCIPAL */
+        main {
+            max-width: 1000px;
+            width: 90%;
+            margin-bottom: 40px;
         }
 
         .content-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
+            border-top: none;
             padding: 25px;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            border-radius: 0 0 8px 8px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
         }
 
-        /* NOTÍCIAS (DESIGN NOTES) */
-        .news-header {
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* CRONÔMETRO DE EVENTO */
+        .release-timer-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 15px;
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer-display {
+            font-family: monospace;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* ARQUIVO E NAVEGAÇÃO DE NOTÍCIAS */
+        .news-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 20px;
+        }
+
+        .news-archive-sidebar {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .news-archive-sidebar h4 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .news-list-menu {
+            list-style: none;
+        }
+
+        .news-list-menu li {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #ddd;
+        }
+
+        .news-list-menu li:hover, .news-list-menu li.active {
+            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .news-post {
             background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
             border-left: 4px solid var(--primary-color);
             padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 0 8px 8px 0;
+            border-radius: 0 6px 6px 0;
         }
 
-        .news-post h3 {
-            color: var(--primary-color);
-            font-size: 1.4rem;
+        .news-post h3 { color: var(--primary-color); margin-bottom: 5px; font-size: 1.4rem; }
+        .news-meta { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; }
+        .news-body p { line-height: 1.6; color: #eee; margin-bottom: 12px; }
+
+        /* CHECKLIST DE RANKS */
+        .guide-select {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* MURAL DE GUILDAS & BOSSES */
+        .mural-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .mural-form input, .mural-form select, .mural-form textarea {
+            background: rgba(0,0,0,0.7);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .mural-form textarea { grid-column: span 2; resize: vertical; height: 60px; }
+
+        .mural-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .mural-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .mural-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            background: var(--primary-color);
+            color: #000;
             margin-bottom: 8px;
         }
 
-        .news-meta {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-bottom: 15px;
-        }
-
-        .news-banner {
-            width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border-color);
-        }
-
-        .news-content p {
-            line-height: 1.6;
-            margin-bottom: 10px;
-            color: #ddd;
-        }
-
-        /* GALERIA DE DESTAQUES */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .gallery-card {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .gallery-card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-        }
-
-        .gallery-card p {
-            padding: 8px;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        /* ==========================================
-           4. MODAL DE LOGIN MELHORADO
-           ========================================== */
+        /* MODAL DE LOGIN */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(5px);
             z-index: 1000;
             justify-content: center;
@@ -248,278 +397,398 @@
         .modal-card {
             background: rgba(18, 18, 24, 0.95);
             border: 2px solid var(--primary-color);
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px;
             width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 20px var(--primary-color);
+            max-width: 380px;
             position: relative;
         }
 
         .close-modal {
             position: absolute;
-            top: 10px;
-            right: 15px;
+            top: 10px; right: 15px;
             font-size: 1.5rem;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .input-group {
-            margin-bottom: 12px;
-            text-align: left;
-        }
-
-        .input-group label {
-            font-size: 0.85rem;
-            color: #ccc;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            outline: none;
+            color: #fff; cursor: pointer;
         }
 
         .btn-action {
             background: var(--primary-color);
-            color: #000;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-            text-decoration: none;
-            display: block;
+            color: #000; border: none;
+            padding: 10px; border-radius: 4px;
+            font-weight: bold; cursor: pointer;
+            width: 100%; text-align: center;
             margin-top: 10px;
         }
 
-        .btn-action:hover {
-            filter: brightness(1.2);
-        }
-
-        /* PAINEL DE USUÁRIO (HEADER E MODAL) */
-        .user-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-badge {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--primary-color);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; }
-            .header-actions { flex-direction: column; width: 100%; }
+            header { flex-direction: column; gap: 10px; }
+            .header-tools { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .news-layout { grid-template-columns: 1fr; }
+            .mural-form { grid-template-columns: 1fr; }
+            .mural-form textarea { grid-column: span 1; }
         }
     </style>
 </head>
 <body>
 
-    <!-- CABEÇALHO DA COMUNIDADE -->
+    <!-- CABEÇALHO -->
     <header>
         <div class="logo">
             <span>⚔️</span>
             <h1>AQWorlds BR</h1>
         </div>
 
-        <div class="header-actions">
-            <!-- SELETOR DE SEITAS/FACÇÕES DO AQW -->
+        <div class="header-tools">
+            <div class="char-search-box">
+                <input type="text" id="quick-search-input" placeholder="Buscar Charpage...">
+                <button onclick="searchCharpage()">🔍</button>
+            </div>
+
             <div class="theme-selector">
                 <button class="clan-btn" onclick="setTheme('legion')">Legion</button>
                 <button class="clan-btn" onclick="setTheme('nation')">Nation</button>
                 <button class="clan-btn" onclick="setTheme('shadow')">Shadow</button>
             </div>
 
-            <!-- BOTAO/STATUS DE LOGIN -->
-            <div class="user-status" id="user-status-area">
-                <button class="clan-btn" style="border-color: var(--primary-color);" onclick="openModal()">Entrar / Registrar</button>
+            <div id="user-status-area">
+                <button class="clan-btn" style="border-color: var(--primary-color);" onclick="openModal()">Conectar</button>
             </div>
         </div>
     </header>
 
-    <!-- ÁREA CENTRAL DE NOTÍCIAS (ESTILO DESIGN NOTES) -->
+    <!-- NAVEGAÇÃO DE ABAS -->
+    <nav>
+        <button class="nav-tab active" onclick="switchTab('news')">📰 Design Notes & Arquivos</button>
+        <button class="nav-tab" onclick="switchTab('guides')">📜 Guia de Ranks</button>
+        <button class="nav-tab" onclick="switchTab('mural')">⚔️ Mural & Ultra Bosses</button>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
     <main>
+        <div class="content-card">
 
-        <!-- SEÇÃO: NOTÍCIAS PRINCIPAIS (DESIGN NOTES TRADUZIDAS) -->
-        <section class="content-card">
-            <div class="news-header">
-                <h2 style="color: var(--primary-color);">📜 Design Notes em Português</h2>
-                <span style="font-size: 0.85rem; opacity: 0.8;">Atualizado diariamente</span>
+            <!-- ABA 1: NOTÍCIAS COM ARQUIVO HISTÓRICO -->
+            <div id="tab-news" class="tab-content active">
+                
+                <div class="release-timer-box">
+                    <div>
+                        <strong style="color: #fff;">⏳ Próximo Lançamento (Friday Release):</strong>
+                        <p style="font-size: 0.85rem; color: #aaa;">Atualizações semanais oficiais do AQW</p>
+                    </div>
+                    <div class="timer-display" id="release-timer">00d 00h 00m 00s</div>
+                </div>
+
+                <div class="news-layout">
+                    <aside class="news-archive-sidebar">
+                        <h4>📅 Arquivo de Notícias</h4>
+                        
+                        <div class="filter-group">
+                            <label>Ano:</label>
+                            <select id="filter-year" onchange="filterNews()">
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Mês:</label>
+                            <select id="filter-month" onchange="filterNews()">
+                                <option value="todos">Todos os Meses</option>
+                                <option value="08">Agosto</option>
+                                <option value="07">Julho</option>
+                                <option value="06">Junho</option>
+                            </select>
+                        </div>
+
+                        <h4>Notícias Encontradas</h4>
+                        <ul class="news-list-menu" id="news-menu"></ul>
+                    </aside>
+
+                    <section id="news-viewer"></section>
+                </div>
+
             </div>
 
-            <!-- POST 1 -->
-            <article class="news-post">
-                <h3>🔥 Evento de Aniversário: A Guerra das Facções!</h3>
-                <div class="news-meta">Postado por <b>Artix_BR</b> em 05 de Agosto, 2026</div>
-                <img src="https://wallpapers.com/images/hd/adventure-quest-worlds-battle-art-4k-4467o9d11m1a0v43.jpg" class="news-banner" alt="Guerra das Facções">
-                <div class="news-content">
-                    <p>Heróis de Lore! A batalha entre a <b>Undead Legion</b> e a <b>Nulgath Nation</b> atingiu o seu ponto crítico no mapa <code>/join battleground</code>.</p>
-                    <p>Fale com os NPCs no centro da cidade para aceitar as missões diárias, garantir bolsas de recursos e desbloquear armaduras raras de classe antes do encerramento do evento na próxima sexta-feira.</p>
-                </div>
-            </article>
+            <!-- ABA 2: GUIA DE RANKS & CHECKLIST -->
+            <div id="tab-guides" class="tab-content">
+                <h2 style="color: var(--primary-color); margin-bottom: 10px;">Guia de Classes Endgame</h2>
+                <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 15px;">Selecione uma classe e marque o seu progresso. As seleções ficam salvas automaticamente!</p>
 
-            <!-- POST 2 -->
-            <article class="news-post">
-                <h3>🗡️ Nova Classe Rara: Lorde das Sombras Arcano</h3>
-                <div class="news-meta">Postado por <b>Alina_BR</b> em 01 de Agosto, 2026</div>
-                <div class="news-content">
-                    <p>Uma nova classe focada em dano mágico contínuo e escuridão foi adicionada ao jogo. Jogadores com nível 80 ou superior podem obter a classe através de fundição no painel de criação.</p>
-                    <p><b>Requisitos mínimos:</b> Rank 10 na reputação de Darkovia e 50x Essências Obscuras.</p>
-                </div>
-            </article>
+                <select class="guide-select" id="class-select" onchange="renderChecklist()">
+                    <option value="vhl">Void Highlord (VHL)</option>
+                    <option value="ldk">Legion DoomKnight (LDK)</option>
+                    <option value="archmage">ArchMage</option>
+                </select>
 
-        </section>
-
-        <!-- SEÇÃO: DESTAQUES DO CLÃ SELECIONADO -->
-        <section class="content-card">
-            <h3 id="clan-title" style="color: var(--primary-color); margin-bottom: 10px;">Facção Atual</h3>
-            <p id="clan-desc" style="font-size: 0.95rem; line-height: 1.5; color: #ccc;">
-                Selecione uma facção no topo do site para alterar a atmosfera visual e ver os destaques exclusivos!
-            </p>
-
-            <div class="gallery-grid" id="clan-gallery">
-                <!-- Imagens dinâmicas inseridas via JS -->
+                <div id="checklist-container"></div>
             </div>
-        </section>
 
+            <!-- ABA 3: MURAL DE RECRUTAMENTO -->
+            <div id="tab-mural" class="tab-content">
+                <h2 style="color: var(--primary-color); margin-bottom: 10px;">Mural da Comunidade BR</h2>
+                <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 15px;">Procure guildas brasileiras ou monte um grupo para Ultra Bosses!</p>
+
+                <div class="mural-form">
+                    <input type="text" id="mural-author" placeholder="Seu Nick no AQW">
+                    <select id="mural-type">
+                        <option value="Guilda">Recrutamento de Guilda</option>
+                        <option value="Ultra Boss">Grupo para Ultra Boss</option>
+                        <option value="Troca/Ajuda">Ajuda com Missões</option>
+                    </select>
+                    <textarea id="mural-msg" placeholder="Digite sua mensagem ou link do Discord..."></textarea>
+                    <button class="btn-action" style="grid-column: span 2;" onclick="addMuralPost()">Publicar no Mural</button>
+                </div>
+
+                <div class="mural-grid" id="mural-posts"></div>
+            </div>
+
+        </div>
     </main>
 
-    <!-- MODAL DE LOGIN / REGISTRO / CHARPAGE -->
+    <!-- MODAL DE LOGIN/PERFIL -->
     <div class="modal-overlay" id="modal-login">
         <div class="modal-card">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            
-            <!-- FORMULÁRIO DE AUTENTICAÇÃO -->
             <div id="form-auth">
-                <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">Conectar Personagem</h3>
-                
-                <div class="input-group">
-                    <label>Nick do Jogador (In-Game):</label>
-                    <input type="text" id="in-nick" placeholder="Ex: HeroAQW">
+                <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">Vincular Personagem</h3>
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size:0.8rem;">Nick In-Game:</label>
+                    <input type="text" id="in-nick" style="width:100%; padding:8px; background:#000; border:1px solid var(--border-color); color:#fff; border-radius:4px;">
                 </div>
-                <div class="input-group">
-                    <label>Nível:</label>
-                    <input type="number" id="in-level" placeholder="Ex: 100">
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size:0.8rem;">Nível:</label>
+                    <input type="number" id="in-level" style="width:100%; padding:8px; background:#000; border:1px solid var(--border-color); color:#fff; border-radius:4px;">
                 </div>
-                <div class="input-group">
-                    <label>Classe Principal:</label>
-                    <input type="text" id="in-class" placeholder="Ex: Void Highlord, Legion DoomKnight">
-                </div>
-                <div class="input-group">
-                    <label>Link da Charpage Oficial:</label>
-                    <input type="url" id="in-charpage" placeholder="https://account.aq.com/CharPage?id=SeuNick">
-                </div>
-
-                <button class="btn-action" onclick="saveProfile()">Salvar Dados</button>
+                <button class="btn-action" onclick="saveProfile()">Salvar Perfil</button>
             </div>
-
-            <!-- PERFIL DO JOGADOR LOGADO -->
-            <div id="profile-display" style="display: none; text-align: center;">
-                <h3 style="color: var(--primary-color);">Perfil Conectado</h3>
-                <h2 id="disp-nick" style="margin: 10px 0; color: #fff;">-</h2>
-                
-                <p style="font-size: 0.9rem; color: #aaa;">Nível: <b id="disp-level" style="color: var(--primary-color);">100</b></p>
-                <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 15px;">Classe: <b id="disp-class" style="color: #fff;">-</b></p>
-
-                <a id="disp-link" href="#" target="_blank" class="btn-action">Abrir Charpage Oficial 🔗</a>
-                <button class="btn-action" style="background: #d63031; color: #fff; margin-top: 8px;" onclick="logout()">Desconectar</button>
+            <div id="profile-display" style="display:none; text-align:center;">
+                <h3 style="color: var(--primary-color);">Personagem Conectado</h3>
+                <h2 id="disp-nick" style="margin:10px 0;">-</h2>
+                <p>Nível: <b id="disp-level" style="color:var(--primary-color);">100</b></p>
+                <button class="btn-action" style="background:#d63031; color:#fff;" onclick="logout()">Desconectar</button>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT DE FUNCIONALIDADE -->
+    <!-- SCRIPT -->
     <script>
-        // --- DADOS DAS FACÇÕES DE AQW ---
-        const clanData = {
-            legion: {
-                title: "Undead Legion (Dage the Evil)",
-                desc: "A legião dos imortais. Focada no combate com almas, estética azul-celeste e armaduras banhadas em aço rúnico.",
-                images: [
-                    { url: "https://picsum.photos/id/1025/400/250", title: "Legion Titan" },
-                    { url: "https://picsum.photos/id/1069/400/250", title: "Soul Reaper" }
-                ]
+        const newsDatabase = [
+            {
+                id: "n1",
+                title: "🔥 Guerra das Facções: Bônus de 2x Reputação",
+                author: "Artix_BR",
+                date: "05/08/2026",
+                year: "2026",
+                month: "08",
+                content: "<p>Heróis de Lore! A batalha entre a Undead Legion e a Nulgath Nation atingiu o seu ponto crítico no mapa <code>/join battleground</code>.</p><p>Aproveite o bônus ativado neste fim de semana para garantir XP extra e фармар relíquias muito mais rápido!</p>"
             },
-            nation: {
-                title: "Nulgath Nation (ArchFiend)",
-                desc: "Os pactuantes do abismo. Guerreiros fiéis a Nulgath que trocam relíquias raras por poder devastador.",
-                images: [
-                    { url: "https://picsum.photos/id/1040/400/250", title: "Void Highlord" },
-                    { url: "https://picsum.photos/id/1050/400/250", title: "Fiend Overlord" }
-                ]
+            {
+                id: "n2",
+                title: "🗡️ Atualização de Classes: Balanceamento de Tanques",
+                author: "Alina_BR",
+                date: "28/07/2026",
+                year: "2026",
+                month: "07",
+                content: "<p>As habilidades do ArchPaladin e Lord of Order receberam ajustes no consumo de mana durante lutas contra Ultra Bosses.</p><p>Confira a tabela completa de alterações na documentação oficial da equipe de balanceamento.</p>"
             },
-            shadow: {
-                title: "Shadowscythe & Darkovia",
-                desc: "Dominadores das trevas e criaturas da noite. Vampiros, Lycans e mestres da magia sombria.",
-                images: [
-                    { url: "https://picsum.photos/id/1033/400/250", title: "Shadow Lord" },
-                    { url: "https://picsum.photos/id/1043/400/250", title: "Dark Caster" }
-                ]
+            {
+                id: "n3",
+                title: "📜 Evento Especial de Solstício em Darkovia",
+                author: "Cysero_BR",
+                date: "15/06/2025",
+                year: "2025",
+                month: "06",
+                content: "<p>Uma névoa estranha cobriu a floresta de Darkovia. Complete a linha de missões exclusivas para adquirir a capa e o elmo de Caçador de Lobisomens.</p>"
+            },
+            {
+                id: "n4",
+                title: "⚔️ Aniversário de AQWorlds: Evento Retrô",
+                author: "Artix_BR",
+                date: "10/08/2024",
+                year: "2024",
+                month: "08",
+                content: "<p>Celebre os anos de história explorando os mapas clássicos em <code>/join nostalgia</code>. Itens originais de 2008 reaparecem por tempo limitado.</p>"
             }
+        ];
+
+        let selectedNewsId = "n1";
+
+        function filterNews() {
+            const year = document.getElementById('filter-year').value;
+            const month = document.getElementById('filter-month').value;
+
+            const filtered = newsDatabase.filter(item => {
+                const matchYear = item.year === year;
+                const matchMonth = (month === 'todos') || (item.month === month);
+                return matchYear && matchMonth;
+            });
+
+            renderNewsMenu(filtered);
+        }
+
+        function renderNewsMenu(newsList) {
+            const menu = document.getElementById('news-menu');
+            if (newsList.length === 0) {
+                menu.innerHTML = `<li style="opacity:0.6;">Nenhuma notícia nesta data.</li>`;
+                document.getElementById('news-viewer').innerHTML = `<p style="padding:20px; color:#aaa;">Nenhuma publicação encontrada no período selecionado.</p>`;
+                return;
+            }
+
+            menu.innerHTML = newsList.map(n => `
+                <li class="${n.id === selectedNewsId ? 'active' : ''}" onclick="selectNews('${n.id}')">
+                    <b>${n.title}</b><br>
+                    <small style="opacity:0.6;">${n.date}</small>
+                </li>
+            `).join('');
+
+            if (!newsList.some(n => n.id === selectedNewsId)) {
+                selectNews(newsList[0].id);
+            } else {
+                selectNews(selectedNewsId);
+            }
+        }
+
+        function selectNews(id) {
+            selectedNewsId = id;
+            const article = newsDatabase.find(n => n.id === id);
+            document.querySelectorAll('#news-menu li').forEach(li => li.classList.remove('active'));
+
+            if (article) {
+                document.getElementById('news-viewer').innerHTML = `
+                    <article class="news-post">
+                        <h3>${article.title}</h3>
+                        <div class="news-meta">Publicado por <b>${article.author}</b> em ${article.date}</div>
+                        <div class="news-body">${article.content}</div>
+                    </article>
+                `;
+            }
+        }
+
+        function updateReleaseTimer() {
+            const now = new Date();
+            const nextFriday = new Date();
+            nextFriday.setDate(now.getDate() + ((5 + 7 - now.getDay()) % 7));
+            nextFriday.setHours(20, 0, 0, 0);
+
+            if (now > nextFriday) {
+                nextFriday.setDate(nextFriday.getDate() + 7);
+            }
+
+            const diff = nextFriday - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('release-timer').innerText = 
+                `${d}d ${h < 10 ? '0':''}${h}h ${m < 10 ? '0':''}${m}m ${s < 10 ? '0':''}${s}s`;
+        }
+        setInterval(updateReleaseTimer, 1000);
+
+        function searchCharpage() {
+            const nick = document.getElementById('quick-search-input').value.trim();
+            if (nick) {
+                window.open(`https://account.aq.com/CharPage?id=${encodeURIComponent(nick)}`, '_blank');
+            } else {
+                alert('Digite o nick do jogador para buscar.');
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        const guideData = {
+            vhl: [
+                "Completar a missão Roentgenium of Nulgath (15x)",
+                "Obter Void Crystal A & Void Crystal B",
+                "Rank 10 Embersea & Rank 10 Doomwood",
+                "Acumular 200x Gem of Nulgath"
+            ],
+            ldk: [
+                "Juntar 2.000x Legion Tokens",
+                "Possuir o item Undead Warrior",
+                "Completar as missões de Treinamento da Legion"
+            ],
+            archmage: [
+                "Completar a Saga do Elemental Master",
+                "Obter Unbound Thread (100x)",
+                "Derrotar o Nightbane no mapa /join nightbane"
+            ]
         };
 
-        // --- SISTEMA DE SELEÇÃO DE TEMA ---
-        function setTheme(themeName) {
-            document.documentElement.setAttribute('data-theme', themeName);
-            
-            if (clanData[themeName]) {
-                document.getElementById('clan-title').innerText = clanData[themeName].title;
-                document.getElementById('clan-desc').innerText = clanData[themeName].desc;
-                
-                const gallery = document.getElementById('clan-gallery');
-                gallery.innerHTML = clanData[themeName].images.map(item => `
-                    <div class="gallery-card">
-                        <img src="${item.url}" alt="${item.title}">
-                        <p>${item.title}</p>
-                    </div>
-                `).join('');
+        function renderChecklist() {
+            const selected = document.getElementById('class-select').value;
+            const container = document.getElementById('checklist-container');
+            const items = guideData[selected] || [];
+            const savedState = JSON.parse(localStorage.getItem(`checklist_${selected}`)) || {};
+
+            container.innerHTML = items.map((item, index) => `
+                <div class="checklist-item">
+                    <input type="checkbox" id="chk_${index}" ${savedState[index] ? 'checked' : ''} onchange="saveChecklist('${selected}', ${index})">
+                    <label for="chk_${index}">${item}</label>
+                </div>
+            `).join('');
+        }
+
+        function saveChecklist(classKey, index) {
+            const savedState = JSON.parse(localStorage.getItem(`checklist_${classKey}`)) || {};
+            savedState[index] = document.getElementById(`chk_${index}`).checked;
+            localStorage.setItem(`checklist_${classKey}`, JSON.stringify(savedState));
+        }
+
+        let muralPosts = JSON.parse(localStorage.getItem('mural_posts')) || [
+            { author: "DarkLord_BR", type: "Guilda", msg: "Recrutando membros ativos para a guilda ShadowSlayers. Requisito: Nível 80+" },
+            { author: "MageLover", type: "Ultra Boss", msg: "Procuro time de suporte (AP/LOO) para fazer Ultra Speaker hoje à noite!" }
+        ];
+
+        function renderMural() {
+            const container = document.getElementById('mural-posts');
+            container.innerHTML = muralPosts.map(p => `
+                <div class="mural-card">
+                    <span class="mural-tag">${p.type}</span>
+                    <h4 style="color:#fff;">${p.author}</h4>
+                    <p style="font-size:0.85rem; color:#ccc; margin-top:5px;">${p.msg}</p>
+                </div>
+            `).join('');
+        }
+
+        function addMuralPost() {
+            const author = document.getElementById('mural-author').value.trim();
+            const type = document.getElementById('mural-type').value;
+            const msg = document.getElementById('mural-msg').value.trim();
+
+            if (!author || !msg) {
+                alert("Preencha seu nick e a mensagem!");
+                return;
             }
+
+            muralPosts.unshift({ author, type, msg });
+            localStorage.setItem('mural_posts', JSON.stringify(muralPosts));
+            renderMural();
+
+            document.getElementById('mural-author').value = '';
+            document.getElementById('mural-msg').value = '';
         }
 
-        // --- MODAL & GERENCIAMENTO DE USUÁRIO ---
-        function openModal() {
-            document.getElementById('modal-login').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('modal-login').style.display = 'none';
-        }
+        function openModal() { document.getElementById('modal-login').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal-login').style.display = 'none'; }
 
         function saveProfile() {
             const nick = document.getElementById('in-nick').value.trim();
             const level = document.getElementById('in-level').value.trim();
-            const charClass = document.getElementById('in-class').value.trim();
-            const charpage = document.getElementById('in-charpage').value.trim();
+            if (!nick) return;
 
-            if (!nick || !level) {
-                alert("Preencha pelo menos o Nick e o Nível do seu personagem.");
-                return;
-            }
-
-            const playerData = {
-                nick: nick,
-                level: level,
-                charClass: charClass || 'Hero',
-                charpage: charpage || `https://account.aq.com/CharPage?id=${nick}`
-            };
-
-            localStorage.setItem('aqw_br_player', JSON.stringify(playerData));
+            localStorage.setItem('aqw_br_player', JSON.stringify({ nick, level }));
             loadProfile();
             closeModal();
         }
@@ -527,43 +796,31 @@
         function loadProfile() {
             const saved = localStorage.getItem('aqw_br_player');
             const statusArea = document.getElementById('user-status-area');
-
             if (saved) {
                 const data = JSON.parse(saved);
-
-                // Atualiza Modal
                 document.getElementById('disp-nick').innerText = data.nick;
                 document.getElementById('disp-level').innerText = data.level;
-                document.getElementById('disp-class').innerText = data.charClass;
-                document.getElementById('disp-link').href = data.charpage;
-
                 document.getElementById('form-auth').style.display = 'none';
                 document.getElementById('profile-display').style.display = 'block';
 
-                // Atualiza Header com badge do jogador
                 statusArea.innerHTML = `
-                    <div class="user-badge" onclick="openModal()" style="cursor:pointer;">
-                        <span>🛡️</span> <b>${data.nick}</b> (Lvl ${data.level})
-                    </div>
-                `;
-            } else {
-                document.getElementById('form-auth').style.display = 'block';
-                document.getElementById('profile-display').style.display = 'none';
-                statusArea.innerHTML = `
-                    <button class="clan-btn" style="border-color: var(--primary-color);" onclick="openModal()">Entrar / Registrar</button>
+                    <button class="clan-btn" style="border-color:var(--primary-color);" onclick="openModal()">🛡️ ${data.nick}</button>
                 `;
             }
         }
 
         function logout() {
             localStorage.removeItem('aqw_br_player');
-            loadProfile();
-            closeModal();
+            location.reload();
         }
 
-        // Inicializar com tema 'legion' e carregar perfil existente
+        // INICIALIZAÇÃO
         setTheme('legion');
+        filterNews();
+        renderChecklist();
+        renderMural();
         loadProfile();
+        updateReleaseTimer();
     </script>
 </body>
 </html>
