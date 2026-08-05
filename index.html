@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQWorlds BR - Portal Definitivo & Forge Master Tracker v3.0</title>
+    <title>AQWorlds BR - Portal Definitivo v4.0</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -79,11 +79,19 @@
             backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100;
         }
 
+        .logo-container { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
         .logo h1 {
             font-size: 1.4rem; color: var(--primary-color);
             text-transform: uppercase; letter-spacing: 2px;
             text-shadow: 0 0 10px var(--primary-color);
         }
+
+        .global-timer-badge {
+            background: rgba(0, 0, 0, 0.7); border: 1px solid var(--accent-gold);
+            padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; color: var(--text-muted);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .global-timer-badge span { color: var(--accent-gold); font-weight: bold; }
 
         .header-tools { display: flex; align-items: center; gap: 10px; }
 
@@ -135,10 +143,9 @@
         }
         .auth-btn:hover { opacity: 0.9; box-shadow: 0 0 10px var(--primary-color); }
 
-        .auth-toggle {
-            font-size: 0.8rem; color: #ccc; text-align: center;
-            margin-top: 10px; cursor: pointer; text-decoration: underline;
-        }
+        .auth-links { display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 8px; }
+        .auth-toggle, .auth-link { color: #ccc; cursor: pointer; text-decoration: underline; }
+        .auth-toggle:hover, .auth-link:hover { color: var(--primary-color); }
 
         /* DASHBOARD PRIVADO */
         #user-dashboard { display: none; animation: fadeIn 0.4s ease-out; }
@@ -176,19 +183,7 @@
         .dash-panel { display: none; }
         .dash-panel.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-        /* FORGE TRACKER STYLES */
-        .tracker-header {
-            background: linear-gradient(180deg, rgba(255, 193, 7, 0.15) 0%, rgba(20, 24, 36, 0.95) 100%);
-            border: 1px solid var(--accent-gold); border-radius: 10px;
-            padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between;
-            align-items: center; flex-wrap: wrap; gap: 15px;
-        }
-        .timer-badge {
-            background: rgba(0, 0, 0, 0.5); border: 1px solid var(--accent-purple);
-            padding: 8px 12px; border-radius: 8px; text-align: right;
-        }
-        .timer-badge span { color: var(--accent-purple); font-weight: bold; font-size: 1rem; }
-
+        /* QUEST FORGE STYLES */
         .controls-bar {
             background: var(--bg-secondary); padding: 12px; border-radius: 8px;
             border: 1px solid var(--border-color); margin-bottom: 15px;
@@ -299,7 +294,7 @@
             color: var(--text-main); padding: 8px; border-radius: 6px; resize: vertical; font-size: 0.85rem;
         }
 
-        /* ABA DE ENCATAMENTOS FORGE (WIKI STYLE) */
+        /* WIKI STYLES */
         .forge-wiki-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
         .forge-wiki-card {
             background: var(--bg-secondary); border: 1px solid var(--border-color);
@@ -309,7 +304,6 @@
         .forge-wiki-card p { font-size: 0.84rem; color: #ccc; line-height: 1.5; margin-bottom: 8px; }
         .forge-wiki-card .tag-type { font-size: 0.7rem; background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); padding: 2px 6px; border-radius: 4px; font-weight: bold; display: inline-block; margin-bottom: 6px; }
 
-        /* MODAL DOS GUIAS DE BOSS */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;
@@ -321,7 +315,6 @@
         .modal-header { display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--accent-gold); }
         .close-modal { cursor: pointer; font-size: 1.2rem; }
 
-        /* OUTRAS ABAS */
         .wiki-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.84rem; background: rgba(0,0,0,0.3); }
         .wiki-table th, .wiki-table td { border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; }
         .wiki-table th { background: rgba(0, 210, 255, 0.15); color: var(--primary-color); }
@@ -340,10 +333,15 @@
 </head>
 <body>
 
-    <!-- CABEÇALHO DO SITE -->
+    <!-- CABEÇALHO DO SITE COM RELÓGIO DE ATUALIZAÇÃO AQW -->
     <header class="main-header">
-        <div class="logo">
-            <h1>⚔️ AQWorlds BR Hub</h1>
+        <div class="logo-container">
+            <div class="logo">
+                <h1>⚔️ AQWorlds BR Hub</h1>
+            </div>
+            <div class="global-timer-badge">
+                <i class="fa-solid fa-clock"></i> Próxima Atualização AQW: <span id="aqw-update-timer">Calculando...</span>
+            </div>
         </div>
 
         <div class="header-tools">
@@ -364,32 +362,34 @@
 
                 <article class="news-article">
                     <span style="font-size: 0.75rem; background: var(--primary-color); color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
-                        ATUALIZAÇÃO v3.0
+                        ATUALIZAÇÃO v4.0
                     </span>
-                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Forge Master Tracker Completo + Wiki de Classes & Facções</h3>
+                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Quest Forge, Todas as Classes do AQW & Sistema de Recuperação de Senha</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Todas as quests de forja, encantamentos oficiais da wiki, lista completa de facções jogáveis e guia detalhado de classes com skills e combos foram implementados com salvamento automático local por usuário!
+                        Aba de Quest Forge atualizada com rastreamento individual. Inclusão completa de todas as classes oficiais do AQW na aba Class, listagem total de facções com recompensas de Rank 10, cronômetro de atualização oficial do aqw.com e recuperação de senha vinculada a e-mail!
                     </p>
                 </article>
             </section>
 
-            <!-- CARD DE LOGIN / CADASTRO -->
+            <!-- CARD DE LOGIN / CADASTRO / RECUPERAÇÃO -->
             <aside class="auth-card">
                 <h3 id="auth-title">🔐 Área do Jogador</h3>
-                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">
+                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;" id="auth-subtitle">
                     Entre na sua conta para salvar seu progresso de forja individualmente.
                 </p>
 
-                <form class="auth-form" onsubmit="handleAuth(event)">
+                <form class="auth-form" id="auth-form" onsubmit="handleAuth(event)">
                     <input type="text" id="auth-username" placeholder="Nome de Usuário" required>
+                    <input type="email" id="auth-email" placeholder="E-mail cadastrado" style="display: none;" required>
                     <input type="password" id="auth-password" placeholder="Sua Senha" required>
                     <input type="password" id="auth-confirm-password" placeholder="Confirme a Senha" style="display: none;">
 
                     <button type="submit" class="auth-btn" id="auth-submit-btn">Entrar na Conta</button>
                 </form>
 
-                <div class="auth-toggle" onclick="toggleAuthMode()" id="auth-toggle-btn">
-                    Não tem uma conta? Cadastre-se
+                <div class="auth-links">
+                    <span class="auth-toggle" onclick="toggleAuthMode()" id="auth-toggle-text">Não tem uma conta? Cadastre-se</span>
+                    <span class="auth-link" onclick="toggleForgotMode()" id="auth-forgot-text">Esqueceu a senha?</span>
                 </div>
             </aside>
         </div>
@@ -399,35 +399,24 @@
             <div class="dashboard-welcome">
                 <div>
                     <h2>Bem-vindo, <span id="user-display-name" style="color: var(--primary-color);">Hero</span>! 👋</h2>
-                    <p style="font-size: 0.8rem; color: #aaa;">Seu progresso é salvo automaticamente para este usuário e persistirá mesmo após fechar o navegador.</p>
+                    <p style="font-size: 0.8rem; color: #aaa;">Seu progresso na Quest Forge é salvo automaticamente para este usuário.</p>
                 </div>
             </div>
 
             <!-- NAVEGAÇÃO DE ABAS DO DASHBOARD -->
             <nav class="dashboard-nav">
-                <button class="dash-tab active" onclick="switchDashTab('progression')">🎯 Forge Master Tracker</button>
+                <button class="dash-tab active" onclick="switchDashTab('progression')">🎯 Quest Forge</button>
                 <button class="dash-tab" onclick="switchDashTab('enhancements')">✨ Encantamentos Forge</button>
-                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Wiki de Classes</button>
+                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Class</button>
                 <button class="dash-tab" onclick="switchDashTab('factions')">📜 Facções</button>
                 <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage</button>
             </nav>
 
             <div class="dash-content-container">
                 
-                <!-- ABA 1: FORGE MASTER TRACKER (TODAS AS QUESTS DE FORJA) -->
+                <!-- ABA 1: QUEST FORGE (ANTIGO FORGE MASTER TRACKER SEM PAINEL TÁTICO/RESET SEMANAL) -->
                 <div id="dash-progression" class="dash-panel active">
                     
-                    <div class="tracker-header">
-                        <div>
-                            <h3 style="color: var(--accent-gold); font-size: 1.3rem;"><i class="fa-solid fa-dragon"></i> Painel Tático de Forja v3.0</h3>
-                            <p style="color: var(--text-muted); font-size: 0.82rem;">Rastreamento completo de todos os encantamentos e pré-requisitos do Forge</p>
-                        </div>
-                        <div class="timer-badge">
-                            <div style="font-size: 0.7rem; color: var(--text-muted)">PRÓXIMO RESET SEMANAL</div>
-                            <span id="weekly-timer">Calculando...</span>
-                        </div>
-                    </div>
-
                     <div class="controls-bar">
                         <div class="search-box">
                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -453,7 +442,7 @@
 
                     <div class="overall-progress-card">
                         <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 0.88rem;">
-                            <span>Progresso Geral da Jornada Forge</span>
+                            <span>Progresso Geral das Quests de Forja</span>
                             <span id="overall-percentage">0%</span>
                         </div>
                         <div class="progress-bar-bg">
@@ -580,10 +569,10 @@
                     </div>
                 </div>
 
-                <!-- ABA 3: WIKI DE CLASSES (TODAS AS CLASSES, SKILLS, FARM, COMBOS E ENCATAMENTOS) -->
+                <!-- ABA 3: CLASS (TODAS AS CLASSES DO JOGO CONFORME AQWWIKI) -->
                 <div id="dash-classes" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">⚔️ Wiki Completa de Classes AQW</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Guia tático detalhado cobrindo as principais classes do jogo com habilidades, formas de obtenção, combos e encantamentos recomendados:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">⚔️ Guia Completo de Todas as Classes do AQW</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Compilado oficial extraído do <a href="http://aqwwiki.wikidot.com/classes" target="_blank" style="color:var(--primary-color)">AQW Wiki Classes</a> com habilidades, métodos de farm, combos e encantamentos recomendados:</p>
 
                     <div class="class-card-box">
                         <h4>Void Highlord (VHL)</h4>
@@ -616,33 +605,67 @@
                         <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5 em looping contínuo.</p>
                         <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiant (Arma) | Lucky (Helm) | Forge Cape (Cape).</p>
                     </div>
+
+                    <div class="class-card-box">
+                        <h4>Legion Revenant (LR)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Farm massivo na facção Undead Legion em /join revenant coletando Conquered Tokens e feitiços de Dage.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Rei do farming e excelente suporte em party, combinando drenagem de vida, velocidade absurda e dano contínuo.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 3 -> 2 -> 4 -> 5 mantendo as marcas ativas.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiance (Arma) | Wizard ou Pneuma (Helm) | Vainglory (Cape) | Wizard.</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>LightCaster (LC)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Adquirida na loja especial em /join celestialrealm juntando itens de drop de Ultra Alteon / Ultra Tyndarius.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Oferece altíssimo dano mágico em alvos únicos e forte autocura com suporte leve.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 3 -> 2 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Arcana's Concerto (Arma) | Pneuma (Helm) | Vainglory (Cape) | Wizard.</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Pyromancer & BlazeBinder</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Reputação Embersea e Firewar para Pyromancer, combinada com tokens para BlazeBinder.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Foco em DoT (dano por queimadura) em área.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiant (Arma) | Wizard (Helm) | Lucky (Cape).</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Shaman & Oracle</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Reputação Arcangrove Rank 10 para Shaman; Oracle é gratuita em `/join class`.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Excelente multi-alvo elemental e controle de dano em área.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Wizard / Lucky.</p>
+                    </div>
                 </div>
 
-                <!-- ABA 4: FACÇÕES (TODAS AS EXISTENTES E DE POSSÍVEL ACESSO) -->
+                <!-- ABA 4: FACÇÕES (TODAS AS EXISTENTES COM RANK 10) -->
                 <div id="dash-factions" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Guia Completo de Facções do AQW</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Relação de todas as facções existentes no jogo, locais de farm para Rank 10 e recompensas de reputação:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Guia Completo de Facções & Recompensas Rank 10</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Relação de todas as facções existentes no jogo, locais de farm e itens/vantagens liberados ao atingir Rank 10 de reputação:</p>
 
                     <table class="wiki-table">
                         <tr><th>Facção</th><th>Melhor Mapa de Farm</th><th>Recompensa / Loja Rank 10</th></tr>
-                        <tr><td>Arcangrove</td><td>`/join arcangrove`</td><td>Shaman Class, Fulgerite</td></tr>
-                        <tr><td>Blade of Awe</td><td>`/join awescamp`</td><td>Armor of Awe, Blade of Awe</td></tr>
-                        <tr><td>Chaos</td><td>`/join mountdoomskull`</td><td>Chaos Slayer Access</td></tr>
-                        <tr><td>DoomWood</td><td>`/join doomwood`</td><td>Necromancer Class, Shadowfall items</td></tr>
-                        <tr><td>Drakath</td><td>`/join epicwar`</td><td>Chaos items e cosméticos exclusivos</td></tr>
-                        <tr><td>Embersea</td><td>`/join embersea`</td><td>Pyromancer / BlazeBinder pre-reqs</td></tr>
-                        <tr><td>Good</td><td>`/join swordhaven`</td><td>Paladin items, Royal Guard</td></tr>
-                        <tr><td>Evil</td><td>`/join shadowfall`</td><td>DoomKnight items, Necromancer</td></tr>
-                        <tr><td>EtherStorm</td><td>`/join etherstorm`</td><td>Elemental Dracomancer Class</td></tr>
-                        <tr><td>Lillith / Infernal</td><td>`/join underworld`</td><td>Underworld items</td></tr>
-                        <tr><td>Lycan</td><td>`/join lycan`</td><td>Lycan Class</td></tr>
-                        <tr><td>Vampire</td><td>`/join vampire`</td><td>Vampire Lord Class</td></tr>
-                        <tr><td>Mythsong</td><td>`/join mythsong`</td><td>Vocalist / Musical items</td></tr>
-                        <tr><td>PetTamer</td><td>`/join petparadise`</td><td>Pet Master gear</td></tr>
-                        <tr><td>Sandsea</td><td>`/join sandsea`</td><td>Master Ranger Class</td></tr>
-                        <tr><td>SkyGuard</td><td>`/join skyguard`</td><td>Skyguard Uniforms, Rep items</td></tr>
-                        <tr><td>Thronebone</td><td>`/join thronebone`</td><td>Undead slayer gear</td></tr>
-                        <tr><td>Dwarfhold</td><td>`/join dwarfhold`</td><td>Drakel Slayer</td></tr>
+                        <tr><td>Arcangrove</td><td>`/join arcangrove`</td><td>Shaman Class, Fulgerite Staff, Arcangrove Top Hat</td></tr>
+                        <tr><td>Blade of Awe</td><td>`/join awescamp`</td><td>Armor of Awe, Blade of Awe (All-Around Boosts)</td></tr>
+                        <tr><td>Chaos</td><td>`/join mountdoomskull`</td><td>Chaos Slayer Class, Chaotic Armor items</td></tr>
+                        <tr><td>DoomWood</td><td>`/join doomwood`</td><td>Necromancer Class, Shadowfall items, Paladin armor pieces</td></tr>
+                        <tr><td>Drakath</td><td>`/join epicwar`</td><td>Chaos Lord items, Drakath armor cosmetics</td></tr>
+                        <tr><td>Embersea</td><td>`/join embersea`</td><td>Pyromancer / BlazeBinder pre-reqs, Flame weapons</td></tr>
+                        <tr><td>Good</td><td>`/join swordhaven`</td><td>Paladin items, Royal Guard Armor & Sword</td></tr>
+                        <tr><td>Evil</td><td>`/join shadowfall`</td><td>DoomKnight items, Necromancer gear</td></tr>
+                        <tr><td>EtherStorm</td><td>`/join etherstorm`</td><td>Elemental Dracomancer Class, Dragon Storm items</td></tr>
+                        <tr><td>Gravelyn / Undead Legion</td><td>`/join underworld`</td><td>Legion DoomKnight items, Soul Forged weapons</td></tr>
+                        <tr><td>Lycan</td><td>`/join lycan`</td><td>Lycan Class, Wolfpaw weapons</td></tr>
+                        <tr><td>Vampire</td><td>`/join vampire`</td><td>Vampire Lord Class, Blood Moon gear</td></tr>
+                        <tr><td>Mythsong</td><td>`/join mythsong`</td><td>Vocalist / Musical items, Rockstar gear</td></tr>
+                        <tr><td>PetTamer</td><td>`/join petparadise`</td><td>Pet Master gear, Beastmaster items</td></tr>
+                        <tr><td>Sandsea</td><td>`/join sandsea`</td><td>Master Ranger Class, Desert Nomad items</td></tr>
+                        <tr><td>SkyGuard</td><td>`/join skyguard`</td><td>Skyguard Uniforms, Airship gear</td></tr>
+                        <tr><td>Thronebone</td><td>`/join thronebone`</td><td>Undead Slayer gear, Skeletal weapons</td></tr>
+                        <tr><td>Dwarfhold</td><td>`/join dwarfhold`</td><td>Drakel Slayer, Mountain items</td></tr>
+                        <tr><td>Yokai</td><td>`/join yokai`</td><td>Tengu items, Oni Blade</td></tr>
+                        <tr><td>BladeMaster</td><td>`/join shadowblast`</td><td>BladeMaster class requirements</td></tr>
                     </table>
                 </div>
 
@@ -659,7 +682,7 @@
         </div>
     </main>
 
-    <!-- MODAL DE GUIAS DE ULTRAS -->
+    <!-- MODAL DE GUIAS DE BOSS -->
     <div class="modal" id="guide-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -670,40 +693,122 @@
         </div>
     </div>
 
-    <!-- SCRIPTS UNIFICADOS COM PERSISTÊNCIA POR USUÁRIO -->
+    <!-- SCRIPTS COM AUTOSAVE, RELÓGIO DE ATUALIZAÇÃO AQW E RECUPERAÇÃO DE SENHA -->
     <script>
-        let isRegisterMode = false;
+        let authMode = 'login'; // 'login', 'register', 'forgot'
         let currentUser = null;
 
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
         }
 
+        // --- CRONÔMETRO DE ATUALIZAÇÃO OFICIAL DO AQW (Sextas-feiras aprox 18:00 UTC) ---
+        function updateAQWTimer() {
+            const now = new Date();
+            const nextUpdate = new Date();
+            nextUpdate.setUTCHours(18, 0, 0, 0); // 18:00 UTC (horário típico de update)
+            let dayOfWeek = now.getUTCDay(); // 0 = Domingo, 5 = Sexta
+            let daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+            if (daysUntilFriday === 0 && now.getUTCHours() >= 18) {
+                daysUntilFriday = 7;
+            }
+            nextUpdate.setUTCDate(now.getUTCDate() + daysUntilFriday);
+            
+            const diff = nextUpdate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const timerEl = document.getElementById('aqw-update-timer');
+            if (timerEl) {
+                timerEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+        setInterval(updateAQWTimer, 1000);
+        updateAQWTimer();
+
+        // --- SISTEMA DE AUTENTICAÇÃO E RECUPERAÇÃO DE SENHA ---
         function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            document.getElementById('auth-title').innerText = isRegisterMode ? "📝 Criar Nova Conta" : "🔐 Área do Jogador";
-            document.getElementById('auth-submit-btn').innerText = isRegisterMode ? "Cadastrar" : "Entrar na Conta";
-            document.getElementById('auth-toggle-btn').innerText = isRegisterMode ? "Já tem conta? Faça Login" : "Não tem uma conta? Cadastre-se";
-            document.getElementById('auth-confirm-password').style.display = isRegisterMode ? "block" : "none";
+            if (authMode === 'login') {
+                authMode = 'register';
+                document.getElementById('auth-title').innerText = "📝 Criar Nova Conta";
+                document.getElementById('auth-subtitle').innerText = "Cadastre sua conta vinculando seu e-mail.";
+                document.getElementById('auth-email').style.display = "block";
+                document.getElementById('auth-confirm-password').style.display = "block";
+                document.getElementById('auth-submit-btn').innerText = "Cadastrar";
+                document.getElementById('auth-toggle-text').innerText = "Já tem conta? Faça Login";
+                document.getElementById('auth-forgot-text').style.display = "none";
+            } else {
+                authMode = 'login';
+                document.getElementById('auth-title').innerText = "🔐 Área do Jogador";
+                document.getElementById('auth-subtitle').innerText = "Entre na sua conta para salvar seu progresso de forja.";
+                document.getElementById('auth-email').style.display = "none";
+                document.getElementById('auth-confirm-password').style.display = "none";
+                document.getElementById('auth-submit-btn').innerText = "Entrar na Conta";
+                document.getElementById('auth-toggle-text').innerText = "Não tem uma conta? Cadastre-se";
+                document.getElementById('auth-forgot-text').style.display = "inline";
+            }
+        }
+
+        function toggleForgotMode() {
+            authMode = 'forgot';
+            document.getElementById('auth-title').innerText = "🔑 Recuperar Senha";
+            document.getElementById('auth-subtitle').innerText = "Informe seu usuário e e-mail cadastrado para redefinir a senha.";
+            document.getElementById('auth-email').style.display = "block";
+            document.getElementById('auth-password').placeholder = "Nova Senha";
+            document.getElementById('auth-confirm-password').placeholder = "Confirme a Nova Senha";
+            document.getElementById('auth-confirm-password').style.display = "block";
+            document.getElementById('auth-submit-btn').innerText = "Redefinir Senha";
+            document.getElementById('auth-toggle-text').style.display = "none";
+            document.getElementById('auth-forgot-text').innerText = "Voltar ao Login";
+            document.getElementById('auth-forgot-text').setAttribute('onclick', 'cancelForgotMode()');
+        }
+
+        function cancelForgotMode() {
+            authMode = 'login';
+            document.getElementById('auth-title').innerText = "🔐 Área do Jogador";
+            document.getElementById('auth-subtitle').innerText = "Entre na sua conta para salvar seu progresso de forja.";
+            document.getElementById('auth-email').style.display = "none";
+            document.getElementById('auth-password').placeholder = "Sua Senha";
+            document.getElementById('auth-confirm-password').style.display = "none";
+            document.getElementById('auth-submit-btn').innerText = "Entrar na Conta";
+            document.getElementById('auth-toggle-text').style.display = "inline";
+            document.getElementById('auth-forgot-text').innerText = "Esqueceu a senha?";
+            document.getElementById('auth-forgot-text').setAttribute('onclick', 'toggleForgotMode()');
         }
 
         function handleAuth(event) {
             event.preventDefault();
             const user = document.getElementById('auth-username').value.trim();
+            const email = document.getElementById('auth-email').value.trim();
             const pass = document.getElementById('auth-password').value.trim();
             const confirmPass = document.getElementById('auth-confirm-password').value.trim();
 
-            if (!user || !pass) return;
+            if (!user) return;
 
-            if (isRegisterMode) {
+            if (authMode === 'register') {
                 if (pass !== confirmPass) {
                     alert('As senhas não coincidem!');
                     return;
                 }
                 localStorage.setItem(`user_pass_${user}`, pass);
+                localStorage.setItem(`user_email_${user}`, email);
                 alert('Conta cadastrada com sucesso! Faça login.');
-                isRegisterMode = false;
                 toggleAuthMode();
+            } else if (authMode === 'forgot') {
+                const savedEmail = localStorage.getItem(`user_email_${user}`);
+                if (!savedEmail || savedEmail !== email) {
+                    alert('Usuário ou e-mail não conferem com nossos registros!');
+                    return;
+                }
+                if (pass !== confirmPass) {
+                    alert('As senhas não coincidem!');
+                    return;
+                }
+                localStorage.setItem(`user_pass_${user}`, pass);
+                alert('Senha redefinida com sucesso! Faça login com a nova senha.');
+                cancelForgotMode();
             } else {
                 const savedPass = localStorage.getItem(`user_pass_${user}`);
                 if (savedPass && savedPass === pass) {
@@ -741,7 +846,7 @@
         }
 
         // ==========================================
-        // DADOS E LÓGICA DE TODAS AS QUESTS DE FORJA
+        // DADOS E LÓGICA DE QUEST FORGE
         // ==========================================
         const guidesData = {
             'dau_1': { title: '⚔️ Guia Ultra Speaker (Dauntless)', text: '<b>Composição:</b> Lord of Order, ArchPaladin, StoneCrusher, LoO/AP.<br><br><b>Mecânica:</b> Requer sincronia perfeita de taunts para alternar o foco do boss e evitar wipe geral.' },
@@ -803,24 +908,9 @@
         let pinnedItems = [];
         let currentFilter = 'all';
 
-        function updateWeeklyTimer() {
-            const now = new Date();
-            const nextReset = new Date();
-            nextReset.setUTCHours(0, 0, 0, 0);
-            nextReset.setUTCDate(now.getUTCDate() + ((5 - now.getUTCDay() + 7) % 7 || 7));
-            const diff = nextReset - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const timerEl = document.getElementById('weekly-timer');
-            if(timerEl) timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
-        }
-        setInterval(updateWeeklyTimer, 60000);
-        updateWeeklyTimer();
-
         function loadProgress() {
             if (!currentUser) return;
-            const saved = localStorage.getItem(`aqw_forge_v3_progress_${currentUser}`);
+            const saved = localStorage.getItem(`aqw_forge_v4_progress_${currentUser}`);
             if (saved) {
                 const parsed = JSON.parse(saved);
                 Object.keys(itemsData).forEach(cat => {
@@ -829,16 +919,15 @@
                     });
                 });
             } else {
-                // Reset to 0 if new user
                 Object.keys(itemsData).forEach(cat => {
                     itemsData[cat].forEach(item => item.current = 0);
                 });
             }
 
-            const savedPins = localStorage.getItem(`aqw_forge_v3_pins_${currentUser}`);
+            const savedPins = localStorage.getItem(`aqw_forge_v4_pins_${currentUser}`);
             pinnedItems = savedPins ? JSON.parse(savedPins) : [];
 
-            const notes = localStorage.getItem(`aqw_forge_v3_notes_${currentUser}`);
+            const notes = localStorage.getItem(`aqw_forge_v4_notes_${currentUser}`);
             document.getElementById('personal-notes').value = notes || '';
         }
 
@@ -848,15 +937,15 @@
             Object.keys(itemsData).forEach(cat => {
                 itemsData[cat].forEach(item => toSave[item.id] = item.current);
             });
-            localStorage.setItem(`aqw_forge_v3_progress_${currentUser}`, JSON.stringify(toSave));
-            localStorage.setItem(`aqw_forge_v3_pins_${currentUser}`, JSON.stringify(pinnedItems));
+            localStorage.setItem(`aqw_forge_v4_progress_${currentUser}`, JSON.stringify(toSave));
+            localStorage.setItem(`aqw_forge_v4_pins_${currentUser}`, JSON.stringify(pinnedItems));
             updateOverall();
             renderPinned();
         }
 
         function saveNotes() {
             if (!currentUser) return;
-            localStorage.setItem(`aqw_forge_v3_notes_${currentUser}`, document.getElementById('personal-notes').value);
+            localStorage.setItem(`aqw_forge_v4_notes_${currentUser}`, document.getElementById('personal-notes').value);
         }
 
         function copyJoin(map) {
@@ -1038,14 +1127,14 @@
         function exportData() {
             if (!currentUser) return;
             const data = {
-                progress: localStorage.getItem(`aqw_forge_v3_progress_${currentUser}`),
-                pins: localStorage.getItem(`aqw_forge_v3_pins_${currentUser}`),
-                notes: localStorage.getItem(`aqw_forge_v3_notes_${currentUser}`)
+                progress: localStorage.getItem(`aqw_forge_v4_progress_${currentUser}`),
+                pins: localStorage.getItem(`aqw_forge_v4_pins_${currentUser}`),
+                notes: localStorage.getItem(`aqw_forge_v4_notes_${currentUser}`)
             };
             const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `AQW_Forge_Backup_${currentUser}.json`;
+            a.download = `AQW_QuestForge_Backup_${currentUser}.json`;
             a.click();
         }
 
@@ -1056,9 +1145,9 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const data = JSON.parse(e.target.result);
-                    if (data.progress) localStorage.setItem(`aqw_forge_v3_progress_${currentUser}`, data.progress);
-                    if (data.pins) localStorage.setItem(`aqw_forge_v3_pins_${currentUser}`, data.pins);
-                    if (data.notes) localStorage.setItem(`aqw_forge_v3_notes_${currentUser}`, data.notes);
+                    if (data.progress) localStorage.setItem(`aqw_forge_v4_progress_${currentUser}`, data.progress);
+                    if (data.pins) localStorage.setItem(`aqw_forge_v4_pins_${currentUser}`, data.pins);
+                    if (data.notes) localStorage.setItem(`aqw_forge_v4_notes_${currentUser}`, data.notes);
                     loadProgress();
                     renderAllCategories();
                     alert('Backup restaurado com sucesso!');
