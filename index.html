@@ -3,210 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQW Forge Enhancements Tracker - Guia Completo</title>
+    <title>AQW Forge Master Tracker v2.0</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0f111a;
-            --bg-secondary: #1a1d2d;
-            --bg-card: #23273a;
+            --bg-primary: #0a0c10;
+            --bg-secondary: #141824;
+            --bg-card: #1e2436;
             --accent-gold: #ffc107;
-            --accent-purple: #9966cc;
-            --accent-blue: #4682b4;
-            --accent-green: #2e8b57;
-            --accent-red: #b22222;
-            --text-main: #e2e8f0;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --border-color: #334155;
+            --border-color: #2e374e;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-primary); color: var(--text-main); padding: 20px; }
+        .container { max-width: 1300px; margin: 0 auto; }
 
-        .container { max-width: 1200px; margin: 0 auto; }
-
+        /* HEADER & TIMERS */
         header {
-            text-align: center;
-            padding: 25px 20px;
-            background: linear-gradient(180deg, rgba(255, 193, 7, 0.15) 0%, rgba(26, 29, 45, 0.9) 100%);
+            background: linear-gradient(180deg, rgba(255, 193, 7, 0.15) 0%, rgba(20, 24, 36, 0.95) 100%);
             border: 1px solid var(--accent-gold);
             border-radius: 12px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        header h1 { color: var(--accent-gold); font-size: 2.2rem; margin-bottom: 8px; }
-        header p { color: var(--text-muted); font-size: 1rem; }
-
-        /* Painel de Dicionário Traduzido */
-        .translation-box {
-            background: var(--bg-secondary);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-gold);
-            margin-bottom: 25px;
-        }
-
-        .translation-box h4 { color: var(--accent-gold); margin-bottom: 8px; font-size: 1rem; }
-        .translation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; font-size: 0.88rem; color: var(--text-muted); }
-        .translation-grid strong { color: var(--text-main); }
-
-        /* Card de Progresso Geral */
-        .overall-progress-card {
-            background: var(--bg-secondary);
             padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        header h1 { color: var(--accent-gold); font-size: 1.8rem; display: flex; align-items: center; gap: 10px; }
+        header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        .timer-badge {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-purple);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: right;
+        }
+        .timer-badge span { color: var(--accent-purple); font-weight: bold; font-size: 1.1rem; }
+
+        /* PAINEL DE CONTROLE / CONTROLS BAR */
+        .controls-bar {
+            background: var(--bg-secondary);
+            padding: 15px;
             border-radius: 10px;
             border: 1px solid var(--border-color);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
         }
 
+        .search-box { flex: 1; min-width: 250px; position: relative; }
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px 10px 35px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 6px;
+        }
+        .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
+        .filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-filter {
+            background: var(--bg-primary);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .btn-filter.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
+
+        .action-buttons { display: flex; gap: 8px; }
+        .btn-action {
+            background: #334155;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-action:hover { background: #475569; }
+
+        /* SEÇÃO DE FAVORITOS */
+        .pinned-section {
+            background: rgba(255, 193, 7, 0.05);
+            border: 1px dashed var(--accent-gold);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .pinned-section.active { display: block; }
+        .pinned-section h3 { color: var(--accent-gold); font-size: 1rem; margin-bottom: 10px; }
+
+        /* PROGRESS BAR GENERAL */
+        .overall-progress-card {
+            background: var(--bg-secondary);
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
         .progress-bar-bg {
             background: #0f172a;
-            height: 26px;
-            border-radius: 13px;
+            height: 24px;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             position: relative;
-            margin-top: 10px;
+            margin-top: 8px;
         }
-
         .progress-bar-fill {
             height: 100%;
             background: linear-gradient(90deg, #3b82f6, #10b981);
             width: 0%;
             transition: width 0.4s ease;
         }
-
         .progress-text-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-shadow: 1px 1px 3px #000;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-weight: bold; font-size: 0.85rem; text-shadow: 1px 1px 3px #000;
         }
 
-        /* NAVEGAÇÃO DE ABAS */
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        /* NAVEGAÇÃO POR ABAS */
+        .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
         .tab-btn {
             background: var(--bg-secondary);
             color: var(--text-main);
             border: 1px solid var(--border-color);
-            padding: 12px 18px;
+            padding: 10px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: all 0.2s ease;
+            display: flex; align-items: center; gap: 8px;
         }
-        .tab-btn:hover { background: var(--border-color); }
-        .tab-btn.active[data-tab="req"] { border-color: var(--accent-gold); background: rgba(255,193,7,0.15); }
-        .tab-btn.active[data-tab="avarice"] { border-color: var(--accent-purple); background: rgba(153,102,204,0.15); }
-        .tab-btn.active[data-tab="arcana"] { border-color: var(--accent-blue); background: rgba(70,130,180,0.15); }
-        .tab-btn.active[data-tab="elysium"] { border-color: var(--accent-green); background: rgba(46,139,87,0.15); }
-        .tab-btn.active[data-tab="dauntless"] { border-color: var(--accent-red); background: rgba(178,34,34,0.15); }
+        .tab-btn.active { border-color: var(--accent-gold); background: rgba(255, 193, 7, 0.15); color: var(--accent-gold); }
 
-        /* CARDS E GRID DE ITENS */
+        /* CARDS E GRID */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-
-        .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; }
 
         .item-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
         }
 
-        .item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-        .item-title { font-size: 1.1rem; font-weight: bold; color: #fff; }
-        .item-badge {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 4px;
-            background: #334155;
-            color: #cbd5e1;
+        .pin-btn {
+            position: absolute; top: 12px; right: 12px;
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; font-size: 1.1rem; transition: color 0.2s;
         }
+        .pin-btn.pinned { color: var(--accent-gold); }
 
-        .item-details { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; }
+        .item-header { padding-right: 25px; margin-bottom: 10px; }
+        .item-title { font-size: 1.05rem; font-weight: bold; color: #fff; }
+        .item-type { font-size: 0.75rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .item-details { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
         .item-details strong { color: var(--text-main); }
 
-        .wiki-link {
-            display: inline-block;
+        .btn-copy-join {
+            background: rgba(59, 130, 246, 0.15);
             color: #60a5fa;
-            text-decoration: none;
-            font-size: 0.85rem;
-            margin-top: 6px;
-        }
-        .wiki-link:hover { text-decoration: underline; }
-
-        /* CONTROLES DE QUANTIDADE */
-        .counter-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--bg-secondary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-
-        .btn-count {
-            background: #334155;
-            color: #fff;
-            border: none;
-            width: 32px;
-            height: 32px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 2px 6px;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.75rem;
+            margin-left: 5px;
         }
-        .btn-count:hover { background: #475569; }
+        .btn-copy-join:hover { background: rgba(59, 130, 246, 0.3); }
 
+        /* CONTROLES DE CONTAGEM */
+        .counter-controls {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-secondary); padding: 6px 10px; border-radius: 6px;
+        }
+        .btn-count {
+            background: #334155; color: #fff; border: none;
+            width: 30px; height: 30px; border-radius: 4px;
+            cursor: pointer; font-weight: bold; font-size: 1rem;
+        }
         .count-input {
-            width: 70px;
-            text-align: center;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 4px;
-            border-radius: 4px;
-            font-weight: bold;
+            width: 65px; text-align: center; background: transparent;
+            border: 1px solid var(--border-color); color: #fff;
+            padding: 4px; border-radius: 4px; font-weight: bold;
         }
 
-        /* BORDAS INDICADORAS DE STATUS */
-        .card-complete { border-left: 5px solid #10b981; }
-        .card-partial { border-left: 5px solid #f59e0b; }
-        .card-zero { border-left: 5px solid #ef4444; }
+        .card-complete { border-left: 4px solid var(--accent-green); }
+        .card-partial { border-left: 4px solid var(--accent-gold); }
+        .card-zero { border-left: 4px solid var(--accent-red); }
+
+        /* BLOCO DE NOTAS E MODAIS */
+        .notes-container { margin-top: 25px; background: var(--bg-secondary); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); }
+        .notes-container h4 { color: var(--accent-gold); margin-bottom: 8px; font-size: 0.95rem; }
+        .notes-container textarea {
+            width: 100%; height: 80px; background: var(--bg-primary);
+            border: 1px solid var(--border-color); color: var(--text-main);
+            padding: 10px; border-radius: 6px; resize: vertical; font-size: 0.88rem;
+        }
+
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: var(--bg-secondary); padding: 20px; border-radius: 10px;
+            max-width: 500px; width: 90%; border: 1px solid var(--accent-gold);
+        }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--accent-gold); }
+        .close-modal { cursor: pointer; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1><i class="fa-solid fa-fire-flame-curved"></i> AQW Forge Enhancements Tracker</h1>
-        <p>Painel Integrado de Farm e Tradução (Praxis ➔ Avarice ➔ Arcana ➔ Elysium ➔ Dauntless)</p>
+        <div>
+            <h1><i class="fa-solid fa-dragon"></i> AQW Forge Tracker v2.0</h1>
+            <p>Painel Tático de Farm, Timers e Guias de Ultra Bosses</p>
+        </div>
+        <div class="timer-badge">
+            <div style="font-size: 0.75rem; color: var(--text-muted)">PRÓXIMO RESET SEMANAL</div>
+            <span id="weekly-timer">Calculando...</span>
+        </div>
     </header>
 
-    <!-- GUIA RÁPIDO DE DICIONÁRIO EM PORTUGUÊS -->
-    <div class="translation-box">
-        <h4><i class="fa-solid fa-language"></i> Tradução da Interface de Quests do AQW:</h4>
-        <div class="translation-grid">
-            <div><strong>Turn In:</strong> Entregar Missão</div>
-            <div><strong>Requirements:</strong> Requisitos Necessários</div>
-            <div><strong>Insignia:</strong> Moeda Semanal de Ultra Boss</div>
-            <div><strong>Merge Shop:</strong> Loja de Criação / Troca</div>
-            <div><strong>Daily / Weekly:</strong> Diária / Semanal</div>
-            <div><strong>Item Dropped:</strong> Item de Recompensa</div>
+    <!-- BARRA DE CONTROLES (PESQUISA, FILTROS E BACKUP) -->
+    <div class="controls-bar">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Pesquisar item, monstro ou mapa..." oninput="filterItems()">
         </div>
+        <div class="filter-buttons">
+            <button class="btn-filter active" onclick="setFilter('all', this)">Todos</button>
+            <button class="btn-filter" onclick="setFilter('pending', this)">Pendentes</button>
+            <button class="btn-filter" onclick="setFilter('partial', this)">Em Andamento</button>
+            <button class="btn-filter" onclick="setFilter('done', this)">Concluídos</button>
+        </div>
+        <div class="action-buttons">
+            <button class="btn-action" onclick="exportData()"><i class="fa-solid fa-download"></i> Exportar</button>
+            <button class="btn-action" onclick="document.getElementById('import-file').click()"><i class="fa-solid fa-upload"></i> Importar</button>
+            <input type="file" id="import-file" style="display:none" onchange="importData(event)">
+        </div>
+    </div>
+
+    <!-- SEÇÃO DE FAVORITOS FIXADOS -->
+    <div class="pinned-section" id="pinned-section">
+        <h3><i class="fa-solid fa-star"></i> Farms Atuais Fixados</h3>
+        <div class="items-grid" id="grid-pinned"></div>
     </div>
 
     <!-- PROGRESSO GERAL -->
@@ -217,28 +290,60 @@
         </div>
         <div class="progress-bar-bg">
             <div class="progress-bar-fill" id="overall-bar"></div>
-            <div class="progress-text-overlay" id="overall-text">0 de 0 itens concluídos</div>
+            <div class="progress-text-overlay" id="overall-text">0 de 0 Reagentes Obavidos</div>
         </div>
     </div>
 
-    <!-- NAVEGAÇÃO -->
+    <!-- ABAS -->
     <div class="nav-tabs">
-        <button class="tab-btn active" data-tab="req"><i class="fa-solid fa-list-check"></i> Pré-Requisitos</button>
-        <button class="tab-btn" data-tab="avarice"><i class="fa-solid fa-coins"></i> Avarice</button>
-        <button class="tab-btn" data-tab="arcana"><i class="fa-solid fa-wand-magic-sparkles"></i> Arcana's Concerto</button>
-        <button class="tab-btn" data-tab="elysium"><i class="fa-solid fa-bolt"></i> Elysium</button>
-        <button class="tab-btn" data-tab="dauntless"><i class="fa-solid fa-skull"></i> Dauntless</button>
+        <button class="tab-btn active" data-tab="req" onclick="switchTab('req')"><i class="fa-solid fa-list-check"></i> Pré-Requisitos</button>
+        <button class="tab-btn" data-tab="avarice" onclick="switchTab('avarice')"><i class="fa-solid fa-coins"></i> Avarice</button>
+        <button class="tab-btn" data-tab="arcana" onclick="switchTab('arcana')"><i class="fa-solid fa-wand-magic-sparkles"></i> Arcana</button>
+        <button class="tab-btn" data-tab="elysium" onclick="switchTab('elysium')"><i class="fa-solid fa-bolt"></i> Elysium</button>
+        <button class="tab-btn" data-tab="dauntless" onclick="switchTab('dauntless')"><i class="fa-solid fa-skull"></i> Dauntless</button>
     </div>
 
-    <!-- CONTEÚDO DAS ABAS -->
+    <!-- GRIDS -->
     <div class="tab-content active" id="tab-req"><div class="items-grid" id="grid-req"></div></div>
     <div class="tab-content" id="tab-avarice"><div class="items-grid" id="grid-avarice"></div></div>
     <div class="tab-content" id="tab-arcana"><div class="items-grid" id="grid-arcana"></div></div>
     <div class="tab-content" id="tab-elysium"><div class="items-grid" id="grid-elysium"></div></div>
     <div class="tab-content" id="tab-dauntless"><div class="items-grid" id="grid-dauntless"></div></div>
+
+    <!-- BLOCO DE NOTAS -->
+    <div class="notes-container">
+        <h4><i class="fa-solid fa-pen-to-square"></i> Bloco de Notas Pessoal (Autosave)</h4>
+        <textarea id="personal-notes" placeholder="Anote aqui suas metas, horários de party com amigos ou contagens diárias..." oninput="saveNotes()"></textarea>
+    </div>
+</div>
+
+<!-- MODAL DE GUIA DE ULTRAS -->
+<div class="modal" id="guide-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-title">Estratégia do Ultra Boss</h3>
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+        </div>
+        <div id="modal-body" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted)"></div>
+    </div>
 </div>
 
 <script>
+const guidesData = {
+    'dau_1': {
+        title: '⚔️ Guia Ultra Speaker (Dauntless)',
+        text: '<strong>Composição Recomendada:</strong> Lord of Order (LoO), ArchPaladin (AP), StoneCrusher (SC) / Legion DoomKnight.<br><br><strong>Mecânica Chave:</strong> Requer <em>Looping Taunt</em> perfeitamente sincronizado. O Speaker aplica uma zona de morte que exige que os jogadores alternem quem toma o foco do boss no tempo correto.'
+    },
+    'arc_3': {
+        title: '⚔️ Guia Dark Carnax (Arcana)',
+        text: '<strong>Composição Recomendada:</strong> AP, LoO, SC, VKT (Verus Kshatriya) / DoT.<br><br><strong>Dica de Combate:</strong> Cuidado com o ataque em área que reduz a cura a zero. Mantenha os buffs defensivos ativos e use poções de resistência se necessário.'
+    },
+    'ely_2': {
+        title: '⚔️ Guia Ultra Flibbitiest (Elysium)',
+        text: '<strong>Composição Recomendada:</strong> Lord of Order, ArchPaladin, Chaos Avenger, Void Highlord.<br><br><strong>Dica de Combate:</strong> O Boss possui reflete de dano periódico. Pare de bater imediatamente quando o ícone de escudo vermelho surgir sobre a cabeça do monstro.'
+    }
+};
+
 const itemsData = {
     req: [
         { id: 'req_1', name: 'Blacksmithing Rank 10', current: 0, max: 1, type: 'Reputação', map: '/join forge', npc: 'Cysero', monster: 'Slimes / Elemental Quests', drop: 'Blacksmithing Rep', wiki: 'http://aqwwiki.wikidot.com/blacksmithing-faction' },
@@ -251,33 +356,50 @@ const itemsData = {
         { id: 'ava_2', name: 'Gluttony', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Warden Elfhame', drop: 'Warden Essentials (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
         { id: 'ava_3', name: 'Wrath', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Engineer', drop: 'Engineer Essentials (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
         { id: 'ava_4', name: 'Sloth', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Sloth Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
-        { id: 'ava_5', name: 'Lust', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Lust Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
-        { id: 'ava_6', name: 'Envy', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Envy Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
-        { id: 'ava_7', name: 'Pride', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Pride Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' }
+        { id: 'ava_5', name: 'Lust', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Lust Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' }
     ],
     arcana: [
-        { id: 'arc_1', name: 'Prince Darkon\'s Poleaxe', current: 0, max: 1, type: 'Arma Requisição', map: '/join astravia', npc: 'Darkon', monster: 'Darkon Boss', drop: 'Prince Darkon\'s Poleaxe', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
-        { id: 'arc_2', name: 'Darkon\'s Debris 2 (Reconstructed)', current: 0, max: 1, type: 'Arma Requisição', map: '/join eridani', npc: 'Darkon', monster: 'Receipt Farm', drop: 'Darkon Receipt (x100)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
+        { id: 'arc_1', name: 'Prince Darkon\'s Poleaxe', current: 0, max: 1, type: 'Arma', map: '/join astravia', npc: 'Darkon', monster: 'Darkon Boss', drop: 'Prince Darkon\'s Poleaxe', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
+        { id: 'arc_2', name: 'Darkon\'s Debris 2', current: 0, max: 1, type: 'Arma', map: '/join eridani', npc: 'Darkon', monster: 'Receipt Farm', drop: 'Darkon Receipt (x100)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
         { id: 'arc_3', name: 'Synthetic Magi Fluid', current: 0, max: 300, type: 'Reagente Ultra', map: '/join darkcarnax', npc: 'Cysero', monster: 'Nightmarish Carnax', drop: 'Synthetic Magi Fluid (x10)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
         { id: 'arc_4', name: 'Elemental Intent', current: 0, max: 30, type: 'Reagente', map: '/join archmage', npc: 'Book of Magus', monster: 'Mana Core Monster', drop: 'Elemental Intent (x1)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' }
     ],
     elysium: [
-        { id: 'ely_1', name: 'Archfiend Essence Fragment', current: 0, max: 3, type: 'Reagente Nulgath', map: '/join tercessuinotlim', npc: 'Willpower', monster: 'Nulgath Boss', drop: 'Fiend Token (x10)', wiki: 'http://aqwwiki.wikidot.com/elysium' },
+        { id: 'ely_1', name: 'Archfiend Essence Fragment', current: 0, max: 3, type: 'Reagente', map: '/join tercessuinotlim', npc: 'Willpower', monster: 'Nulgath Boss', drop: 'Fiend Token (x10)', wiki: 'http://aqwwiki.wikidot.com/elysium' },
         { id: 'ely_2', name: 'Bone from the Void Realm', current: 0, max: 15, type: 'Quest Semanal', map: '/join voidflibbi', npc: 'Cysero', monster: 'Ultra Flibbitiest', drop: 'Void Bone (x1)', wiki: 'http://aqwwiki.wikidot.com/elysium' },
         { id: 'ely_3', name: 'Azalith\'s Essence', current: 0, max: 1, type: 'Boss Drop', map: '/join celestialarenab', npc: 'Aramenthat', monster: 'Azalith Boss', drop: 'Azalith\'s Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/elysium' }
     ],
     dauntless: [
         { id: 'dau_1', name: 'Speaker Insignia', current: 0, max: 20, type: 'Ultra Semanal', map: '/join ultraspeaker', npc: 'Board', monster: 'Ultra Speaker', drop: 'Speaker Insignia (4/sem)', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
-        { id: 'dau_2', name: 'Infernal Flame Pyromancer', current: 0, max: 1, type: 'Traje/Classe', map: '/join firewar', npc: 'Xang', monster: 'Fire War Boss', drop: 'Pyromancer Class', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
+        { id: 'dau_2', name: 'Infernal Flame Pyromancer', current: 0, max: 1, type: 'Classe/Armor', map: '/join firewar', npc: 'Xang', monster: 'Fire War Boss', drop: 'Pyromancer Class', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
         { id: 'dau_3', name: 'Malgor\'s ShadowFlame Blade', current: 0, max: 1, type: 'Arma Storyline', map: '/join shadowmound', npc: 'Malgor', monster: 'Malgor ShadowBoss', drop: 'ShadowFlame Blade', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
-        { id: 'dau_4', name: 'Malgor the ShadowLord (Armor)', current: 0, max: 1, type: 'Armadura Final', map: '/join streamwar', npc: 'Malgor', monster: 'ShadowLord Boss', drop: 'ShadowLord Armor', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
-        { id: 'dau_5', name: 'ShadowLord\'s Helm', current: 0, max: 1, type: 'Yelmo Final', map: '/join streamwar', npc: 'Malgor', monster: 'ShadowLord Boss', drop: 'ShadowLord Helm', wiki: 'http://aqwwiki.wikidot.com/dauntless' }
+        { id: 'dau_4', name: 'Malgor the ShadowLord (Armor)', current: 0, max: 1, type: 'Armadura Final', map: '/join streamwar', npc: 'Malgor', monster: 'ShadowLord Boss', drop: 'ShadowLord Armor', wiki: 'http://aqwwiki.wikidot.com/dauntless' }
     ]
 };
 
-// Funções do Dashboard
+let pinnedItems = [];
+let currentFilter = 'all';
+
+// TIMER DE RESET SEMANAL (Sexta-feira 00:00 EST)
+function updateWeeklyTimer() {
+    const now = new Date();
+    const nextReset = new Date();
+    nextReset.setUTCHours(0, 0, 0, 0);
+    nextReset.setUTCDate(now.getUTCDate() + ((5 - now.getUTCDay() + 7) % 7 || 7));
+
+    const diff = nextReset - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById('weekly-timer').innerText = `${days}d ${hours}h ${minutes}m`;
+}
+setInterval(updateWeeklyTimer, 60000);
+updateWeeklyTimer();
+
+// CARREGAR & SALVAR LOCALSTORAGE
 function loadProgress() {
-    const saved = localStorage.getItem('aqw_forge_progress');
+    const saved = localStorage.getItem('aqw_forge_v2_progress');
     if (saved) {
         const parsed = JSON.parse(saved);
         Object.keys(itemsData).forEach(cat => {
@@ -286,111 +408,260 @@ function loadProgress() {
             });
         });
     }
+    const savedPins = localStorage.getItem('aqw_forge_v2_pins');
+    if (savedPins) pinnedItems = JSON.parse(savedPins);
+
+    const notes = localStorage.getItem('aqw_forge_v2_notes');
+    if (notes) document.getElementById('personal-notes').value = notes;
 }
 
 function saveProgress() {
     const toSave = {};
     Object.keys(itemsData).forEach(cat => {
-        itemsData[cat].forEach(item => {
-            toSave[item.id] = item.current;
-        });
+        itemsData[cat].forEach(item => toSave[item.id] = item.current);
     });
-    localStorage.setItem('aqw_forge_progress', JSON.stringify(toSave));
+    localStorage.setItem('aqw_forge_v2_progress', JSON.stringify(toSave));
+    localStorage.setItem('aqw_forge_v2_pins', JSON.stringify(pinnedItems));
     updateOverall();
+    renderPinned();
+}
+
+function saveNotes() {
+    localStorage.setItem('aqw_forge_v2_notes', document.getElementById('personal-notes').value);
+}
+
+// COPIAR /JOIN
+function copyJoin(map) {
+    navigator.clipboard.writeText(map);
+    alert(`Comando ${map} copiado para a área de transferência!`);
+}
+
+// TOGGLE FAVORITO (PIN)
+function togglePin(id) {
+    if (pinnedItems.includes(id)) {
+        pinnedItems = pinnedItems.filter(p => p !== id);
+    } else {
+        pinnedItems.push(id);
+    }
+    saveProgress();
+    renderAllCategories();
+}
+
+// PLAY SOUND EFFECT (Efeito ao concluir)
+function playCompleteSound() {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1); // A5
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+}
+
+// RENDERIZAR CARDS
+function createCardElement(item, cat) {
+    const percentage = Math.min(100, Math.round((item.current / item.max) * 100));
+    let statusClass = 'card-zero';
+    if (percentage === 100) statusClass = 'card-complete';
+    else if (percentage > 0) statusClass = 'card-partial';
+
+    const isPinned = pinnedItems.includes(item.id);
+    const hasGuide = guidesData[item.id];
+
+    // Calculadora de tempo para Ultras
+    let timeEstimate = '';
+    if (item.type.includes('Semanal') && item.current < item.max) {
+        const remaining = item.max - item.current;
+        const weeks = Math.ceil(remaining / 4);
+        timeEstimate = `<div style="color: var(--accent-purple); font-size: 0.78rem; margin-top: 4px;">⏳ Restam aprox. <strong>${weeks} semana(s)</strong> de reset</div>`;
+    }
+
+    const card = document.createElement('div');
+    card.className = `item-card ${statusClass}`;
+    card.setAttribute('data-name', item.name.toLowerCase());
+    card.setAttribute('data-status', percentage === 100 ? 'done' : percentage > 0 ? 'partial' : 'pending');
+
+    card.innerHTML = `
+        <button class="pin-btn ${isPinned ? 'pinned' : ''}" onclick="togglePin('${item.id}')" title="Fixar no Topo">★</button>
+        <div>
+            <div class="item-header">
+                <div class="item-type">${item.type}</div>
+                <div class="item-title">${item.name}</div>
+            </div>
+            <div class="item-details">
+                <div>📍 <strong>Mapa:</strong> ${item.map} <button class="btn-copy-join" onclick="copyJoin('${item.map}')"><i class="fa-regular fa-copy"></i> /join</button></div>
+                <div>👤 <strong>NPC:</strong> ${item.npc} | ⚔️ <strong>Monstro:</strong> ${item.monster}</div>
+                <div>🎁 <strong>Drop:</strong> ${item.drop}</div>
+                ${timeEstimate}
+                <div style="margin-top: 6px;">
+                    <a href="${item.wiki}" target="_blank" style="color: #60a5fa; font-size: 0.8rem; text-decoration: none;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Wiki</a>
+                    ${hasGuide ? `<button class="btn-copy-join" onclick="openGuide('${item.id}')" style="margin-left: 10px; background: rgba(255, 193, 7, 0.2); color: var(--accent-gold); border-color: var(--accent-gold);"><i class="fa-solid fa-shield-halved"></i> Guia de Boss</button>` : ''}
+                </div>
+            </div>
+        </div>
+        <div>
+            <div style="font-size: 0.8rem; font-weight: bold; margin-bottom: 4px;">Progresso: ${percentage}%</div>
+            <div class="counter-controls">
+                <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', -1)">-</button>
+                <input type="number" class="count-input" value="${item.current}" max="${item.max}" min="0" onchange="setItem('${cat}', '${item.id}', this.value)">
+                <span style="color: var(--text-muted); font-size: 0.85rem;">/ ${item.max}</span>
+                <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', 1)">+</button>
+            </div>
+        </div>
+    `;
+    return card;
 }
 
 function renderCategory(cat) {
     const container = document.getElementById(`grid-${cat}`);
     container.innerHTML = '';
-
     itemsData[cat].forEach(item => {
-        const percentage = Math.min(100, Math.round((item.current / item.max) * 100));
-        let statusClass = 'card-zero';
-        if (percentage === 100) statusClass = 'card-complete';
-        else if (percentage > 0) statusClass = 'card-partial';
+        container.appendChild(createCardElement(item, cat));
+    });
+}
 
-        const card = document.createElement('div');
-        card.className = `item-card ${statusClass}`;
-        card.innerHTML = `
-            <div>
-                <div class="item-header">
-                    <div class="item-title">${item.name}</div>
-                    <span class="item-badge">${item.type}</span>
-                </div>
-                <div class="item-details">
-                    <div>📍 <strong>Endereço:</strong> ${item.map}</div>
-                    <div>👤 <strong>NPC:</strong> ${item.npc}</div>
-                    <div>⚔️ <strong>Monstro:</strong> ${item.monster}</div>
-                    <div>🎁 <strong>Drop/Qtd:</strong> ${item.drop}</div>
-                    <a href="${item.wiki}" target="_blank" class="wiki-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver na AQW Wiki</a>
-                </div>
-            </div>
-            <div>
-                <div style="font-size: 0.85rem; font-weight: bold; margin-bottom: 5px;">Concluído: ${percentage}%</div>
-                <div class="counter-controls">
-                    <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', -1)">-</button>
-                    <input type="number" class="count-input" value="${item.current}" max="${item.max}" min="0" onchange="setItem('${cat}', '${item.id}', this.value)">
-                    <span style="color: var(--text-muted)">/ ${item.max}</span>
-                    <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', 1)">+</button>
-                </div>
-            </div>
-        `;
-        container.appendChild(card);
+function renderAllCategories() {
+    Object.keys(itemsData).forEach(renderCategory);
+    renderPinned();
+    filterItems();
+}
+
+function renderPinned() {
+    const pinnedSection = document.getElementById('pinned-section');
+    const container = document.getElementById('grid-pinned');
+    container.innerHTML = '';
+
+    if (pinnedItems.length === 0) {
+        pinnedSection.classList.remove('active');
+        return;
+    }
+
+    pinnedSection.classList.add('active');
+    Object.keys(itemsData).forEach(cat => {
+        itemsData[cat].forEach(item => {
+            if (pinnedItems.includes(item.id)) {
+                container.appendChild(createCardElement(item, cat));
+            }
+        });
     });
 }
 
 function updateItem(cat, id, delta) {
     const item = itemsData[cat].find(i => i.id === id);
     if (item) {
+        const prev = item.current;
         item.current = Math.max(0, Math.min(item.max, item.current + delta));
+        if (item.current === item.max && prev < item.max) playCompleteSound();
         saveProgress();
-        renderCategory(cat);
+        renderAllCategories();
     }
 }
 
 function setItem(cat, id, val) {
     const item = itemsData[cat].find(i => i.id === id);
     if (item) {
+        const prev = item.current;
         item.current = Math.max(0, Math.min(item.max, parseInt(val) || 0));
+        if (item.current === item.max && prev < item.max) playCompleteSound();
         saveProgress();
-        renderCategory(cat);
+        renderAllCategories();
     }
 }
 
 function updateOverall() {
-    let totalMax = 0;
-    let totalCurrent = 0;
-
+    let totalMax = 0, totalCurrent = 0;
     Object.keys(itemsData).forEach(cat => {
         itemsData[cat].forEach(item => {
             totalMax += item.max;
             totalCurrent += item.current;
         });
     });
-
     const pct = totalMax > 0 ? Math.round((totalCurrent / totalMax) * 100) : 0;
     document.getElementById('overall-percentage').innerText = `${pct}%`;
     document.getElementById('overall-bar').style.width = `${pct}%`;
-    document.getElementById('overall-text').innerText = `${totalCurrent} de ${totalMax} Reagentes Obtidos`;
+    document.getElementById('overall-text').innerText = `${totalCurrent} de ${totalMax} Reagentes/Itens Obavidos`;
 }
 
-// Troca de Abas
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+// FILTROS & BUSCA
+function setFilter(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterItems();
+}
 
-        btn.classList.add('active');
-        const tabId = btn.getAttribute('data-tab');
-        document.getElementById(`tab-${tabId}`).classList.add('active');
+function filterItems() {
+    const query = document.getElementById('search-input').value.toLowerCase();
+    document.querySelectorAll('.item-card').forEach(card => {
+        const name = card.getAttribute('data-name');
+        const status = card.getAttribute('data-status');
+        const matchesQuery = name.includes(query);
+        const matchesStatus = (currentFilter === 'all') || (currentFilter === status);
+
+        if (matchesQuery && matchesStatus) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
     });
-});
+}
 
-// Inicialização
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+    document.getElementById(`tab-${tabId}`).classList.add('active');
+}
+
+// MODAL GUIDES
+function openGuide(id) {
+    const guide = guidesData[id];
+    if (guide) {
+        document.getElementById('modal-title').innerText = guide.title;
+        document.getElementById('modal-body').innerHTML = guide.text;
+        document.getElementById('guide-modal').style.display = 'flex';
+    }
+}
+function closeModal() { document.getElementById('guide-modal').style.display = 'none'; }
+
+// EXPORTAR & IMPORTAR
+function exportData() {
+    const data = {
+        progress: localStorage.getItem('aqw_forge_v2_progress'),
+        pins: localStorage.getItem('aqw_forge_v2_pins'),
+        notes: localStorage.getItem('aqw_forge_v2_notes')
+    };
+    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `AQW_Forge_Backup_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const data = JSON.parse(e.target.result);
+            if (data.progress) localStorage.setItem('aqw_forge_v2_progress', data.progress);
+            if (data.pins) localStorage.setItem('aqw_forge_v2_pins', data.pins);
+            if (data.notes) localStorage.setItem('aqw_forge_v2_notes', data.notes);
+            loadProgress();
+            renderAllCategories();
+            alert('Backup restaurado com sucesso!');
+        };
+        reader.readAsText(file);
+    }
+}
+
+// INICIALIZAÇÃO
 loadProgress();
-Object.keys(itemsData).forEach(renderCategory);
-updateOverall();
+renderAllCategories();
 </script>
-
 </body>
 </html>
