@@ -3,48 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal do Jogo - Clãs & Notícias</title>
+    <title>AdventureQuest Worlds BR - Portal da Comunidade</title>
     <style>
         /* ==========================================
-           1. VARIÁVEIS DE CORES & TEMAS
+           1. TEMAS & PALETAS INSPIRADAS NAS FACÇÕES
            ========================================== */
         :root {
-            --bg-overlay: rgba(10, 10, 15, 0.85);
-            --primary-color: #6c5ce7;
-            --accent-color: #a29bfe;
-            --text-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.08);
-            --border-color: rgba(255, 255, 255, 0.2);
-            --bg-image: url('https://i.gifer.com/fetch/w300-preview/38/38a081e7d958d53b925b39bf3ca36e9c.gif');
+            --bg-overlay: rgba(10, 10, 15, 0.88);
+            --primary-color: #ffb703;
+            --accent-color: #fb8500;
+            --text-color: #f1f1f1;
+            --card-bg: rgba(20, 20, 28, 0.75);
+            --border-color: rgba(255, 183, 3, 0.3);
+            --bg-image: url('https://images.alphacoders.com/518/thumb-1920-518296.png');
         }
 
-        /* Tema: Legion (Vermelho / Fogo) */
+        /* Tema: Undead Legion (Dage - Azul/Cinza Sombrio) */
         [data-theme="legion"] {
-            --bg-overlay: rgba(20, 5, 10, 0.85);
-            --primary-color: #ff2a2a;
-            --accent-color: #ff7675;
-            --card-bg: rgba(60, 10, 15, 0.4);
-            --border-color: #ff2a2a;
+            --bg-overlay: rgba(5, 12, 24, 0.90);
+            --primary-color: #00d2ff;
+            --accent-color: #3a7bd5;
+            --card-bg: rgba(10, 20, 35, 0.8);
+            --border-color: #00d2ff;
             --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2eHhhM3A4NWZ3ZGR2Y3E3ZW05ZnJ2NDJjczM0N3I0ZzByOXB3byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L2Xf6J2R6I5wI/giphy.gif');
         }
 
-        /* Tema: Nation (Dourado / Nobre) */
+        /* Tema: Nulgath Nation (Nulgath - Vermelho/Ouro Sombrio) */
         [data-theme="nation"] {
-            --bg-overlay: rgba(5, 15, 30, 0.85);
-            --primary-color: #e1b12c;
-            --accent-color: #fbc531;
-            --card-bg: rgba(10, 30, 60, 0.4);
-            --border-color: #e1b12c;
+            --bg-overlay: rgba(20, 5, 5, 0.90);
+            --primary-color: #ff2a2a;
+            --accent-color: #d63031;
+            --card-bg: rgba(35, 10, 10, 0.8);
+            --border-color: #ff2a2a;
             --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3I4ZGN5Z3c5Ynk4bmEzeTF2bnR5NzVzdmtrNDBvNDJicDFidCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o85xoi6nNqJQJ954s/giphy.gif');
         }
 
-        /* Tema: Shadow (Místico / Roxo) */
+        /* Tema: Shadowscythe / Darkovia (Roxo/Trevas) */
         [data-theme="shadow"] {
-            --bg-overlay: rgba(15, 5, 25, 0.85);
-            --primary-color: #9b59b6;
-            --accent-color: #8e44ad;
-            --card-bg: rgba(40, 10, 50, 0.4);
-            --border-color: #9b59b6;
+            --bg-overlay: rgba(15, 5, 20, 0.90);
+            --primary-color: #a29bfe;
+            --accent-color: #6c5ce7;
+            --card-bg: rgba(25, 10, 30, 0.8);
+            --border-color: #a29bfe;
             --bg-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y2Z3I4ZGN5Z3c5Ynk4bmEzeTF2bnR5NzVzdmtrNDBvNDJicDFidCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26hb3X0YQ1X8c/giphy.gif');
         }
 
@@ -56,7 +56,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
         body {
@@ -80,38 +80,55 @@
             z-index: -1;
         }
 
+        /* NAVEGAÇÃO SUPERIOR */
         header {
             width: 100%;
-            padding: 20px 40px;
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             border-bottom: 2px solid var(--primary-color);
             backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .logo h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--primary-color);
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 0 0 10px var(--primary-color);
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .theme-selector {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .clan-btn {
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--border-color);
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.85rem;
         }
 
         .clan-btn:hover {
@@ -119,336 +136,345 @@
             box-shadow: 0 0 10px var(--primary-color);
         }
 
-        /* NAVEGAÇÃO ENTRE ABAS */
-        nav {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .nav-tab {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-color);
-            color: white;
-            padding: 10px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        .nav-tab.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 12px var(--primary-color);
-        }
-
         /* ==========================================
-           3. LAYOUT E CONTEÚDO
+           3. LAYOUT CENTRALIZADO (ESTILO DESIGN NOTES)
            ========================================== */
         main {
-            max-width: 1100px;
+            max-width: 900px;
             width: 90%;
-            margin: 20px auto;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 20px;
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
         .content-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             padding: 25px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .gallery img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
 
-        /* ESTILOS DAS NOTÍCIAS */
-        .news-item {
-            background: rgba(0, 0, 0, 0.3);
+        /* NOTÍCIAS (DESIGN NOTES) */
+        .news-header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .news-post {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-left: 4px solid var(--primary-color);
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
             border-radius: 0 8px 8px 0;
         }
 
-        .news-item h4 {
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+        .news-post h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 8px;
         }
 
-        .news-date {
-            font-size: 0.8rem;
-            opacity: 0.7;
+        .news-meta {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .news-banner {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .news-content p {
+            line-height: 1.6;
             margin-bottom: 10px;
+            color: #ddd;
+        }
+
+        /* GALERIA DE DESTAQUES */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .gallery-card {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .gallery-card p {
+            padding: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
 
         /* ==========================================
-           4. PERFIL DO PERSONAGEM & LOGIN
+           4. MODAL DE LOGIN MELHORADO
            ========================================== */
-        .auth-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
 
-        .auth-card h3 {
-            color: var(--primary-color);
-            text-align: center;
+        .modal-card {
+            background: rgba(18, 18, 24, 0.95);
+            border: 2px solid var(--primary-color);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px var(--primary-color);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+            text-align: left;
         }
 
         .input-group label {
             font-size: 0.85rem;
-            opacity: 0.9;
+            color: #ccc;
+            display: block;
+            margin-bottom: 4px;
         }
 
         .input-group input {
             width: 100%;
             padding: 10px;
-            border-radius: 6px;
+            border-radius: 4px;
             border: 1px solid var(--border-color);
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             color: white;
             outline: none;
-            margin-top: 3px;
         }
 
         .btn-action {
             background: var(--primary-color);
-            color: white;
+            color: #000;
             border: none;
             padding: 10px;
-            border-radius: 6px;
+            border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 5px;
+            width: 100%;
             text-align: center;
             text-decoration: none;
             display: block;
+            margin-top: 10px;
         }
 
         .btn-action:hover {
-            opacity: 0.9;
+            filter: brightness(1.2);
         }
 
-        /* CARTÃO DE CHARPAGE DO JOGADOR */
-        .char-card {
-            display: none;
-            text-align: center;
-        }
-
-        .char-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-color);
-            margin: 10px auto;
-            background: #000;
+        /* PAINEL DE USUÁRIO (HEADER E MODAL) */
+        .user-status {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 2rem;
+            gap: 10px;
         }
 
-        .char-info-list {
-            list-style: none;
-            text-align: left;
-            margin: 15px 0;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 6px;
+        .user-badge {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
             font-size: 0.9rem;
-        }
-
-        .char-info-list li {
-            margin-bottom: 6px;
             display: flex;
-            justify-content: space-between;
-        }
-
-        .char-info-list span {
-            color: var(--accent-color);
-            font-weight: bold;
+            align-items: center;
+            gap: 6px;
         }
 
         @media (max-width: 768px) {
-            main { grid-template-columns: 1fr; }
             header { flex-direction: column; gap: 15px; }
+            .header-actions { flex-direction: column; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- CABEÇALHO -->
+    <!-- CABEÇALHO DA COMUNIDADE -->
     <header>
         <div class="logo">
-            <h1>Game Universe</h1>
+            <span>⚔️</span>
+            <h1>AQWorlds BR</h1>
         </div>
-        <div class="theme-selector">
-            <button class="clan-btn" onclick="setTheme('legion')">Legion</button>
-            <button class="clan-btn" onclick="setTheme('nation')">Nation</button>
-            <button class="clan-btn" onclick="setTheme('shadow')">Shadow</button>
+
+        <div class="header-actions">
+            <!-- SELETOR DE SEITAS/FACÇÕES DO AQW -->
+            <div class="theme-selector">
+                <button class="clan-btn" onclick="setTheme('legion')">Legion</button>
+                <button class="clan-btn" onclick="setTheme('nation')">Nation</button>
+                <button class="clan-btn" onclick="setTheme('shadow')">Shadow</button>
+            </div>
+
+            <!-- BOTAO/STATUS DE LOGIN -->
+            <div class="user-status" id="user-status-area">
+                <button class="clan-btn" style="border-color: var(--primary-color);" onclick="openModal()">Entrar / Registrar</button>
+            </div>
         </div>
     </header>
 
-    <!-- NAVEGAÇÃO DE ABAS -->
-    <nav>
-        <button class="nav-tab active" onclick="switchTab('clans')">Clãs & Galeria</button>
-        <button class="nav-tab" onclick="switchTab('news')">Notícias do Jogo</button>
-    </nav>
-
-    <!-- CONTEÚDO PRINCIPAL -->
+    <!-- ÁREA CENTRAL DE NOTÍCIAS (ESTILO DESIGN NOTES) -->
     <main>
+
+        <!-- SEÇÃO: NOTÍCIAS PRINCIPAIS (DESIGN NOTES TRADUZIDAS) -->
         <section class="content-card">
-            
-            <!-- ABA 1: CLÃS E GALERIA -->
-            <div id="tab-clans" class="tab-content active">
-                <h2 id="clan-title" style="color: var(--primary-color);">Escolha o seu Clã</h2>
-                <p id="clan-desc" style="margin-top: 10px; line-height: 1.6;">
-                    Selecione um clã no menu superior para alterar a atmosfera, imagens e artes visuais do portal.
-                </p>
-
-                <h3 style="margin-top: 25px; color: var(--accent-color);">Destaques do Clã</h3>
-                <div class="gallery" id="clan-gallery">
-                    <!-- Injetado via JS -->
-                </div>
+            <div class="news-header">
+                <h2 style="color: var(--primary-color);">📜 Design Notes em Português</h2>
+                <span style="font-size: 0.85rem; opacity: 0.8;">Atualizado diariamente</span>
             </div>
 
-            <!-- ABA 2: NOTÍCIAS EM PORTUGUÊS -->
-            <div id="tab-news" class="tab-content">
-                <h2 style="color: var(--primary-color); margin-bottom: 20px;">Últimas Atualizações & Notícias</h2>
-                
-                <div class="news-item">
-                    <h4>🔥 Evento de Guerra de Clãs Liberado!</h4>
-                    <div class="news-date">Publicado em: 04 de Agosto, 2026</div>
-                    <p>Preparem seus equipamentos! A grande batalha entre Legion, Nation e Shadow começou. Conquiste territórios para garantir bônus exclusivos de experiência e itens raros para seu clã durante toda a semana.</p>
+            <!-- POST 1 -->
+            <article class="news-post">
+                <h3>🔥 Evento de Aniversário: A Guerra das Facções!</h3>
+                <div class="news-meta">Postado por <b>Artix_BR</b> em 05 de Agosto, 2026</div>
+                <img src="https://wallpapers.com/images/hd/adventure-quest-worlds-battle-art-4k-4467o9d11m1a0v43.jpg" class="news-banner" alt="Guerra das Facções">
+                <div class="news-content">
+                    <p>Heróis de Lore! A batalha entre a <b>Undead Legion</b> e a <b>Nulgath Nation</b> atingiu o seu ponto crítico no mapa <code>/join battleground</code>.</p>
+                    <p>Fale com os NPCs no centro da cidade para aceitar as missões diárias, garantir bolsas de recursos e desbloquear armaduras raras de classe antes do encerramento do evento na próxima sexta-feira.</p>
                 </div>
+            </article>
 
-                <div class="news-item">
-                    <h4>⚔️ Nova Classe Revelada: Mestre das Sombras</h4>
-                    <div class="news-date">Publicado em: 28 de Julho, 2026</div>
-                    <p>Chegou a nova classe focada em acertos críticos e furtividade! Disponível para todos os jogadores acima do nível 80. Fale com o NPC na cidade principal para iniciar a sequência de missões de transição.</p>
+            <!-- POST 2 -->
+            <article class="news-post">
+                <h3>🗡️ Nova Classe Rara: Lorde das Sombras Arcano</h3>
+                <div class="news-meta">Postado por <b>Alina_BR</b> em 01 de Agosto, 2026</div>
+                <div class="news-content">
+                    <p>Uma nova classe focada em dano mágico contínuo e escuridão foi adicionada ao jogo. Jogadores com nível 80 ou superior podem obter a classe através de fundição no painel de criação.</p>
+                    <p><b>Requisitos mínimos:</b> Rank 10 na reputação de Darkovia e 50x Essências Obscuras.</p>
                 </div>
-
-                <div class="news-item">
-                    <h4>🛠️ Notas da Atualização v4.2</h4>
-                    <div class="news-date">Publicado em: 15 de Julho, 2026</div>
-                    <p>Rebalanceamento de habilidades dos tanques, melhoria no tempo de resposta do servidor e inclusão da nova interface do portal de personagens (Charpage).</p>
-                </div>
-            </div>
+            </article>
 
         </section>
 
-        <!-- PAINEL DE LOGIN E CHARPAGE DO JOGADOR -->
-        <aside class="auth-card">
+        <!-- SEÇÃO: DESTAQUES DO CLÃ SELECIONADO -->
+        <section class="content-card">
+            <h3 id="clan-title" style="color: var(--primary-color); margin-bottom: 10px;">Facção Atual</h3>
+            <p id="clan-desc" style="font-size: 0.95rem; line-height: 1.5; color: #ccc;">
+                Selecione uma facção no topo do site para alterar a atmosfera visual e ver os destaques exclusivos!
+            </p>
+
+            <div class="gallery-grid" id="clan-gallery">
+                <!-- Imagens dinâmicas inseridas via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE LOGIN / REGISTRO / CHARPAGE -->
+    <div class="modal-overlay" id="modal-login">
+        <div class="modal-card">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
             
-            <!-- Formulário de Registro/Login -->
-            <div id="login-form">
-                <h3>Vincular Personagem</h3>
+            <!-- FORMULÁRIO DE AUTENTICAÇÃO -->
+            <div id="form-auth">
+                <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">Conectar Personagem</h3>
+                
                 <div class="input-group">
-                    <label>Nick no Jogo:</label>
-                    <input type="text" id="in-nick" placeholder="Ex: HeroiLendario">
+                    <label>Nick do Jogador (In-Game):</label>
+                    <input type="text" id="in-nick" placeholder="Ex: HeroAQW">
                 </div>
                 <div class="input-group">
                     <label>Nível:</label>
                     <input type="number" id="in-level" placeholder="Ex: 100">
                 </div>
                 <div class="input-group">
-                    <label>Classe:</label>
-                    <input type="text" id="in-class" placeholder="Ex: Paladino, Mago...">
+                    <label>Classe Principal:</label>
+                    <input type="text" id="in-class" placeholder="Ex: Void Highlord, Legion DoomKnight">
                 </div>
                 <div class="input-group">
-                    <label>Link da Charpage:</label>
-                    <input type="url" id="in-charpage" placeholder="https://jogo.com/char/SeuNick">
+                    <label>Link da Charpage Oficial:</label>
+                    <input type="url" id="in-charpage" placeholder="https://account.aq.com/CharPage?id=SeuNick">
                 </div>
-                <button class="btn-action" style="width:100%" onclick="saveProfile()">Salvar Personagem</button>
+
+                <button class="btn-action" onclick="saveProfile()">Salvar Dados</button>
             </div>
 
-            <!-- Exibição do Perfil do Jogador (Charpage integrada) -->
-            <div id="char-card" class="char-card">
-                <h3>Perfil do Jogador</h3>
+            <!-- PERFIL DO JOGADOR LOGADO -->
+            <div id="profile-display" style="display: none; text-align: center;">
+                <h3 style="color: var(--primary-color);">Perfil Conectado</h3>
+                <h2 id="disp-nick" style="margin: 10px 0; color: #fff;">-</h2>
                 
-                <div class="char-avatar">⚔️</div>
-                <h2 id="disp-nick" style="color: var(--primary-color);">NickDoPlayer</h2>
-                
-                <ul class="char-info-list">
-                    <li>Nível: <span id="disp-level">100</span></li>
-                    <li>Classe: <span id="disp-class">Guerreiro</span></li>
-                    <li>Status da Conta: <span>Ativa</span></li>
-                    <li>Servidor: <span>Global Alpha</span></li>
-                </ul>
+                <p style="font-size: 0.9rem; color: #aaa;">Nível: <b id="disp-level" style="color: var(--primary-color);">100</b></p>
+                <p style="font-size: 0.9rem; color: #aaa; margin-bottom: 15px;">Classe: <b id="disp-class" style="color: #fff;">-</b></p>
 
-                <!-- Link Direto para a Charpage Oficial -->
-                <a id="disp-link" href="#" target="_blank" class="btn-action">Ver Charpage Oficial 🔗</a>
-                <button class="btn-action" style="width:100%; margin-top: 8px; background: #d63031;" onclick="logout()">Editar / Sair</button>
+                <a id="disp-link" href="#" target="_blank" class="btn-action">Abrir Charpage Oficial 🔗</a>
+                <button class="btn-action" style="background: #d63031; color: #fff; margin-top: 8px;" onclick="logout()">Desconectar</button>
             </div>
+        </div>
+    </div>
 
-        </aside>
-    </main>
-
+    <!-- SCRIPT DE FUNCIONALIDADE -->
     <script>
-        // --- DADOS DOS CLÃS ---
+        // --- DADOS DAS FACÇÕES DE AQW ---
         const clanData = {
             legion: {
-                title: "A Legião de Ferro",
-                desc: "Guerreiros implacáveis dominados pelo fogo e pelo desejo de conquista. Destaque para artes avermelhadas e batalhas intensas.",
+                title: "Undead Legion (Dage the Evil)",
+                desc: "A legião dos imortais. Focada no combate com almas, estética azul-celeste e armaduras banhadas em aço rúnico.",
                 images: [
-                    "https://picsum.photos/id/1025/300/200",
-                    "https://picsum.photos/id/1069/300/200",
-                    "https://picsum.photos/id/1062/300/200"
+                    { url: "https://picsum.photos/id/1025/400/250", title: "Legion Titan" },
+                    { url: "https://picsum.photos/id/1069/400/250", title: "Soul Reaper" }
                 ]
             },
             nation: {
-                title: "A Nação Dourada",
-                desc: "Guardiões da ordem, honra e da magia luminosa. Um clã focado na nobreza e grandes impérios.",
+                title: "Nulgath Nation (ArchFiend)",
+                desc: "Os pactuantes do abismo. Guerreiros fiéis a Nulgath que trocam relíquias raras por poder devastador.",
                 images: [
-                    "https://picsum.photos/id/1040/300/200",
-                    "https://picsum.photos/id/1050/300/200",
-                    "https://picsum.photos/id/1015/300/200"
+                    { url: "https://picsum.photos/id/1040/400/250", title: "Void Highlord" },
+                    { url: "https://picsum.photos/id/1050/400/250", title: "Fiend Overlord" }
                 ]
             },
             shadow: {
-                title: "O Clã das Sombras",
-                desc: "Assassinos e mestres do oculto que operam na calada da noite. Preferem a magia arcana e a furtividade.",
+                title: "Shadowscythe & Darkovia",
+                desc: "Dominadores das trevas e criaturas da noite. Vampiros, Lycans e mestres da magia sombria.",
                 images: [
-                    "https://picsum.photos/id/1033/300/200",
-                    "https://picsum.photos/id/1043/300/200",
-                    "https://picsum.photos/id/1051/300/200"
+                    { url: "https://picsum.photos/id/1033/400/250", title: "Shadow Lord" },
+                    { url: "https://picsum.photos/id/1043/400/250", title: "Dark Caster" }
                 ]
             }
         };
 
-        // --- TROCAR CLÃ / TEMA ---
+        // --- SISTEMA DE SELEÇÃO DE TEMA ---
         function setTheme(themeName) {
             document.documentElement.setAttribute('data-theme', themeName);
             
@@ -457,25 +483,24 @@
                 document.getElementById('clan-desc').innerText = clanData[themeName].desc;
                 
                 const gallery = document.getElementById('clan-gallery');
-                gallery.innerHTML = clanData[themeName].images.map(url => `<img src="${url}" alt="Arte do Clã">`).join('');
+                gallery.innerHTML = clanData[themeName].images.map(item => `
+                    <div class="gallery-card">
+                        <img src="${item.url}" alt="${item.title}">
+                        <p>${item.title}</p>
+                    </div>
+                `).join('');
             }
         }
 
-        // --- NAVEGAÇÃO ENTRE ABAS (CLÃS / NOTÍCIAS) ---
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
-
-            if (tabName === 'clans') {
-                document.getElementById('tab-clans').classList.add('active');
-                event.target.classList.add('active');
-            } else if (tabName === 'news') {
-                document.getElementById('tab-news').classList.add('active');
-                event.target.classList.add('active');
-            }
+        // --- MODAL & GERENCIAMENTO DE USUÁRIO ---
+        function openModal() {
+            document.getElementById('modal-login').style.display = 'flex';
         }
 
-        // --- PERFIL DO PERSONAGEM (CHARPAGE LOCAL) ---
+        function closeModal() {
+            document.getElementById('modal-login').style.display = 'none';
+        }
+
         function saveProfile() {
             const nick = document.getElementById('in-nick').value.trim();
             const level = document.getElementById('in-level').value.trim();
@@ -483,51 +508,60 @@
             const charpage = document.getElementById('in-charpage').value.trim();
 
             if (!nick || !level) {
-                alert("Por favor, preencha pelo menos o Nick e o Nível do seu personagem!");
+                alert("Preencha pelo menos o Nick e o Nível do seu personagem.");
                 return;
             }
 
             const playerData = {
                 nick: nick,
                 level: level,
-                charClass: charClass || 'Aventureiro',
-                charpage: charpage || '#'
+                charClass: charClass || 'Hero',
+                charpage: charpage || `https://account.aq.com/CharPage?id=${nick}`
             };
 
-            // Salva no navegador
-            localStorage.setItem('game_player_profile', JSON.stringify(playerData));
+            localStorage.setItem('aqw_br_player', JSON.stringify(playerData));
             loadProfile();
+            closeModal();
         }
 
         function loadProfile() {
-            const saved = localStorage.getItem('game_player_profile');
+            const saved = localStorage.getItem('aqw_br_player');
+            const statusArea = document.getElementById('user-status-area');
+
             if (saved) {
                 const data = JSON.parse(saved);
-                
+
+                // Atualiza Modal
                 document.getElementById('disp-nick').innerText = data.nick;
                 document.getElementById('disp-level').innerText = data.level;
                 document.getElementById('disp-class').innerText = data.charClass;
-                
-                const linkBtn = document.getElementById('disp-link');
-                linkBtn.href = data.charpage;
-                if(data.charpage === '#') {
-                    linkBtn.style.display = 'none';
-                } else {
-                    linkBtn.style.display = 'block';
-                }
+                document.getElementById('disp-link').href = data.charpage;
 
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('char-card').style.display = 'block';
+                document.getElementById('form-auth').style.display = 'none';
+                document.getElementById('profile-display').style.display = 'block';
+
+                // Atualiza Header com badge do jogador
+                statusArea.innerHTML = `
+                    <div class="user-badge" onclick="openModal()" style="cursor:pointer;">
+                        <span>🛡️</span> <b>${data.nick}</b> (Lvl ${data.level})
+                    </div>
+                `;
+            } else {
+                document.getElementById('form-auth').style.display = 'block';
+                document.getElementById('profile-display').style.display = 'none';
+                statusArea.innerHTML = `
+                    <button class="clan-btn" style="border-color: var(--primary-color);" onclick="openModal()">Entrar / Registrar</button>
+                `;
             }
         }
 
         function logout() {
-            localStorage.removeItem('game_player_profile');
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('char-card').style.display = 'none';
+            localStorage.removeItem('aqw_br_player');
+            loadProfile();
+            closeModal();
         }
 
-        // Carregar tema inicial e perfil salvo (se existir)
+        // Inicializar com tema 'legion' e carregar perfil existente
         setTheme('legion');
         loadProfile();
     </script>
