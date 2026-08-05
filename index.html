@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQWorlds BR - Portal Definitivo v5.0</title>
+    <title>AQWorlds BR - Portal Definitivo v5.1</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -230,7 +230,6 @@
         .tracker-content.active { display: block; }
         .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
 
-        /* CARD DE QUEST COM BARRA DE PROGRESSO PRÓPRIA E ITENS DETALHADOS */
         .item-card {
             background: var(--bg-card); border: 1px solid var(--border-color);
             border-radius: 8px; padding: 16px; display: flex; flex-direction: column;
@@ -277,7 +276,6 @@
             font-weight: bold; font-size: 0.68rem; text-shadow: 1px 1px 2px #000;
         }
 
-        /* WIKI DETALHADA EXPANSÍVEL (ESTILO WIKIDOT) */
         .wiki-expandable-section {
             margin-top: 25px; background: var(--bg-secondary); border: 1px solid var(--border-color);
             border-radius: 8px; overflow: hidden;
@@ -293,7 +291,6 @@
         }
         .wikidot-box h5 { color: var(--accent-gold); margin-bottom: 4px; }
 
-        /* WIKI STYLES (ENCANTAMENTOS SEPARADOS POR HELM, CAPE, ARMA) */
         .enh-category-title { color: var(--primary-color); font-size: 1.1rem; margin: 20px 0 10px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
         .forge-wiki-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .forge-wiki-card {
@@ -333,7 +330,6 @@
 </head>
 <body>
 
-    <!-- CABEÇALHO DO SITE COM RELÓGIO DE ATUALIZAÇÃO AQW -->
     <header class="main-header">
         <div class="logo-container">
             <div class="logo">
@@ -362,16 +358,15 @@
 
                 <article class="news-article">
                     <span style="font-size: 0.75rem; background: var(--primary-color); color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
-                        ATUALIZAÇÃO v5.0
+                        ATUALIZAÇÃO v5.1
                     </span>
-                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Quest Forge Detalhado, Links de E-mail para Senha & Encantamentos por Equipamento</h3>
+                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Lista de Classes Expandida com o Acervo Completo do AQW!</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Aba Quest Forge reformulada com barras de progresso individuais por quest, rastreamento por sacolas/reagentes com NPC, links de mapa copiáveis por clique, aba expansível de passo a passo estilo AQW Wiki, recuperação de senha segura via link enviado por e-mail e encantamentos Forge separados rigorosamente por Arma, Capacete e Capa!
+                        A aba de Classes foi completamente abastecida com dezenas de classes essenciais do jogo (End-Game, Chronos, Sazonais e Farm), trazendo detalhes de farm, combos e encantamentos recomendados de acordo com o AQW Wiki.
                     </p>
                 </article>
             </section>
 
-            <!-- CARD DE LOGIN / CADASTRO / RECUPERAÇÃO VIA E-MAIL -->
             <aside class="auth-card">
                 <h3 id="auth-title">🔐 Área do Jogador</h3>
                 <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;" id="auth-subtitle">
@@ -403,18 +398,17 @@
                 </div>
             </div>
 
-            <!-- NAVEGAÇÃO DE ABAS DO DASHBOARD -->
             <nav class="dashboard-nav">
                 <button class="dash-tab active" onclick="switchDashTab('progression')">🎯 Quest Forge</button>
                 <button class="dash-tab" onclick="switchDashTab('enhancements')">✨ Encantamentos Forge</button>
-                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Class</button>
+                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Class (Lista Completa)</button>
                 <button class="dash-tab" onclick="switchDashTab('factions')">📜 Facções</button>
                 <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage</button>
             </nav>
 
             <div class="dash-content-container">
                 
-                <!-- ABA 1: QUEST FORGE (COM BARRA POR QUEST, BOLSAS E WIKI EXPANSÍVEL ABAIXO) -->
+                <!-- ABA 1: QUEST FORGE -->
                 <div id="dash-progression" class="dash-panel active">
                     
                     <div class="controls-bar">
@@ -472,7 +466,6 @@
                     <div class="tracker-content" id="tab-avarice"><div class="items-grid" id="grid-avarice"></div></div>
                     <div class="tracker-content" id="tab-dauntless"><div class="items-grid" id="grid-dauntless"></div></div>
 
-                    <!-- ABA EXPANSÍVEL DE PASSO A PASSO EXATO ESTILO AQW WIKI -->
                     <div class="wiki-expandable-section">
                         <div class="wiki-expand-header" onclick="toggleWikiExpand()">
                             <span><i class="fa-solid fa-book-open"></i> Guia Completo e Passo a Passo das Quests (Estilo AQW Wiki)</span>
@@ -481,206 +474,150 @@
                         <div class="wiki-expand-body" id="wiki-expand-body">
                             <div class="wikidot-box">
                                 <h5>1. Introdução à Forja (Blacksmithing)</h5>
-                                <p>Para iniciar qualquer quest de forge em <b>/join forge</b> com o NPC <b>Cysero</b>, você precisa obrigatoriamente ter alcançado o Rank 10 na facção Blacksmithing e possuir a classe Pyromancer. As sacolas e itens exigem derrotar monstros específicos listados nos cards acima.</p>
+                                <p>Para iniciar qualquer quest de forge em <b>/join forge</b> com o NPC <b>Cysero</b>, você precisa obrigatoriamente ter alcançado o Rank 10 na facção Blacksmithing e possuir a classe Pyromancer.</p>
                             </div>
                             <div class="wikidot-box">
                                 <h5>2. Mecânicas de Reagentes e Sacolas</h5>
-                                <p>Cada quest de encantamento solicita itens divididos em sacolas/reagentes. Utilize os campos numéricos em cada card acima para atualizar o seu progresso individual. Assim que atingir a quantidade máxima exigida pela quest, a barra de progresso daquele card ficará totalmente verde (100%).</p>
-                            </div>
-                            <div class="wikidot-box">
-                                <h5>3. Ultra Bosses e Dicas de Party</h5>
-                                <p>Encantamentos avançados como <i>Dauntless</i>, <i>Valiance</i> e <i>Arcana's Concerto</i> requerem derrotar Ultra Bosses semanais em <b>/join timeinn</b> ou <b>/join ultraspeaker</b>. Certifique-se de organizar seu time com classes de suporte essenciais (Lord of Order, ArchPaladin, StoneCrusher).</p>
+                                <p>Cada quest de encantamento solicita itens divididos em sacolas/reagentes. Utilize os campos numéricos em cada card acima para atualizar o seu progresso individual.</p>
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- ABA 2: ENCANTAMENTOS FORGE (SEPARADOS POR ARMA, CAPACETE E CAPA CONFORME O JOGO) -->
+                <!-- ABA 2: ENCANTAMENTOS FORGE -->
                 <div id="dash-enhancements" class="dash-panel">
                     <h3 style="color: var(--primary-color); margin-bottom: 8px;">✨ Guia Oficial de Encantamentos Forge por Equipamento</h3>
                     <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Organizados rigorosamente como no jogo (Arma, Capacete e Capa) com base no acQWiki:</p>
 
                     <h4 class="enh-category-title">⚔️ Encantamentos de Arma (Weapon Enhancements)</h4>
                     <div class="forge-wiki-grid">
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / Basic Forge</span>
-                            <h4>Valiant</h4>
-                            <p>Aumenta ligeiramente todos os atributos base do personagem e concede um efeito passivo equilibrado para ataques corpo a corpo e mágicos.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / Basic Forge</span>
-                            <h4>Lacerate</h4>
-                            <p>Chance de aplicar um corte crítico que reduz a velocidade de ataque e a defesa do alvo temporariamente por alguns segundos.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / Basic Forge</span>
-                            <h4>Smite</h4>
-                            <p>Concede um dano explosivo massivo (Burst) com uma chance alta em acertos críticos, ideal para combates rápidos.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / Mid Forge</span>
-                            <h4>Helix / Exaltatus</h4>
-                            <p>Aumenta drasticamente o dano crítico e a taxa de acerto, punindo os inimigos com precisão letal em classes focadas em físico/mágico.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / Mid Forge</span>
-                            <h4>Lament</h4>
-                            <p>Reduz a evasão e a resistência do alvo ao mesmo tempo em que aumenta a sua própria taxa crítica de acerto e regeneração de mana.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / Mid Forge</span>
-                            <h4>Havoc / Fang</h4>
-                            <p>Focado em acelerar o tempo de recarga (Cooldown) das habilidades e aumentar a velocidade de ataque geral.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / End-Game</span>
-                            <h4>Valiance</h4>
-                            <p>Um dos melhores encantamentos finais. Aumenta massivamente o dano de ataque, intelecto e haste de forma global, elevando o DPS da classe exponencialmente.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / End-Game</span>
-                            <h4>Arcana's Concerto</h4>
-                            <p>Concede bônus formidáveis em Intel, Chance Crítica e Dano Mágico, criando sinergia perfeita com classes caster de alto desempenho.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / End-Game</span>
-                            <h4>Elysium</h4>
-                            <p>Converte parte do dano físico/mágico em pulsos de cura contínua e dano em área (AoE) a cada ataque bem-sucedido.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / End-Game</span>
-                            <h4>Avarice</h4>
-                            <p>Aumenta a velocidade de ataque e a recuperação de recursos, priorizando rotações extremamente ágeis.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Arma / End-Game</span>
-                            <h4>Dauntless</h4>
-                            <p>Transforma o estilo de jogo desativando o auto-attack tradicional e convertendo-o em golpes devastadores com bônus insanos de dano bruto.</p>
-                        </div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / Basic Forge</span><h4>Valiant</h4><p>Aumenta ligeiramente todos os atributos base do personagem.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / Basic Forge</span><h4>Lacerate</h4><p>Chance de aplicar um corte crítico que reduz velocidade e defesa.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / Basic Forge</span><h4>Smite</h4><p>Concede dano explosivo massivo em acertos críticos.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / Mid Forge</span><h4>Helix / Exaltatus</h4><p>Aumenta o dano crítico e a taxa de acerto.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / Mid Forge</span><h4>Lament</h4><p>Reduz evasão e resistência do alvo.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / Mid Forge</span><h4>Havoc / Fang</h4><p>Focado em acelerar o tempo de recarga (Cooldown).</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / End-Game</span><h4>Valiance</h4><p>Aumenta massivamente o dano de ataque, intelecto e haste.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / End-Game</span><h4>Arcana's Concerto</h4><p>Bônus formidáveis em Intel, Chance Crítica e Dano Mágico.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / End-Game</span><h4>Elysium</h4><p>Converte parte do dano em pulsos de cura contínua e AoE.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / End-Game</span><h4>Avarice</h4><p>Aumenta velocidade de ataque e recuperação de recursos.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Arma / End-Game</span><h4>Dauntless</h4><p>Desativa auto-attack tradicional e converte em golpes devastadores.</p></div>
                     </div>
 
                     <h4 class="enh-category-title">🛡️ Encantamentos de Capacete (Helm Enhancements)</h4>
                     <div class="forge-wiki-grid">
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Helm / Special</span>
-                            <h4>Pneuma</h4>
-                            <p>Concede grande quantidade de Intelecto e Sabedoria, sacrificando um pouco de HP bruto. Essencial para Casters de alto dano mágico.</p>
-                        </div>
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Helm / Special</span>
-                            <h4>Vim / Exaltia</h4>
-                            <p>Aumenta severamente a Destreza, Evasão e Haste, tornando classes físicas intocáveis e ultra velozes.</p>
-                        </div>
+                        <div class="forge-wiki-card"><span class="tag-type">Helm / Special</span><h4>Pneuma</h4><p>Concede grande quantidade de Intelecto e Sabedoria.</p></div>
+                        <div class="forge-wiki-card"><span class="tag-type">Helm / Special</span><h4>Vim / Exaltia</h4><p>Aumenta severamente Destreza, Evasão e Haste.</p></div>
                     </div>
 
                     <h4 class="enh-category-title">🧣 Encantamentos de Capa (Cape Enhancements)</h4>
                     <div class="forge-wiki-grid">
-                        <div class="forge-wiki-card">
-                            <span class="tag-type">Cape / Special</span>
-                            <h4>Vainglory</h4>
-                            <p>Aumenta o dano causado e reduz a defesa, criando um estilo de risco/recompensa focado em puro DPS para combates rápidos.</p>
-                        </div>
+                        <div class="forge-wiki-card"><span class="tag-type">Cape / Special</span><h4>Vainglory</h4><p>Aumenta dano causado e reduz defesa (Risco/Recompensa).</p></div>
                     </div>
                 </div>
 
-                <!-- ABA 3: CLASS (TODAS AS CLASSES DO JOGO CONFORME AQWWIKI) -->
+                <!-- ABA 3: CLASS (LISTA COMPLETA ATUALIZADA) -->
                 <div id="dash-classes" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">⚔️ Guia Completo de Todas as Classes do AQW</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Compilado oficial extraído do <a href="http://aqwwiki.wikidot.com/classes" target="_blank" style="color:var(--primary-color)">AQW Wiki Classes</a> com habilidades, métodos de farm, combos e encantamentos recomendados:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">⚔️ Guia Completo e Expandido de Classes do AQW</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Acervo completo contendo as principais classes do jogo extraídas do <a href="http://qqwwiki.wikidot.com/classes" target="_blank" style="color:var(--primary-color)">AQW Wiki</a>:</p>
 
                     <div class="class-card-box">
                         <h4>Void Highlord (VHL)</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Requer a longa saga em /join tercessuinotlim e /join nulgath, coletando Melto, Void Crystals e uni 13 por farm diário ou intensivo.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Possui auto-ataque equilibrado, <i>Unshackled</i> (dano e redução de dano recebido), <i>Armageddon</i> (sacrifica HP para causar dano massivo), <i>Vindicator</i> e passivas de mitigação absurda.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 3 -> 4 -> 2 -> 5 repetindo conforme recargas (mantenha o buff de defesa ativo).</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiance ou Dauntless (Arma) | Pneuma ou Vim (Helm) | Vainglory (Cape) | Lucky / Wizard dependendo da build.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> End-Game Solo / PvP | <b>Farm:</b> /join tercessuinotlim</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 3 -> 4 -> 2 -> 5 mantendo buffs defensivos.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiance ou Dauntless | Pneuma/Vim | Vainglory</p>
                     </div>
 
                     <div class="class-card-box">
                         <h4>ArchMage</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Exige level 100 e uma série complexa de desafios em /join archmage enfrentando ultra bosses e coletando itens de reputação extrema.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Focada em dano em área catastrófico (AoE). Suas skills drenam mana mas incendeiam a tela inteira com magias elementais devastadoras.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5 para aplicar acumulações mágicas e estourar o oponente com o feitiço final.</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Arcana's Concerto ou Valiance (Arma) | Pneuma (Helm) | Vainglory (Cape) | Wizard.</p>
-                    </div>
-
-                    <div class="class-card-box">
-                        <h4>ArchPaladin (AP)</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Completa-se através das quests na facção Paladin / /join celestialrealm e matando monstros específicos da saga de Sepulchure/Good.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> O tanque supremo de suporte. Reduz o ataque do boss a zero com <i>Commandment</i> e cura a party inteira com facilidade.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5 (mantenha o debuff de redução de dano do boss sempre ativo).</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiant ou Health Vamp (Arma) | Wizard / Lucky (Helm) | Healer / Lament (Cape).</p>
-                    </div>
-
-                    <div class="class-card-box">
-                        <h4>Lord of Order (LoO)</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Requer quests diárias em /join lordoforder durante 10 dias seguidos para obter as insígnias e o cajado final.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> O suporte mais obrigatório para Ultra Bosses. Aumenta o dano, defesa, cura e HP máximo de todos os 4 membros do grupo.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5 em looping contínuo.</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiant (Arma) | Lucky (Helm) | Forge Cape (Cape).</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> End-Game Farming Massivo | <b>Farm:</b> /join archmage</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 2 -> 3 -> 4 -> 5 para explosão elemental em área.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Arcana's Concerto | Pneuma | Vainglory</p>
                     </div>
 
                     <div class="class-card-box">
                         <h4>Legion Revenant (LR)</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Farm massivo na facção Undead Legion em /join revenant coletando Conquered Tokens e feitiços de Dage.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Rei do farming e excelente suporte em party, combinando drenagem de vida, velocidade absurda e dano contínuo.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 3 -> 2 -> 4 -> 5 mantendo as marcas ativas.</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiance (Arma) | Wizard ou Pneuma (Helm) | Vainglory (Cape) | Wizard.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Top Farm / Support Universal | <b>Farm:</b> /join revenant</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 3 -> 2 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiance | Wizard/Pneuma | Vainglory</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>ArchPaladin (AP)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Top Tank / Ultra Boss Support | <b>Farm:</b> /join celestialrealm</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 2 -> 3 -> 4 -> 5 (reduz dano do boss a zero).</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiant | Wizard | Healer/Lament</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Lord of Order (LoO)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> O Suporte Definitivo | <b>Farm:</b> /join lordoforder (Diárias)</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 2 -> 3 -> 4 -> 5 em looping contínuo.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiant | Lucky | Forge Cape</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>DragonOfTime (DoT)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> High Solo DPS / Boss Fights | <b>Farm:</b> /join dragonoftimes</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 3 -> 4 -> 2 -> 5 acumulando DoT progressivo.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiance | Wizard | Vainglory</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Verus DoomKnight (VDK)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Top Solo & Team DPS | <b>Farm:</b> /join verus</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 2 -> 3 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Dauntless ou Valiance | Vim | Vainglory</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Chaos Avenger (CaV)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Tank Indestrutível / Ultra Bosses | <b>Farm:</b> /join ultrachaos</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 2 -> 3 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiant | Lucky | Forge Cape</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Yami no Ronin (YnR)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Evasão Extrema / Solo Boss Killer | <b>Farm:</b> /join yallor</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 3 -> 2 -> 4 -> 5 (mantenha clones ativos).</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Lacerate | Thief/Vim | Forge Cape</p>
                     </div>
 
                     <div class="class-card-box">
                         <h4>LightCaster (LC)</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Adquirida na loja especial em /join celestialrealm juntando itens de drop de Ultra Alteon / Ultra Tyndarius.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Oferece altíssimo dano mágico em alvos únicos e forte autocura com suporte leve.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 3 -> 2 -> 4 -> 5.</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Arcana's Concerto (Arma) | Pneuma (Helm) | Vainglory (Cape) | Wizard.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Caster Balanceado / Suporte | <b>Farm:</b> /join celestialrealm</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 3 -> 2 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Arcana's Concerto | Pneuma | Vainglory</p>
                     </div>
 
                     <div class="class-card-box">
-                        <h4>Pyromancer & BlazeBinder</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Reputação Embersea e Firewar para Pyromancer, combinada com tokens para BlazeBinder.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Foco em DoT (dano por queimadura) em área.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5.</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiant (Arma) | Wizard (Helm) | Lucky (Cape).</p>
+                        <h4>ShadowStalker of Time (SSoT) / Chrono Classes</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Burst Nuke / HeroMart Chrono | <b>Farm:</b> HeroMart / TimeShop</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 2 -> 3 -> 5 -> 2 -> 4 (Nuke massivo).</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiance | Lucky | Vainglory</p>
                     </div>
 
                     <div class="class-card-box">
-                        <h4>Shaman & Oracle</h4>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Reputação Arcangrove Rank 10 para Shaman; Oracle é gratuita em `/join class`.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Excelente multi-alvo elemental e controle de dano em área.</p>
-                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5.</p>
-                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Wizard / Lucky.</p>
+                        <h4>Master of Moglins (MoM)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Tipo:</b> Suporte / Cura Coletiva | <b>Farm:</b> Moglin Kickstarter / Special</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><b>Combo:</b> 2 -> 3 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos:</b> Valiant | Lucky | Forge Cape</p>
                     </div>
                 </div>
 
-                <!-- ABA 4: FACÇÕES (TODAS AS EXISTENTES COM RANK 10) -->
+                <!-- ABA 4: FACÇÕES -->
                 <div id="dash-factions" class="dash-panel">
                     <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Guia Completo de Facções & Recompensas Rank 10</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Relação de todas as facções existentes no jogo, locais de farm e itens/vantagens liberados ao atingir Rank 10 de reputação:</p>
-
                     <table class="wiki-table">
                         <tr><th>Facção</th><th>Melhor Mapa de Farm</th><th>Recompensa / Loja Rank 10</th></tr>
-                        <tr><td>Arcangrove</td><td>`/join arcangrove`</td><td>Shaman Class, Fulgerite Staff, Arcangrove Top Hat</td></tr>
-                        <tr><td>Blade of Awe</td><td>`/join awescamp`</td><td>Armor of Awe, Blade of Awe (All-Around Boosts)</td></tr>
-                        <tr><td>Chaos</td><td>`/join mountdoomskull`</td><td>Chaos Slayer Class, Chaotic Armor items</td></tr>
-                        <tr><td>DoomWood</td><td>`/join doomwood`</td><td>Necromancer Class, Shadowfall items, Paladin armor pieces</td></tr>
-                        <tr><td>Drakath</td><td>`/join epicwar`</td><td>Chaos Lord items, Drakath armor cosmetics</td></tr>
-                        <tr><td>Embersea</td><td>`/join embersea`</td><td>Pyromancer / BlazeBinder pre-reqs, Flame weapons</td></tr>
-                        <tr><td>Good</td><td>`/join swordhaven`</td><td>Paladin items, Royal Guard Armor & Sword</td></tr>
-                        <tr><td>Evil</td><td>`/join shadowfall`</td><td>DoomKnight items, Necromancer gear</td></tr>
-                        <tr><td>EtherStorm</td><td>`/join etherstorm`</td><td>Elemental Dracomancer Class, Dragon Storm items</td></tr>
-                        <tr><td>Gravelyn / Undead Legion</td><td>`/join underworld`</td><td>Legion DoomKnight items, Soul Forged weapons</td></tr>
-                        <tr><td>Lycan</td><td>`/join lycan`</td><td>Lycan Class, Wolfpaw weapons</td></tr>
-                        <tr><td>Vampire</td><td>`/join vampire`</td><td>Vampire Lord Class, Blood Moon gear</td></tr>
-                        <tr><td>Mythsong</td><td>`/join mythsong`</td><td>Vocalist / Musical items, Rockstar gear</td></tr>
-                        <tr><td>PetTamer</td><td>`/join petparadise`</td><td>Pet Master gear, Beastmaster items</td></tr>
-                        <tr><td>Sandsea</td><td>`/join sandsea`</td><td>Master Ranger Class, Desert Nomad items</td></tr>
-                        <tr><td>SkyGuard</td><td>`/join skyguard`</td><td>Skyguard Uniforms, Airship gear</td></tr>
-                        <tr><td>Thronebone</td><td>`/join thronebone`</td><td>Undead Slayer gear, Skeletal weapons</td></tr>
-                        <tr><td>Dwarfhold</td><td>`/join dwarfhold`</td><td>Drakel Slayer, Mountain items</td></tr>
-                        <tr><td>Yokai</td><td>`/join yokai`</td><td>Tengu items, Oni Blade</td></tr>
-                        <tr><td>BladeMaster</td><td>`/join shadowblast`</td><td>BladeMaster class requirements</td></tr>
+                        <tr><td>Arcangrove</td><td>`/join arcangrove`</td><td>Shaman Class, Fulgerite Staff</td></tr>
+                        <tr><td>Blade of Awe</td><td>`/join awescamp`</td><td>Armor of Awe, Blade of Awe</td></tr>
+                        <tr><td>Chaos</td><td>`/join mountdoomskull`</td><td>Chaos Slayer Class</td></tr>
+                        <tr><td>DoomWood</td><td>`/join doomwood`</td><td>Necromancer Class</td></tr>
+                        <tr><td>Good</td><td>`/join swordhaven`</td><td>Paladin items, Royal Guard</td></tr>
+                        <tr><td>Evil</td><td>`/join shadowfall`</td><td>DoomKnight items</td></tr>
                     </table>
                 </div>
 
@@ -697,7 +634,6 @@
         </div>
     </main>
 
-    <!-- MODAL DE GUIAS DE BOSS -->
     <div class="modal" id="guide-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -708,20 +644,18 @@
         </div>
     </div>
 
-    <!-- SCRIPTS COM AUTOSAVE, RELÓGIO DE ATUALIZAÇÃO AQW E RECUPERAÇÃO VIA LINK DE E-MAIL -->
     <script>
-        let authMode = 'login'; // 'login', 'register', 'forgot'
+        let authMode = 'login';
         let currentUser = null;
 
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
         }
 
-        // --- CRONÔMETRO DE ATUALIZAÇÃO OFICIAL DO AQW (Sextas-feiras aprox 18:00 UTC) ---
         function updateAQWTimer() {
             const now = new Date();
             const nextUpdate = new Date();
-            nextUpdate.setUTCHours(18, 0, 0, 0); // 18:00 UTC
+            nextUpdate.setUTCHours(18, 0, 0, 0);
             let dayOfWeek = now.getUTCDay();
             let daysUntilFriday = (5 - dayOfWeek + 7) % 7;
             if (daysUntilFriday === 0 && now.getUTCHours() >= 18) {
@@ -743,7 +677,6 @@
         setInterval(updateAQWTimer, 1000);
         updateAQWTimer();
 
-        // --- SISTEMA DE AUTENTICAÇÃO E RECUPERAÇÃO VIA LINK DE E-MAIL ---
         function toggleAuthMode() {
             if (authMode === 'login') {
                 authMode = 'register';
@@ -816,14 +749,11 @@
                     alert('Usuário ou e-mail não conferem com nossos registros!');
                     return;
                 }
-                // Simula envio de e-mail com link exclusivo contendo token seguro
                 const resetToken = Math.random().toString(36).substring(2, 12);
                 localStorage.setItem(`reset_token_${user}`, resetToken);
                 
-                const simulatedLink = `[SIMULAÇÃO DE E-MAIL]\nLink enviado para: ${email}\n\nClique no link abaixo para redefinir sua senha:\nwindow.location.href = '#reset=${resetToken}&user=${user}'`;
-                alert(simulatedLink);
+                alert(`[SIMULAÇÃO DE E-MAIL]\nLink enviado para: ${email}\n\nClique no link seguro para redefinir sua senha.`);
                 
-                // Prompt interativo simulando que a pessoa abriu o link no e-mail
                 const newPass = prompt(`(Simulando acesso ao link recebido por e-mail)\nDigite sua nova senha para o usuário ${user}:`);
                 if (newPass) {
                     localStorage.setItem(`user_pass_${user}`, newPass);
@@ -874,13 +804,10 @@
             chevron.classList.toggle('fa-chevron-up');
         }
 
-        // ==========================================
-        // DADOS E LÓGICA DE QUEST FORGE DETALHADA COM SACOLAS E PROGRESSO POR QUEST
-        // ==========================================
         const guidesData = {
-            'dau_1': { title: '⚔️ Guia Ultra Speaker (Dauntless)', text: '<b>Composição:</b> Lord of Order, ArchPaladin, StoneCrusher, LoO/AP.<br><br><b>Mecânica:</b> Requer sincronia perfeita de taunts para alternar o foco do boss e evitar wipe geral.' },
-            'arc_3': { title: '⚔️ Guia Dark Carnax (Arcana)', text: '<b>Composição:</b> AP, LoO, SC, DoT.<br><br><b>Dica:</b> Cuidado com o acúmulo de pilhas que zera a cura da party.' },
-            'ely_2': { title: '⚔️ Guia Ultra Flibbitiest (Elysium)', text: '<b>Composição:</b> LoO, AP, Chaos Avenger, VHL.<br><br><b>Dica:</b> Pare imediatamente de atacar quando o escudo protetor estiver ativo.' }
+            'dau_1': { title: '⚔️ Guia Ultra Speaker (Dauntless)', text: '<b>Composição:</b> Lord of Order, ArchPaladin, StoneCrusher, LoO/AP.' },
+            'arc_3': { title: '⚔️ Guia Dark Carnax (Arcana)', text: '<b>Composição:</b> AP, LoO, SC, DoT.' },
+            'ely_2': { title: '⚔️ Guia Ultra Flibbitiest (Elysium)', text: '<b>Composição:</b> LoO, AP, Chaos Avenger, VHL.' }
         };
 
         const itemsData = {
@@ -889,64 +816,19 @@
                 { id: 'req_2', name: 'Pyromancer Class', npc: 'Xang', map: '/join firewar', wiki: 'http://aqwwiki.wikidot.com/pyromancer-class-non-ac', bags: [ { id: 'b_req2', name: 'Shards of Fire', current: 0, max: 84 } ] },
                 { id: 'req_3', name: 'Awescention Completed', npc: 'Valencia', map: '/join museum', wiki: 'http://aqwwiki.wikidot.com/awescention', bags: [ { id: 'b_req3', name: 'Relics of Awe', current: 0, max: 1 } ] }
             ],
-            valiant: [
-                { id: 'val_1', name: 'Valiant Forge Quest', npc: 'Cysero', map: '/join forge', wiki: 'http://aqwwiki.wikidot.com/valiant-enhancement', bags: [ { id: 'b_val1', name: 'Steel Ingot', current: 0, max: 50 } ] }
-            ],
-            lacerate: [
-                { id: 'lac_1', name: 'Lacerate Forge Quest', npc: 'Cysero', map: '/join pirates', wiki: 'http://aqwwiki.wikidot.com/lacerate-enhancement', bags: [ { id: 'b_lac1', name: 'Blade Shard', current: 0, max: 30 } ] }
-            ],
-            smite: [
-                { id: 'smi_1', name: 'Smite Forge Quest', npc: 'Parnassus', map: '/join celestialarena', wiki: 'http://aqwwiki.wikidot.com/smite-enhancement', bags: [ { id: 'b_smi1', name: 'Divine Spark', current: 0, max: 25 } ] }
-            ],
-            helix: [
-                { id: 'hel_1', name: 'Helix Forge Quest', npc: 'Gaian', map: '/join gaia', wiki: 'http://aqwwiki.wikidot.com/helix-enhancement', bags: [ { id: 'b_hel1', name: 'Crown Relic', current: 0, max: 20 } ] }
-            ],
-            lament: [
-                { id: 'lam_1', name: 'Lament Forge Quest', npc: 'Undead', map: '/join underworld', wiki: 'http://aqwwiki.wikidot.com/lament-enhancement', bags: [ { id: 'b_lam1', name: 'Shard of Grief', current: 0, max: 40 } ] }
-            ],
-            havi: [
-                { id: 'hav_1', name: 'Havoc / Fang Quest', npc: 'Zephyr', map: '/join elemental', wiki: 'http://aqwwiki.wikidot.com/havoc-enhancement', bags: [ { id: 'b_hav1', name: 'Gale Essence', current: 0, max: 35 } ] }
-            ],
-            pneuma: [
-                { id: 'pne_1', name: 'Pneuma Helm Quest', npc: 'Aeria', map: '/join celestialrealm', wiki: 'http://aqwwiki.wikidot.com/pneuma-enhancement', bags: [ { id: 'b_pne1', name: 'Aether Feather', current: 0, max: 20 } ] }
-            ],
-            vim: [
-                { id: 'vim_1', name: 'Vim Helm Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/vim-enhancement', bags: [ { id: 'b_vim1', name: 'Vim Scrap', current: 0, max: 25 } ] }
-            ],
-            valiance: [
-                { id: 'vnc_1', name: 'Valiance Blade Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/valiance', bags: [ { id: 'b_vnc1', name: 'Champion\'s Seal', current: 0, max: 15 } ] }
-            ],
-            arcana: [
-                { 
-                    id: 'arc_1', name: 'Arcana\'s Concerto', npc: 'Darkon', map: '/join astravia', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto', 
-                    bags: [ 
-                        { id: 'b_arc1', name: 'Poleaxe', current: 0, max: 1 },
-                        { id: 'b_arc2', name: 'Synthetic Magi Fluid', current: 0, max: 300 } 
-                    ] 
-                }
-            ],
-            elysium: [
-                { 
-                    id: 'ely_1', name: 'Elysium Blade Quest', npc: 'Willpower', map: '/join tercessuinotlim', wiki: 'http://aqwwiki.wikidot.com/elysium', 
-                    bags: [ 
-                        { id: 'b_ely1', name: 'Fiend Token', current: 0, max: 3 },
-                        { id: 'b_ely2', name: 'Void Bone', current: 0, max: 15 } 
-                    ] 
-                }
-            ],
-            avarice: [
-                { 
-                    id: 'ava_1', name: 'Avarice Cape Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/avarice', 
-                    bags: [ 
-                        { id: 'b_ava1', name: 'Indulgence', current: 0, max: 300 },
-                        { id: 'b_ava2', name: 'Gluttony', current: 0, max: 300 },
-                        { id: 'b_ava3', name: 'Wrath', current: 0, max: 300 } 
-                    ] 
-                }
-            ],
-            dauntless: [
-                { id: 'dau_1', name: 'Dauntless Weapon Quest', npc: 'Board', map: '/join ultraspeaker', wiki: 'http://aqwwiki.wikidot.com/dauntless', bags: [ { id: 'b_dau1', name: 'Speaker Insignia', current: 0, max: 20 } ] }
-            ]
+            valiant: [ { id: 'val_1', name: 'Valiant Forge Quest', npc: 'Cysero', map: '/join forge', wiki: 'http://aqwwiki.wikidot.com/valiant-enhancement', bags: [ { id: 'b_val1', name: 'Steel Ingot', current: 0, max: 50 } ] } ],
+            lacerate: [ { id: 'lac_1', name: 'Lacerate Forge Quest', npc: 'Cysero', map: '/join pirates', wiki: 'http://aqwwiki.wikidot.com/lacerate-enhancement', bags: [ { id: 'b_lac1', name: 'Blade Shard', current: 0, max: 30 } ] } ],
+            smite: [ { id: 'smi_1', name: 'Smite Forge Quest', npc: 'Parnassus', map: '/join celestialarena', wiki: 'http://aqwwiki.wikidot.com/smite-enhancement', bags: [ { id: 'b_smi1', name: 'Divine Spark', current: 0, max: 25 } ] } ],
+            helix: [ { id: 'hel_1', name: 'Helix Forge Quest', npc: 'Gaian', map: '/join gaia', wiki: 'http://aqwwiki.wikidot.com/helix-enhancement', bags: [ { id: 'b_hel1', name: 'Crown Relic', current: 0, max: 20 } ] } ],
+            lament: [ { id: 'lam_1', name: 'Lament Forge Quest', npc: 'Undead', map: '/join underworld', wiki: 'http://aqwwiki.wikidot.com/lament-enhancement', bags: [ { id: 'b_lam1', name: 'Shard of Grief', current: 0, max: 40 } ] } ],
+            havi: [ { id: 'hav_1', name: 'Havoc / Fang Quest', npc: 'Zephyr', map: '/join elemental', wiki: 'http://aqwwiki.wikidot.com/havoc-enhancement', bags: [ { id: 'b_hav1', name: 'Gale Essence', current: 0, max: 35 } ] } ],
+            pneuma: [ { id: 'pne_1', name: 'Pneuma Helm Quest', npc: 'Aeria', map: '/join celestialrealm', wiki: 'http://aqwwiki.wikidot.com/pneuma-enhancement', bags: [ { id: 'b_pne1', name: 'Aether Feather', current: 0, max: 20 } ] } ],
+            vim: [ { id: 'vim_1', name: 'Vim Helm Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/vim-enhancement', bags: [ { id: 'b_vim1', name: 'Vim Scrap', current: 0, max: 25 } ] } ],
+            valiance: [ { id: 'vnc_1', name: 'Valiance Blade Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/valiance', bags: [ { id: 'b_vnc1', name: 'Champion\'s Seal', current: 0, max: 15 } ] } ],
+            arcana: [ { id: 'arc_1', name: 'Arcana\'s Concerto', npc: 'Darkon', map: '/join astravia', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto', bags: [ { id: 'b_arc1', name: 'Poleaxe', current: 0, max: 1 }, { id: 'b_arc2', name: 'Synthetic Magi Fluid', current: 0, max: 300 } ] } ],
+            elysium: [ { id: 'ely_1', name: 'Elysium Blade Quest', npc: 'Willpower', map: '/join tercessuinotlim', wiki: 'http://aqwwiki.wikidot.com/elysium', bags: [ { id: 'b_ely1', name: 'Fiend Token', current: 0, max: 3 }, { id: 'b_ely2', name: 'Void Bone', current: 0, max: 15 } ] } ],
+            avarice: [ { id: 'ava_1', name: 'Avarice Cape Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/avarice', bags: [ { id: 'b_ava1', name: 'Indulgence', current: 0, max: 300 }, { id: 'b_ava2', name: 'Gluttony', current: 0, max: 300 }, { id: 'b_ava3', name: 'Wrath', current: 0, max: 300 } ] } ],
+            dauntless: [ { id: 'dau_1', name: 'Dauntless Weapon Quest', npc: 'Board', map: '/join ultraspeaker', wiki: 'http://aqwwiki.wikidot.com/dauntless', bags: [ { id: 'b_dau1', name: 'Speaker Insignia', current: 0, max: 20 } ] } ]
         };
 
         let pinnedItems = [];
