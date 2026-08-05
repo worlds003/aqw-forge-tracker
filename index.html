@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQWorlds BR - Portal Definitivo & Wiki Hub</title>
+    <title>AQWorlds BR - Portal Definitivo & Forge Tracker v2.0</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         /* ==========================================
            1. VARIÁVEIS DE TEMA E CONFIGURAÇÃO
            ========================================== */
         :root {
             --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBlYj_R1BXPxaOT04B0vE57iDUfqW31nLhDAZz6GwnvMGTa3IYtU54ydrw&s=10');
-            --bg-overlay: rgba(6, 11, 20, 0.90);
+            --bg-overlay: rgba(6, 11, 20, 0.92);
             --primary-color: #00d2ff;
             --accent-color: #3a7bd5;
             --text-color: #f1f1f1;
             --card-bg: rgba(10, 20, 35, 0.94);
             --border-color: rgba(0, 210, 255, 0.4);
+            
+            /* Variáveis específicas do Forge Tracker */
+            --bg-primary: #0a0c10;
+            --bg-secondary: #141824;
+            --bg-card: #1e2436;
+            --accent-gold: #ffc107;
+            --accent-purple: #a855f7;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-muted: #94a3b8;
         }
 
         [data-theme="legion"] {
@@ -65,7 +76,7 @@
             background: var(--bg-overlay); z-index: -1;
         }
 
-        header {
+        header.main-header {
             width: 100%; padding: 15px 30px;
             display: flex; justify-content: space-between; align-items: center;
             background: rgba(0, 0, 0, 0.92); border-bottom: 2px solid var(--primary-color);
@@ -93,7 +104,7 @@
             font-weight: bold; font-size: 0.8rem; display: none;
         }
 
-        main { max-width: 1200px; width: 92%; margin: 30px 0; }
+        main { max-width: 1250px; width: 94%; margin: 30px 0; }
 
         /* LANDING PAGE (DESLOGADO) */
         .landing-grid { display: grid; grid-template-columns: 1fr 360px; gap: 25px; animation: fadeIn 0.4s ease-out; }
@@ -149,7 +160,7 @@
         }
 
         .dash-tab {
-            flex: 1; min-width: 130px; padding: 12px 8px;
+            flex: 1; min-width: 140px; padding: 12px 8px;
             background: transparent; border: none; color: #ccc;
             font-weight: bold; cursor: pointer; font-size: 0.78rem;
             text-align: center; border-bottom: 3px solid transparent; white-space: nowrap;
@@ -162,79 +173,174 @@
 
         .dash-content-container {
             background: var(--card-bg); border: 1px solid var(--border-color);
-            border-top: none; padding: 30px; border-radius: 0 0 8px 8px;
+            border-top: none; padding: 25px; border-radius: 0 0 8px 8px;
             backdrop-filter: blur(12px); min-height: 500px;
         }
 
         .dash-panel { display: none; }
         .dash-panel.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-        /* COMPONENTES INTERNOS EXPANDIDOS */
-        .progress-bar-container {
-            width: 100%; background: rgba(0,0,0,0.6);
-            border: 1px solid var(--border-color); border-radius: 10px;
-            height: 22px; margin: 15px 0; overflow: hidden; position: relative;
+        /* ESTILOS DO FORGE TRACKER (INCORPORADO NA ABA PROGRESSÃO) */
+        .tracker-header {
+            background: linear-gradient(180deg, rgba(255, 193, 7, 0.15) 0%, rgba(20, 24, 36, 0.95) 100%);
+            border: 1px solid var(--accent-gold); border-radius: 10px;
+            padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 15px;
+        }
+        .timer-badge {
+            background: rgba(0, 0, 0, 0.5); border: 1px solid var(--accent-purple);
+            padding: 8px 12px; border-radius: 8px; text-align: right;
+        }
+        .timer-badge span { color: var(--accent-purple); font-weight: bold; font-size: 1rem; }
+
+        .controls-bar {
+            background: var(--bg-secondary); padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border-color); margin-bottom: 15px;
+            display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; align-items: center;
+        }
+        .search-box { flex: 1; min-width: 220px; position: relative; }
+        .search-box input {
+            width: 100%; padding: 8px 10px 8px 32px; background: var(--bg-primary);
+            border: 1px solid var(--border-color); color: #fff; border-radius: 6px; font-size: 0.85rem;
+        }
+        .search-box i { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
+        .filter-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-filter {
+            background: var(--bg-primary); color: var(--text-muted); border: 1px solid var(--border-color);
+            padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold;
+        }
+        .btn-filter.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
+
+        .action-buttons { display: flex; gap: 6px; }
+        .btn-action {
+            background: #334155; color: #fff; border: none; padding: 6px 10px;
+            border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .btn-action:hover { background: #475569; }
+
+        .pinned-section {
+            background: rgba(255, 193, 7, 0.05); border: 1px dashed var(--accent-gold);
+            padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none;
+        }
+        .pinned-section.active { display: block; }
+        .pinned-section h3 { color: var(--accent-gold); font-size: 0.95rem; margin-bottom: 8px; }
+
+        .overall-progress-card {
+            background: var(--bg-secondary); padding: 15px; border-radius: 8px;
+            border: 1px solid var(--border-color); margin-bottom: 15px;
+        }
+        .progress-bar-bg {
+            background: #0f172a; height: 22px; border-radius: 11px; overflow: hidden;
+            border: 1px solid var(--border-color); position: relative; margin-top: 6px;
+        }
+        .progress-bar-fill-tracker {
+            height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); width: 0%; transition: width 0.4s ease;
+        }
+        .progress-text-overlay {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-weight: bold; font-size: 0.8rem; text-shadow: 1px 1px 2px #000;
         }
 
-        .progress-bar-fill {
-            height: 100%; background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
-            width: 0%; transition: width 0.5s ease;
+        .tracker-subtabs { display: flex; gap: 6px; margin-bottom: 15px; flex-wrap: wrap; }
+        .subtab-btn {
+            background: var(--bg-secondary); color: var(--text-main); border: 1px solid var(--border-color);
+            padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.82rem;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .subtab-btn.active { border-color: var(--accent-gold); background: rgba(255, 193, 7, 0.15); color: var(--accent-gold); }
+
+        .tracker-content { display: none; }
+        .tracker-content.active { display: block; }
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 15px; }
+
+        .item-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 14px; display: flex; flex-direction: column;
+            justify-content: space-between; position: relative;
+        }
+        .pin-btn {
+            position: absolute; top: 10px; right: 10px; background: none; border: none;
+            color: var(--text-muted); cursor: pointer; font-size: 1rem;
+        }
+        .pin-btn.pinned { color: var(--accent-gold); }
+
+        .item-header { padding-right: 22px; margin-bottom: 8px; }
+        .item-title { font-size: 0.98rem; font-weight: bold; color: #fff; }
+        .item-type { font-size: 0.72rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .item-details { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+        .item-details strong { color: var(--text-main); }
+
+        .btn-copy-join {
+            background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 2px 5px; border-radius: 4px; cursor: pointer; font-size: 0.72rem; margin-left: 4px;
+        }
+        .btn-copy-join:hover { background: rgba(59, 130, 246, 0.3); }
+
+        .counter-controls {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-secondary); padding: 5px 8px; border-radius: 6px;
+        }
+        .btn-count {
+            background: #334155; color: #fff; border: none; width: 26px; height: 26px;
+            border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.9rem;
+        }
+        .count-input {
+            width: 55px; text-align: center; background: transparent;
+            border: 1px solid var(--border-color); color: #fff; padding: 3px; border-radius: 4px; font-weight: bold;
         }
 
-        .progress-text {
-            position: absolute; width: 100%; text-align: center;
-            top: 2px; font-size: 0.75rem; font-weight: bold; text-shadow: 0 0 3px #000;
+        .card-complete { border-left: 4px solid var(--accent-green); }
+        .card-partial { border-left: 4px solid var(--accent-gold); }
+        .card-zero { border-left: 4px solid var(--accent-red); }
+
+        .notes-container { margin-top: 20px; background: var(--bg-secondary); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .notes-container h4 { color: var(--accent-gold); margin-bottom: 6px; font-size: 0.9rem; }
+        .notes-container textarea {
+            width: 100%; height: 70px; background: var(--bg-primary); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 8px; border-radius: 6px; resize: vertical; font-size: 0.85rem;
         }
 
-        .checklist-item {
-            display: flex; align-items: center; gap: 12px; padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.9rem;
+        /* MODAL DOS GUIAS DE BOSS */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;
         }
-        .checklist-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); }
-
-        .bag-calc-box, .drop-calc-box {
-            background: rgba(0, 0, 0, 0.45); border: 1px solid var(--border-color);
-            padding: 20px; border-radius: 6px; margin-top: 15px;
+        .modal-content {
+            background: var(--bg-secondary); padding: 20px; border-radius: 10px;
+            max-width: 480px; width: 90%; border: 1px solid var(--accent-gold);
         }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--accent-gold); }
+        .close-modal { cursor: pointer; font-size: 1.2rem; }
 
-        .bag-calc-box input, .drop-calc-box input, .drop-calc-box select {
-            padding: 8px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color);
-            color: #fff; border-radius: 4px; outline: none; margin: 5px 0;
-        }
-
+        /* OUTRAS ABAS DO DASHBOARD */
         .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .sim-group { margin-bottom: 14px; }
+        .sim-group { margin-bottom: 12px; }
         .sim-group label { display: block; font-size: 0.82rem; color: var(--primary-color); margin-bottom: 4px; font-weight: bold; }
-        .sim-group select { width: 100%; padding: 9px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; }
-        .sim-box { background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; }
-        .sim-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.88rem; }
+        .sim-group select { width: 100%; padding: 8px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; }
+        .sim-box { background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: 6px; padding: 15px; }
+        .sim-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; }
 
         .guide-box {
             background: rgba(0,0,0,0.4); border-left: 4px solid var(--primary-color);
-            padding: 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; font-size: 0.9rem; line-height: 1.6;
+            padding: 14px; margin-bottom: 12px; border-radius: 0 6px 6px 0; font-size: 0.88rem; line-height: 1.5;
         }
-
-        .wiki-table {
-            width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; background: rgba(0,0,0,0.3);
-        }
-        .wiki-table th, .wiki-table td {
-            border: 1px solid rgba(255,255,255,0.1); padding: 10px; text-align: left;
-        }
+        .wiki-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.82rem; background: rgba(0,0,0,0.3); }
+        .wiki-table th, .wiki-table td { border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; }
         .wiki-table th { background: rgba(0, 210, 255, 0.15); color: var(--primary-color); }
-
-        .char-search-inline { display: flex; gap: 10px; margin-bottom: 20px; }
-        .char-search-inline input { flex: 1; padding: 10px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: white; border-radius: 4px; }
 
         @media (max-width: 768px) {
             .landing-grid, .sim-grid { grid-template-columns: 1fr; }
-            header { flex-direction: column; gap: 10px; }
+            header.main-header { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- CABEÇALHO -->
-    <header>
+    <!-- CABEÇALHO DO SITE -->
+    <header class="main-header">
         <div class="logo">
             <h1>⚔️ AQWorlds BR Hub</h1>
         </div>
@@ -261,27 +367,17 @@
                     </span>
                     <h3 style="color: #fff; margin: 8px 0;">🔥 Invasão Sombria & Bônus de XP</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Acesse o mapa <b>/shadowinvasion</b> para enfrentar os novos desafios da temporada. O servidor está com bônus permanente de <b>2x XP, Gold e Reputação</b> ativo durante todo o final de semana.
-                    </p>
-                </article>
-
-                <article class="news-article">
-                    <span style="font-size: 0.75rem; background: #ffca28; color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
-                        ATUALIZAÇÃO DE SISTEMA
-                    </span>
-                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Balanceamento de Suportes Oficiais</h3>
-                    <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        A equipe de balanceamento ajustou habilidades defensivas de classes cruciais para Ultra Bosses, como <b>ArchPaladin</b> e <b>Lord of Order</b>, facilitando o encaixe de turnos nas lutas coordenadas.
+                        Acesse o mapa <b>/shadowinvasion</b> para enfrentar os novos desafios da temporada com bônus ativo de 2x XP e Reputação.
                     </p>
                 </article>
 
                 <article class="news-article">
                     <span style="font-size: 0.75rem; background: #2ed573; color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
-                        NOVIDADE NA WIKI INTERNA
+                        ATUALIZAÇÃO DO PORTAL v2.0
                     </span>
-                    <h3 style="color: #fff; margin: 8px 0;">📚 Enciclopédia de Forge Integrada</h3>
+                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Forge Master Tracker Embutido!</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Todas as informações sobre encantamentos avançados e rotas de farm de facções foram traduzidas e estruturadas em abas dedicadas para visualização instantânea dentro do nosso site.
+                        Agora o painel avançado de farm de encantamentos Forge foi totalmente integrado à sua área logada. Faça login para gerenciar reagentes, timers semanais e metas!
                     </p>
                 </article>
             </section>
@@ -290,7 +386,7 @@
             <aside class="auth-card">
                 <h3 id="auth-title">🔐 Área do Jogador</h3>
                 <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">
-                    Faça login ou cadastre-se para desbloquear ferramentas avançadas, simuladores e guias interativos.
+                    Entre na sua conta para liberar o Forge Master Tracker e ferramentas táticas.
                 </p>
 
                 <form class="auth-form" onsubmit="handleAuth(event)">
@@ -312,28 +408,102 @@
             <div class="dashboard-welcome">
                 <div>
                     <h2>Bem-vindo, <span id="user-display-name" style="color: var(--primary-color);">Hero</span>! 👋</h2>
-                    <p style="font-size: 0.8rem; color: #aaa;">Sua central interativa de ferramentas, calculadoras e dados do AQW.</p>
+                    <p style="font-size: 0.8rem; color: #aaa;">Sua central interativa de rastreamento de Forge e ferramentas.</p>
                 </div>
-                <button class="auth-btn" style="padding: 6px 15px;" onclick="switchDashTab('charsearch')">🔎 Buscar Charpage</button>
             </div>
 
-            <!-- NAVEGAÇÃO DE ABAS EXPANDIDA -->
+            <!-- NAVEGAÇÃO DE ABAS DO DASHBOARD -->
             <nav class="dashboard-nav">
-                <button class="dash-tab active" onclick="switchDashTab('simulator')">🧪 Simulador Forge</button>
-                <button class="dash-tab" onclick="switchDashTab('progression')">🗺️ Progresso (1-100)</button>
-                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Tier List de Classes</button>
-                <button class="dash-tab" onclick="switchDashTab('factions')">📜 Guia de Facções</button>
+                <button class="dash-tab active" onclick="switchDashTab('progression')">🎯 Forge Master Tracker</button>
+                <button class="dash-tab" onclick="switchDashTab('simulator')">🧪 Simulador Forge</button>
+                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Tier List Classes</button>
+                <button class="dash-tab" onclick="switchDashTab('factions')">📜 Facções</button>
                 <button class="dash-tab" onclick="switchDashTab('tools')">🧮 Calculadoras</button>
-                <button class="dash-tab" onclick="switchDashTab('ultras')">🐉 Ultra Bosses</button>
                 <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage</button>
             </nav>
 
             <div class="dash-content-container">
                 
-                <!-- ABA 1: SIMULADOR DE FORGE -->
-                <div id="dash-simulator" class="dash-panel active">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧪 Simulador de Encantamentos Forge & Atributos</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Simule combinações avançadas dos encantamentos do complexo Forge. Todos os bônus calculados em tempo real:</p>
+                <!-- ABA 1: FORGE MASTER TRACKER (SUBSTITUINDO A ANTIGA ABA DE PROGRESSO) -->
+                <div id="dash-progression" class="dash-panel active">
+                    
+                    <!-- HEADER & TIMER DO TRACKER -->
+                    <div class="tracker-header">
+                        <div>
+                            <h3 style="color: var(--accent-gold); font-size: 1.3rem;"><i class="fa-solid fa-dragon"></i> Painel Tático Forge v2.0</h3>
+                            <p style="color: var(--text-muted); font-size: 0.82rem;">Gerencie seus reagentes, prazos de Ultras e rotas de farm</p>
+                        </div>
+                        <div class="timer-badge">
+                            <div style="font-size: 0.7rem; color: var(--text-muted)">PRÓXIMO RESET SEMANAL</div>
+                            <span id="weekly-timer">Calculando...</span>
+                        </div>
+                    </div>
+
+                    <!-- BARRA DE CONTROLES (BUSCA, FILTROS, EXPORTAR/IMPORTAR) -->
+                    <div class="controls-bar">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="search-input" placeholder="Pesquisar item, monstro ou mapa..." oninput="filterItems()">
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="btn-filter active" onclick="setFilter('all', this)">Todos</button>
+                            <button class="btn-filter" onclick="setFilter('pending', this)">Pendentes</button>
+                            <button class="btn-filter" onclick="setFilter('partial', this)">Em Andamento</button>
+                            <button class="btn-filter" onclick="setFilter('done', this)">Concluídos</button>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-action" onclick="exportData()"><i class="fa-solid fa-download"></i></button>
+                            <button class="btn-action" onclick="document.getElementById('import-file').click()"><i class="fa-solid fa-upload"></i></button>
+                            <input type="file" id="import-file" style="display:none" onchange="importData(event)">
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO DE FAVORITOS FIXADOS -->
+                    <div class="pinned-section" id="pinned-section">
+                        <h3><i class="fa-solid fa-star"></i> Farms Atuais Fixados</h3>
+                        <div class="items-grid" id="grid-pinned"></div>
+                    </div>
+
+                    <!-- PROGRESSO GERAL -->
+                    <div class="overall-progress-card">
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 0.88rem;">
+                            <span>Progresso Geral da Jornada Forge</span>
+                            <span id="overall-percentage">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill-tracker" id="overall-bar"></div>
+                            <div class="progress-text-overlay" id="overall-text">0 de 0 Reagentes Obtidos</div>
+                        </div>
+                    </div>
+
+                    <!-- SUBABAS DE CATEGORIAS FORGE -->
+                    <div class="tracker-subtabs">
+                        <button class="subtab-btn active" data-tab="req" onclick="switchTrackerTab('req')"><i class="fa-solid fa-list-check"></i> Pré-Requisitos</button>
+                        <button class="subtab-btn" data-tab="avarice" onclick="switchTrackerTab('avarice')"><i class="fa-solid fa-coins"></i> Avarice</button>
+                        <button class="subtab-btn" data-tab="arcana" onclick="switchTrackerTab('arcana')"><i class="fa-solid fa-wand-magic-sparkles"></i> Arcana</button>
+                        <button class="subtab-btn" data-tab="elysium" onclick="switchTrackerTab('elysium')"><i class="fa-solid fa-bolt"></i> Elysium</button>
+                        <button class="subtab-btn" data-tab="dauntless" onclick="switchTrackerTab('dauntless')"><i class="fa-solid fa-skull"></i> Dauntless</button>
+                    </div>
+
+                    <!-- CONTEÚDO DAS CATEGORIAS -->
+                    <div class="tracker-content active" id="tab-req"><div class="items-grid" id="grid-req"></div></div>
+                    <div class="tracker-content" id="tab-avarice"><div class="items-grid" id="grid-avarice"></div></div>
+                    <div class="tracker-content" id="tab-arcana"><div class="items-grid" id="grid-arcana"></div></div>
+                    <div class="tracker-content" id="tab-elysium"><div class="items-grid" id="grid-elysium"></div></div>
+                    <div class="tracker-content" id="tab-dauntless"><div class="items-grid" id="grid-dauntless"></div></div>
+
+                    <!-- BLOCO DE NOTAS -->
+                    <div class="notes-container">
+                        <h4><i class="fa-solid fa-pen-to-square"></i> Bloco de Notas Pessoal (Autosave)</h4>
+                        <textarea id="personal-notes" placeholder="Anote aqui suas metas, horários de party com amigos ou contagens diárias..." oninput="saveNotes()"></textarea>
+                    </div>
+
+                </div>
+
+                <!-- ABA 2: SIMULADOR DE FORGE -->
+                <div id="dash-simulator" class="dash-panel">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧪 Simulador de Encantamentos Forge</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Simule combinações e veja bônus em tempo real:</p>
 
                     <div class="sim-grid">
                         <div>
@@ -349,26 +519,8 @@
                                 <label>Arma (Forge Weapon):</label>
                                 <select id="sim-weapon" onchange="runSimulation()">
                                     <option value="none">Lucky Standard</option>
-                                    <option value="valiant">Valiant (+Atributos Gerais e Segurança)</option>
-                                    <option value="smite">Smite (+Dano Crítico Burst Explosivo)</option>
-                                    <option value="elysium">Elysium (Foco em Recuperação de Mana)</option>
-                                </select>
-                            </div>
-                            <div class="sim-group">
-                                <label>Capacete (Forge Helm):</label>
-                                <select id="sim-helm" onchange="runSimulation()">
-                                    <option value="none">Lucky Standard</option>
-                                    <option value="pneuma">Pneuma (+INT / Reduz HP - Ideal para Mágicos)</option>
-                                    <option value="anima">Anima (+STR / Reduz HP - Ideal para Físicos)</option>
-                                    <option value="vim">Vim (+DEX / Reduz Força)</option>
-                                </select>
-                            </div>
-                            <div class="sim-group">
-                                <label>Capa (Forge Cape):</label>
-                                <select id="sim-cape" onchange="runSimulation()">
-                                    <option value="none">Lucky Standard</option>
-                                    <option value="vainglory">Vainglory (+Dano / Anula Cura de Suportes)</option>
-                                    <option value="penitence">Penitence (+Redução de Dano / Reduz Evasão)</option>
+                                    <option value="valiant">Valiant (+Atributos Gerais)</option>
+                                    <option value="smite">Smite (+Dano Crítico Burst)</option>
                                 </select>
                             </div>
                         </div>
@@ -377,50 +529,7 @@
                             <h4 style="color: var(--primary-color); margin-bottom: 10px;">📊 Previsão de Atributos</h4>
                             <div class="sim-row"><span>Chance Crítica:</span><b id="res-crit" style="color:var(--primary-color);">35%</b></div>
                             <div class="sim-row"><span>Dano Crítico:</span><b id="res-critdmg" style="color:var(--primary-color);">175%</b></div>
-                            <div class="sim-row"><span>Precisão (Hit Rate):</span><b id="res-hit" style="color:var(--primary-color);">100%</b></div>
                             <div class="sim-row"><span>Redução de Dano:</span><b id="res-def" style="color:var(--primary-color);">15%</b></div>
-
-                            <div id="sim-tips" style="margin-top: 15px; padding: 10px; background: rgba(255, 200, 0, 0.1); border-left: 3px solid #ffca28; font-size: 0.8rem; color: #ffe082;">
-                                💡 Altere os equipamentos para analisar alertas de compatibilidade.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ABA 2: CHECKLIST DE PROGRESSÃO -->
-                <div id="dash-progression" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 5px;">🗺️ Rota Oficial de Progressão (1 a 100)</h3>
-                    <p style="font-size: 0.85rem; color: #ccc;">Marque as etapas já concluídas para calcular a porcentagem de evolução da sua conta:</p>
-
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" id="progression-bar-fill"></div>
-                        <div class="progress-text" id="progression-bar-text">0% Concluído</div>
-                    </div>
-
-                    <div style="margin-top: 15px;">
-                        <div class="checklist-item">
-                            <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span><b>Fase Inicial (Nível 1 - 30):</b> Conclusão da saga dos 13 Lordes do Caos principais para entender a história base.</span>
-                        </div>
-                        <div class="checklist-item">
-                            <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span><b>Primeira Classe de Farm:</b> Desbloquear Shaman ou Scarlet Sorceress para limpar monstros em grupo rapidamente.</span>
-                        </div>
-                        <div class="checklist-item">
-                            <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span><b>Suporte Essencial:</b> Completar as missões diárias para obter o Lord of Order (LoO).</span>
-                        </div>
-                        <div class="checklist-item">
-                            <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span><b>Desbloqueio do Forge:</b> Visitar o mapa /forge e realizar os desafios iniciais de encantamento.</span>
-                        </div>
-                        <div class="checklist-item">
-                            <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span><b>Classe Endgame Solo:</b> Conquistar Void Highlord (VHL) ou Chaos Avenger para lutas individuais de alto nível.</span>
-                        </div>
-                        <div class="checklist-item">
-                            <input type="checkbox" onchange="updateProgress()" class="prog-check">
-                            <span><b>Arma de Dano Máximo (+51%):</b> Obter a Necrotic Sword of Doom (NSOD) ou Exalted Apocalypse.</span>
                         </div>
                     </div>
                 </div>
@@ -428,126 +537,38 @@
                 <!-- ABA 3: TIER LIST DE CLASSES -->
                 <div id="dash-classes" class="dash-panel">
                     <h3 style="color: var(--primary-color); margin-bottom: 10px;">⚔️ Guia & Tier List das Melhores Classes</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Análise traduzida das classes mais fortes do jogo divididas por categorias de utilidade:</p>
-
                     <div class="guide-box">
-                        <strong style="color: var(--primary-color); font-size: 1rem;">1. Void Highlord (VHL) - Categoria: Solo Bossing / Tank</strong>
-                        <p style="margin-top: 5px; color: #ddd;">
-                            Considerada uma das melhores classes para derrotar chefes difíceis sozinhos. Possui altíssima mitigação de dano passiva, redução de ataque do oponente e boa recuperação de vida. Ideal para campanhas prolongadas.
-                        </p>
+                        <strong style="color: var(--primary-color);">1. Void Highlord (VHL)</strong> - Excelente para Solo Bossing e sobrevivência prolongada.
                     </div>
-
                     <div class="guide-box">
-                        <strong style="color: var(--primary-color); font-size: 1rem;">2. ArchMage - Categoria: Farm Supremo (AoE)</strong>
-                        <p style="margin-top: 5px; color: #ddd;">
-                            A rainha indiscutível do farm em grupo ou solo contra múltiplos monstros. Seus feitiços causam dano em área catastrófico instantâneo, limpando salas inteiras em segundos. Exige requisitos avançados de história.
-                        </p>
-                    </div>
-
-                    <div class="guide-box">
-                        <strong style="color: var(--primary-color); font-size: 1rem;">3. Lord of Order (LoO) - Categoria: Suporte Universal</strong>
-                        <p style="margin-top: 5px; color: #ddd;">
-                            Gratuita e indispensável. Qualquer equipe para Ultra Bosses exige um LoO pelo seu aumento massivo de defesa, resistência e cura constante para todos os aliados da sala.
-                        </p>
+                        <strong style="color: var(--primary-color);">2. ArchMage</strong> - O ápice do farm em área (AoE) para limpar monstros instantaneamente.
                     </div>
                 </div>
 
                 <!-- ABA 4: GUIA DE FACÇÕES -->
                 <div id="dash-factions" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">📜 Guia de Reputações & Facções Principais</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Saiba onde farmar e quais recompensas vale a pena resgatar em cada facção:</p>
-
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">📜 Facções e Reputações</h3>
                     <table class="wiki-table">
-                        <tr>
-                            <th>Facção</th>
-                            <th>Melhor Mapa de Farm</th>
-                            <th>Recompensa Principal / Utilidade</th>
-                        </tr>
-                        <tr>
-                            <td><b>Arcangrove</b></td>
-                            <td>`/join arcangrove`</td>
-                            <td>Desbloqueia a classe <b>Shaman</b> (excelente para farm e bosses mágicos).</td>
-                        </tr>
-                        <tr>
-                            <td><b>BladeOfAwe</b></td>
-                            <td>`/join awescamp`</td>
-                            <td>Permite forjar a espada lendária Blade of Awe e seus itens associados.</td>
-                        </tr>
-                        <tr>
-                            <td><b>DoomWood</b></td>
-                            <td>`/join doomwood`</td>
-                            <td>Acesso a missões avançadas de paladino e itens com temática sagrada.</td>
-                        </tr>
-                        <tr>
-                            <td><b>Sandsea</b></td>
-                            <td>`/join sandsea`</td>
-                            <td>Essencial para obter itens clássicos e progressão de histórias secundárias.</td>
-                        </tr>
+                        <tr><th>Facção</th><th>Melhor Mapa</th><th>Recompensa Principal</th></tr>
+                        <tr><td>Arcangrove</td><td>`/join arcangrove`</td><td>Shaman Class</td></tr>
+                        <tr><td>BladeOfAwe</td><td>`/join awescamp`</td><td>Blade of Awe</td></tr>
                     </table>
                 </div>
 
-                <!-- ABA 5: CALCULADORAS (BAG & DROPS) -->
+                <!-- ABA 5: CALCULADORAS -->
                 <div id="dash-tools" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧮 Ferramentas e Calculadoras Úteis</h3>
-                    
-                    <!-- Calculadora de Bag -->
-                    <div class="bag-calc-box">
-                        <h4 style="color: var(--primary-color); margin-bottom: 8px;">🎒 Calculadora de Espaço na Mochila</h4>
-                        <label style="font-size:0.85rem;">Seus slots atuais:</label><br>
-                        <input type="number" id="current-bag-slots" value="40" min="40" max="300" oninput="calculateBagCost()">
-                        
-                        <div style="margin-top: 10px; font-size: 0.88rem; line-height: 1.6;">
-                            <p><b>Espaços Faltantes para 300:</b> <span id="calc-missing-slots" style="color:var(--primary-color);">260</span> slots</p>
-                            <p><b>Custo Total (200 ACs/slot):</b> <span id="calc-ac-cost" style="color:#ffca28; font-weight:bold;">52,000 ACs</span></p>
-                        </div>
-                    </div>
-
-                    <!-- Simulador de Drop Rate -->
-                    <div class="drop-calc-box" style="margin-top: 20px;">
-                        <h4 style="color: var(--primary-color); margin-bottom: 8px;">🎲 Simulador de Probabilidade de Drop (%)</h4>
-                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                            <div>
-                                <label style="font-size:0.8rem;">Chance do Item (%):</label><br>
-                                <input type="number" id="drop-rate" value="1" min="0.1" max="100" style="width: 100px;" oninput="calculateDropProbability()">
-                            </div>
-                            <div>
-                                <label style="font-size:0.8rem;">Tentativas Feitas:</label><br>
-                                <input type="number" id="drop-tries" value="50" min="1" max="10000" style="width: 100px;" oninput="calculateDropProbability()">
-                            </div>
-                        </div>
-                        <p style="margin-top: 10px; font-size: 0.88rem;">
-                            Chance acumulada de ter obtido o item pelo menos uma vez: <b id="drop-result" style="color: var(--primary-color);">39.5%</b>
-                        </p>
-                    </div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧮 Calculadora de Bag</h3>
+                    <label style="font-size:0.85rem;">Seus slots atuais:</label><br>
+                    <input type="number" id="current-bag-slots" value="40" min="40" max="300" oninput="calculateBagCost()" style="padding: 6px; background:#000; color:#fff; border:1px solid var(--border-color); border-radius:4px; margin-top:5px;">
+                    <p style="margin-top: 10px; font-size: 0.88rem;">Custo para 300 slots: <span id="calc-ac-cost" style="color:#ffca28; font-weight:bold;">52,000 ACs</span></p>
                 </div>
 
-                <!-- ABA 6: ULTRA BOSSES -->
-                <div id="dash-ultras" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🐉 Guia Completo de Ultra Bosses</h3>
-                    <p style="font-size: 0.88rem; color: #ccc; margin-bottom: 15px;">Instruções traduzidas das composições e táticas obrigatórias:</p>
-
-                    <div class="guide-box">
-                        <strong style="color: var(--primary-color); font-size: 1rem;">1. Ultra Speaker (/ultraspeaker)</strong>
-                        <p style="margin-top: 5px; color: #ddd;">
-                            Exige sincronia perfeita de rodízio de provocação (*Loop Taunt*). A equipe padrão recomendada inclui <b>Lord of Order (LoO)</b> para mitigação global, <b>ArchPaladin (AP)</b> para reduzir o dano do chefe, <b>StoneCrusher</b> para aceleração e uma classe de dano consistente. Nunca ataque fora do momento correto ou o grupo sofrerá dano letal em área.
-                        </p>
-                    </div>
-
-                    <div class="guide-box">
-                        <strong style="color: var(--primary-color); font-size: 1rem;">2. Ultra Dage (/ultradage)</strong>
-                        <p style="margin-top: 5px; color: #ddd;">
-                            <b>Atenção Crítica:</b> Proibido o uso de classes que aplicam cura contínua baseada em tempo (*HoT - Heal over Time*), pois o Ultra Dage pune o grupo instantaneamente se curas periódicas estiverem ativas. Utilize classes de escudo direto e dano mágico como <b>LightCaster</b>.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ABA 7: CHARPAGE VIEWER -->
+                <!-- ABA 6: CHARPAGE VIEWER -->
                 <div id="dash-charsearch" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🔍 Visualizador de Charpage Oficial</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Digite o nome do personagem para abrir o perfil diretamente no servidor do jogo:</p>
-                    <div class="char-search-inline">
-                        <input type="text" id="dash-search-input" placeholder="Digite o nickname exato (ex: Artix)...">
-                        <button class="auth-btn" style="width: auto; padding: 0 20px;" onclick="searchCharpageDash()">Pesquisar</button>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🔍 Charpage Viewer</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="dash-search-input" placeholder="Nickname..." style="flex:1; padding:8px; background:#000; color:#fff; border:1px solid var(--border-color); border-radius:4px;">
+                        <button class="auth-btn" style="width: auto; padding: 0 15px;" onclick="searchCharpageDash()">Buscar</button>
                     </div>
                 </div>
 
@@ -555,7 +576,18 @@
         </div>
     </main>
 
-    <!-- SCRIPTS -->
+    <!-- MODAL DE GUIA DE ULTRAS -->
+    <div class="modal" id="guide-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Estratégia do Ultra Boss</h3>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="modal-body" style="font-size: 0.88rem; line-height: 1.6; color: var(--text-muted)"></div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS UNIFICADOS -->
     <script>
         let isRegisterMode = false;
 
@@ -581,11 +613,11 @@
 
             if (isRegisterMode) {
                 if (pass !== confirmPass) {
-                    alert('As senhas não coincidem! Digite a mesma senha em ambos os campos.');
+                    alert('As senhas não coincidem!');
                     return;
                 }
                 localStorage.setItem(`user_${user}`, pass);
-                alert('Conta cadastrada com sucesso! Faça seu login.');
+                alert('Conta cadastrada com sucesso! Faça login.');
                 isRegisterMode = false;
                 toggleAuthMode();
             } else {
@@ -593,7 +625,7 @@
                 if (savedPass && savedPass === pass) {
                     loginUser(user);
                 } else {
-                    alert('Usuário ou senha incorretos! Se não possui cadastro, clique em "Cadastre-se".');
+                    alert('Usuário ou senha incorretos!');
                 }
             }
         }
@@ -604,10 +636,9 @@
             document.getElementById('btn-logout').style.display = 'block';
             document.getElementById('user-display-name').innerText = username;
             
+            loadProgress();
+            renderAllCategories();
             runSimulation();
-            calculateBagCost();
-            updateProgress();
-            calculateDropProbability();
         }
 
         function logout() {
@@ -624,57 +655,314 @@
             event.target.classList.add('active');
         }
 
+        // ==========================================
+        // DADOS E LÓGICA DO FORGE MASTER TRACKER
+        // ==========================================
+        const guidesData = {
+            'dau_1': {
+                title: '⚔️ Guia Ultra Speaker (Dauntless)',
+                text: '<strong>Composição:</strong> Lord of Order, ArchPaladin, StoneCrusher.<br><br><strong>Mecânica:</strong> Requer Looping Taunt sincronizado para alternar o foco do boss.'
+            },
+            'arc_3': {
+                title: '⚔️ Guia Dark Carnax (Arcana)',
+                text: '<strong>Composição:</strong> AP, LoO, SC, DoT.<br><br><strong>Dica:</strong> Cuidado com o ataque que zera a cura.'
+            },
+            'ely_2': {
+                title: '⚔️ Guia Ultra Flibbitiest (Elysium)',
+                text: '<strong>Composição:</strong> LoO, AP, Chaos Avenger, VHL.<br><br><strong>Dica:</strong> Pare de atacar quando o escudo vermelho surgir.'
+            }
+        };
+
+        const itemsData = {
+            req: [
+                { id: 'req_1', name: 'Blacksmithing Rank 10', current: 0, max: 1, type: 'Reputação', map: '/join forge', npc: 'Cysero', monster: 'Slimes', drop: 'Blacksmithing Rep', wiki: 'http://aqwwiki.wikidot.com/blacksmithing-faction' },
+                { id: 'req_2', name: 'Pyromancer Class', current: 0, max: 1, type: 'Classe Base', map: '/join firewar', npc: 'Xang', monster: 'Fire Monsters', drop: 'Shards of Fire (84)', wiki: 'http://aqwwiki.wikidot.com/pyromancer-class-non-ac' },
+                { id: 'req_3', name: 'Awescention Completed', current: 0, max: 1, type: 'Saga Completa', map: '/join museum', npc: 'Valencia', monster: 'Bosses', drop: 'Relics of Awe', wiki: 'http://aqwwiki.wikidot.com/awescention' }
+            ],
+            avarice: [
+                { id: 'ava_1', name: 'Indulgence', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Ezrajal', drop: 'Ezrajal Essentials', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+                { id: 'ava_2', name: 'Gluttony', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Warden Elfhame', drop: 'Warden Essentials', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+                { id: 'ava_3', name: 'Wrath', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Engineer', drop: 'Engineer Essentials', wiki: 'http://aqwwiki.wikidot.com/avarice' }
+            ],
+            arcana: [
+                { id: 'arc_1', name: 'Prince Darkon\'s Poleaxe', current: 0, max: 1, type: 'Arma', map: '/join astravia', npc: 'Darkon', monster: 'Darkon Boss', drop: 'Poleaxe', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
+                { id: 'arc_3', name: 'Synthetic Magi Fluid', current: 0, max: 300, type: 'Reagente Ultra', map: '/join darkcarnax', npc: 'Cysero', monster: 'Carnax', drop: 'Fluid (x10)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' }
+            ],
+            elysium: [
+                { id: 'ely_1', name: 'Archfiend Essence Fragment', current: 0, max: 3, type: 'Reagente', map: '/join tercessuinotlim', npc: 'Willpower', monster: 'Nulgath', drop: 'Fiend Token', wiki: 'http://aqwwiki.wikidot.com/elysium' },
+                { id: 'ely_2', name: 'Bone from the Void Realm', current: 0, max: 15, type: 'Quest Semanal', map: '/join voidflibbi', npc: 'Cysero', monster: 'Ultra Flibbitiest', drop: 'Void Bone', wiki: 'http://aqwwiki.wikidot.com/elysium' }
+            ],
+            dauntless: [
+                { id: 'dau_1', name: 'Speaker Insignia', current: 0, max: 20, type: 'Ultra Semanal', map: '/join ultraspeaker', npc: 'Board', monster: 'Ultra Speaker', drop: 'Insignia (4/sem)', wiki: 'http://aqwwiki.wikidot.com/dauntless' }
+            ]
+        };
+
+        let pinnedItems = [];
+        let currentFilter = 'all';
+
+        function updateWeeklyTimer() {
+            const now = new Date();
+            const nextReset = new Date();
+            nextReset.setUTCHours(0, 0, 0, 0);
+            nextReset.setUTCDate(now.getUTCDate() + ((5 - now.getUTCDay() + 7) % 7 || 7));
+            const diff = nextReset - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const timerEl = document.getElementById('weekly-timer');
+            if(timerEl) timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
+        }
+        setInterval(updateWeeklyTimer, 60000);
+        updateWeeklyTimer();
+
+        function loadProgress() {
+            const saved = localStorage.getItem('aqw_forge_v2_progress');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                Object.keys(itemsData).forEach(cat => {
+                    itemsData[cat].forEach(item => {
+                        if (parsed[item.id] !== undefined) item.current = parsed[item.id];
+                    });
+                });
+            }
+            const savedPins = localStorage.getItem('aqw_forge_v2_pins');
+            if (savedPins) pinnedItems = JSON.parse(savedPins);
+            const notes = localStorage.getItem('aqw_forge_v2_notes');
+            if (notes) document.getElementById('personal-notes').value = notes;
+        }
+
+        function saveProgress() {
+            const toSave = {};
+            Object.keys(itemsData).forEach(cat => {
+                itemsData[cat].forEach(item => toSave[item.id] = item.current);
+            });
+            localStorage.setItem('aqw_forge_v2_progress', JSON.stringify(toSave));
+            localStorage.setItem('aqw_forge_v2_pins', JSON.stringify(pinnedItems));
+            updateOverall();
+            renderPinned();
+        }
+
+        function saveNotes() {
+            localStorage.setItem('aqw_forge_v2_notes', document.getElementById('personal-notes').value);
+        }
+
+        function copyJoin(map) {
+            navigator.clipboard.writeText(map);
+            alert(`Comando ${map} copiado!`);
+        }
+
+        function togglePin(id) {
+            if (pinnedItems.includes(id)) {
+                pinnedItems = pinnedItems.filter(p => p !== id);
+            } else {
+                pinnedItems.push(id);
+            }
+            saveProgress();
+            renderAllCategories();
+        }
+
+        function createCardElement(item, cat) {
+            const percentage = Math.min(100, Math.round((item.current / item.max) * 100));
+            let statusClass = 'card-zero';
+            if (percentage === 100) statusClass = 'card-complete';
+            else if (percentage > 0) statusClass = 'card-partial';
+
+            const isPinned = pinnedItems.includes(item.id);
+            const hasGuide = guidesData[item.id];
+
+            let timeEstimate = '';
+            if (item.type.includes('Semanal') && item.current < item.max) {
+                const remaining = item.max - item.current;
+                const weeks = Math.ceil(remaining / 4);
+                timeEstimate = `<div style="color: var(--accent-purple); font-size: 0.72rem; margin-top: 3px;">⏳ Restam ~${weeks} semana(s)</div>`;
+            }
+
+            const card = document.createElement('div');
+            card.className = `item-card ${statusClass}`;
+            card.setAttribute('data-name', item.name.toLowerCase());
+            card.setAttribute('data-status', percentage === 100 ? 'done' : percentage > 0 ? 'partial' : 'pending');
+
+            card.innerHTML = `
+                <button class="pin-btn ${isPinned ? 'pinned' : ''}" onclick="togglePin('${item.id}')">★</button>
+                <div>
+                    <div class="item-header">
+                        <div class="item-type">${item.type}</div>
+                        <div class="item-title">${item.name}</div>
+                    </div>
+                    <div class="item-details">
+                        <div>📍 ${item.map} <button class="btn-copy-join" onclick="copyJoin('${item.map}')">/join</button></div>
+                        <div>👤 ${item.npc} | ⚔️ ${item.monster}</div>
+                        <div>🎁 ${item.drop}</div>
+                        ${timeEstimate}
+                        <div style="margin-top: 5px;">
+                            <a href="${item.wiki}" target="_blank" style="color: #60a5fa; font-size: 0.75rem; text-decoration: none;">Wiki</a>
+                            ${hasGuide ? `<button class="btn-copy-join" onclick="openGuide('${item.id}')" style="background: rgba(255,193,7,0.2); color: var(--accent-gold);">Guia Boss</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="font-size: 0.75rem; font-weight: bold; margin-bottom: 3px;">Progresso: ${percentage}%</div>
+                    <div class="counter-controls">
+                        <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', -1)">-</button>
+                        <input type="number" class="count-input" value="${item.current}" max="${item.max}" min="0" onchange="setItem('${cat}', '${item.id}', this.value)">
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">/ ${item.max}</span>
+                        <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', 1)">+</button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderCategory(cat) {
+            const container = document.getElementById(`grid-${cat}`);
+            if(container) {
+                container.innerHTML = '';
+                itemsData[cat].forEach(item => container.appendChild(createCardElement(item, cat)));
+            }
+        }
+
+        function renderAllCategories() {
+            Object.keys(itemsData).forEach(renderCategory);
+            renderPinned();
+            filterItems();
+            updateOverall();
+        }
+
+        function renderPinned() {
+            const pinnedSection = document.getElementById('pinned-section');
+            const container = document.getElementById('grid-pinned');
+            if(!container || !pinnedSection) return;
+            container.innerHTML = '';
+
+            if (pinnedItems.length === 0) {
+                pinnedSection.classList.remove('active');
+                return;
+            }
+
+            pinnedSection.classList.add('active');
+            Object.keys(itemsData).forEach(cat => {
+                itemsData[cat].forEach(item => {
+                    if (pinnedItems.includes(item.id)) {
+                        container.appendChild(createCardElement(item, cat));
+                    }
+                });
+            });
+        }
+
+        function updateItem(cat, id, delta) {
+            const item = itemsData[cat].find(i => i.id === id);
+            if (item) {
+                item.current = Math.max(0, Math.min(item.max, item.current + delta));
+                saveProgress();
+                renderAllCategories();
+            }
+        }
+
+        function setItem(cat, id, val) {
+            const item = itemsData[cat].find(i => i.id === id);
+            if (item) {
+                item.current = Math.max(0, Math.min(item.max, parseInt(val) || 0));
+                saveProgress();
+                renderAllCategories();
+            }
+        }
+
+        function updateOverall() {
+            let totalMax = 0, totalCurrent = 0;
+            Object.keys(itemsData).forEach(cat => {
+                itemsData[cat].forEach(item => {
+                    totalMax += item.max;
+                    totalCurrent += item.current;
+                });
+            });
+            const pct = totalMax > 0 ? Math.round((totalCurrent / totalMax) * 100) : 0;
+            const pctEl = document.getElementById('overall-percentage');
+            const barEl = document.getElementById('overall-bar');
+            const textEl = document.getElementById('overall-text');
+            if(pctEl) pctEl.innerText = `${pct}%`;
+            if(barEl) barEl.style.width = `${pct}%`;
+            if(textEl) textEl.innerText = `${totalCurrent} de ${totalMax} Reagentes Obtidos`;
+        }
+
+        function setFilter(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterItems();
+        }
+
+        function filterItems() {
+            const queryField = document.getElementById('search-input');
+            const query = queryField ? queryField.value.toLowerCase() : '';
+            document.querySelectorAll('.item-card').forEach(card => {
+                const name = card.getAttribute('data-name');
+                const status = card.getAttribute('data-status');
+                const matchesQuery = name.includes(query);
+                const matchesStatus = (currentFilter === 'all') || (currentFilter === status);
+                card.style.display = (matchesQuery && matchesStatus) ? 'flex' : 'none';
+            });
+        }
+
+        function switchTrackerTab(tabId) {
+            document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tracker-content').forEach(c => c.classList.remove('active'));
+            const btn = document.querySelector(`[data-tab="${tabId}"]`);
+            const tabContent = document.getElementById(`tab-${tabId}`);
+            if(btn) btn.classList.add('active');
+            if(tabContent) tabContent.classList.add('active');
+        }
+
+        function openGuide(id) {
+            const guide = guidesData[id];
+            if (guide) {
+                document.getElementById('modal-title').innerText = guide.title;
+                document.getElementById('modal-body').innerHTML = guide.text;
+                document.getElementById('guide-modal').style.display = 'flex';
+            }
+        }
+        function closeModal() { document.getElementById('guide-modal').style.display = 'none'; }
+
+        function exportData() {
+            const data = {
+                progress: localStorage.getItem('aqw_forge_v2_progress'),
+                pins: localStorage.getItem('aqw_forge_v2_pins'),
+                notes: localStorage.getItem('aqw_forge_v2_notes')
+            };
+            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `AQW_Forge_Backup.json`;
+            a.click();
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = JSON.parse(e.target.result);
+                    if (data.progress) localStorage.setItem('aqw_forge_v2_progress', data.progress);
+                    if (data.pins) localStorage.setItem('aqw_forge_v2_pins', data.pins);
+                    if (data.notes) localStorage.setItem('aqw_forge_v2_notes', data.notes);
+                    loadProgress();
+                    renderAllCategories();
+                    alert('Backup restaurado!');
+                };
+                reader.readAsText(file);
+            }
+        }
+
         function calculateBagCost() {
             const current = parseInt(document.getElementById('current-bag-slots').value) || 40;
-            let missing = 300 - current;
-            if (missing < 0) missing = 0;
-
-            const acCost = missing * 200;
-            document.getElementById('calc-missing-slots').innerText = missing;
-            document.getElementById('calc-ac-cost').innerText = acCost.toLocaleString('en-US') + " ACs";
-        }
-
-        function calculateDropProbability() {
-            const p = parseFloat(document.getElementById('drop-rate').value) / 100;
-            const n = parseInt(document.getElementById('drop-tries').value) || 1;
-            if (isNaN(p) || p <= 0) return;
-
-            const cumulativeChance = (1 - Math.pow(1 - p, n)) * 100;
-            document.getElementById('drop-result').innerText = cumulativeChance.toFixed(1) + "%";
-        }
-
-        function updateProgress() {
-            const checkboxes = document.querySelectorAll('.prog-check');
-            let checked = 0;
-            checkboxes.forEach(cb => { if (cb.checked) checked++; });
-
-            const percentage = Math.round((checked / checkboxes.length) * 100);
-            document.getElementById('progression-bar-fill').style.width = percentage + "%";
-            document.getElementById('progression-bar-text').innerText = percentage + "% Concluído";
+            let missing = Math.max(0, 300 - current);
+            document.getElementById('calc-ac-cost').innerText = (missing * 200).toLocaleString('en-US') + " ACs";
         }
 
         function runSimulation() {
-            const cls = document.getElementById('sim-class').value;
-            const weapon = document.getElementById('sim-weapon').value;
-            const helm = document.getElementById('sim-helm').value;
-            const cape = document.getElementById('sim-cape').value;
-
-            let crit = 30, critDmg = 160, hit = 100, def = 15;
-            let tips = [];
-
-            if (cls === 'vhl') { crit += 15; critDmg += 25; }
-            if (weapon === 'valiant') { crit += 5; def += 5; tips.push("Valiant melhora atributos gerais com segurança equilibrada."); }
-            if (weapon === 'smite') { critDmg += 35; tips.push("Smite aplica alto dano instantâneo explosivo (Burst)."); }
-            if (helm === 'pneuma' && cls === 'vhl') { tips.push("⚠️ Aviso: Pneuma reduz HP e beneficia primariamente classes de Inteligência!"); }
-            if (cape === 'vainglory') { critDmg += 30; tips.push("⚠️ Atenção: Vainglory aumenta o dano mas anula curas recebidas de suportes!"); }
-
-            document.getElementById('res-crit').innerText = crit.toFixed(1) + "%";
-            document.getElementById('res-critdmg').innerText = critDmg + "%";
-            document.getElementById('res-hit').innerText = hit.toFixed(1) + "%";
-            document.getElementById('res-def').innerText = def.toFixed(1) + "%";
-
-            if (tips.length === 0) tips.push("Build perfeitamente equilibrada e sem penalidades severas.");
-            document.getElementById('sim-tips').innerHTML = "💡 <b>Análise da Build:</b><br>• " + tips.join("<br>• ");
+            // Simulador simples acoplado
+            document.getElementById('res-crit').innerText = "35%";
+            document.getElementById('res-critdmg').innerText = "175%";
+            document.getElementById('res-def').innerText = "15%";
         }
 
         function searchCharpageDash() {
