@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQWorlds BR - Portal do Jogador</title>
+    <title>AQWorlds BR - Portal & Wiki Hub</title>
     <style>
         :root {
             --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBlYj_R1BXPxaOT04B0vE57iDUfqW31nLhDAZz6GwnvMGTa3IYtU54ydrw&s=10');
@@ -57,7 +57,19 @@
             background: var(--bg-overlay); z-index: -1;
         }
 
-        /* HEADER */
+        /* LINKS WIKI AQW */
+        a.wiki-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px dotted var(--primary-color);
+        }
+        a.wiki-link:hover {
+            color: #fff;
+            text-shadow: 0 0 5px var(--primary-color);
+            border-bottom: 1px solid #fff;
+        }
+
         header {
             width: 100%; padding: 15px 30px;
             display: flex; justify-content: space-between; align-items: center;
@@ -88,10 +100,8 @@
 
         main { max-width: 1100px; width: 90%; margin: 30px 0; }
 
-        /* PÁGINA INICIAL / LANDING PAGE PÚBLICA */
-        .landing-grid {
-            display: grid; grid-template-columns: 1fr 340px; gap: 25px;
-        }
+        /* LANDING PAGE (PÚBLICA) */
+        .landing-grid { display: grid; grid-template-columns: 1fr 340px; gap: 25px; }
 
         .news-section {
             background: var(--card-bg); border: 1px solid var(--border-color);
@@ -129,7 +139,7 @@
             margin-top: 10px; cursor: pointer; text-decoration: underline;
         }
 
-        /* DASHBOARD PRIVADO (POS-LOGIN) */
+        /* DASHBOARD PRIVADO */
         #user-dashboard { display: none; }
 
         .dashboard-welcome {
@@ -140,8 +150,8 @@
 
         nav.dashboard-nav {
             display: flex; gap: 5px; background: rgba(0,0,0,0.8);
-            border: 1px solid var(--border-color); border-top: none;
-            border-bottom: none; overflow-x: auto;
+            border: 1px solid var(--border-color); border-top: none; border-bottom: none;
+            overflow-x: auto;
         }
 
         .dash-tab {
@@ -165,7 +175,7 @@
         .dash-panel { display: none; }
         .dash-panel.active { display: block; }
 
-        /* ESTILOS DO SIMULADOR E GUIA (INTERIOR DO DASHBOARD) */
+        /* SIMULADOR */
         .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .sim-group { margin-bottom: 12px; }
         .sim-group label { display: block; font-size: 0.8rem; color: var(--primary-color); margin-bottom: 4px; font-weight: bold; }
@@ -198,15 +208,12 @@
     </header>
 
     <main>
-        <!-- ==========================================
-             1. PÁGINA INICIAL PÚBLICA (DESLOGADO)
-             ========================================== -->
+        <!-- PÁGINA INICIAL (DESLOGADO) -->
         <div id="public-landing" class="landing-grid">
             
-            <!-- NOTÍCIAS PRINCIPAIS (DESIGN NOTES) -->
             <section class="news-section">
                 <h2 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-                    📰 Últimas Notícias & Updates (Design Notes)
+                    📰 Design Notes & Notícias do AQW
                 </h2>
 
                 <article class="news-article">
@@ -215,7 +222,7 @@
                     </span>
                     <h3 style="color: #fff; margin: 8px 0;">🔥 Guerra Sombria: Invasão das Sombras</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Esta semana o evento principal traz batalhas em <code>/join shadowinvasion</code>. Durante todo o fim de semana o bônus de <b>2x Reputação e XP</b> estará ativo em todos os servidores!
+                        Esta semana o evento principal traz batalhas no mapa <a href="http://aqwwiki.wikidot.com/shadowinvasion" target="_blank" class="wiki-link">/shadowinvasion</a>. O bônus de <b>2x Reputação e XP</b> está ativo!
                     </p>
                 </article>
 
@@ -223,24 +230,22 @@
                     <span style="font-size: 0.75rem; background: #ffca28; color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
                         BALANCEAMENTO
                     </span>
-                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Ajustes nas Classes de Suporte e Tanque</h3>
+                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Ajustes de Classes de Suporte</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Ajustes de tempo de recarga foram aplicados às habilidades do <i>ArchPaladin</i> e <i>Lord of Order</i> para otimizar as batalhas semanais contra Ultra Bosses.
+                        Confira na wiki as mudanças de habilidades das classes <a href="http://aqwwiki.wikidot.com/archpaladin-class" target="_blank" class="wiki-link">ArchPaladin</a> e <a href="http://aqwwiki.wikidot.com/lord-of-order" target="_blank" class="wiki-link">Lord of Order</a>.
                     </p>
                 </article>
             </section>
 
-            <!-- TELA DE LOGIN / CADASTRO -->
             <aside class="auth-card">
                 <h3 id="auth-title">🔐 Área do Jogador</h3>
                 <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">
-                    Crie uma conta gratuita para desbloquear o Simulador de Forge, Rotas de Progressão e Guias.
+                    Crie uma conta gratuita para ter acesso aos simuladores e guias interativos.
                 </p>
 
                 <form class="auth-form" onsubmit="handleAuth(event)">
                     <input type="text" id="auth-username" placeholder="Nome de Usuário" required>
                     <input type="password" id="auth-password" placeholder="Sua Senha" required>
-                    
                     <button type="submit" class="auth-btn" id="auth-submit-btn">Entrar na Conta</button>
                 </form>
 
@@ -250,25 +255,22 @@
             </aside>
         </div>
 
-        <!-- ==========================================
-             2. DASHBOARD PRIVADO (APÓS LOGIN)
-             ========================================== -->
+        <!-- DASHBOARD PRIVADO (POS-LOGIN) -->
         <div id="user-dashboard">
             
             <div class="dashboard-welcome">
                 <div>
                     <h2>Bem-vindo, <span id="user-display-name" style="color: var(--primary-color);">Hero</span>! 👋</h2>
-                    <p style="font-size: 0.8rem; color: #aaa;">Sua central de ferramentas para o AdventureQuest Worlds.</p>
+                    <p style="font-size: 0.8rem; color: #aaa;">Seu hub interativo com links diretos para a Wiki Oficial do AQW.</p>
                 </div>
                 <button class="auth-btn" style="padding: 6px 15px;" onclick="switchDashTab('charsearch')">🔎 Buscar Charpage</button>
             </div>
 
-            <!-- NAVEGAÇÃO INTERNA DO USUÁRIO -->
             <nav class="dashboard-nav">
                 <button class="dash-tab active" onclick="switchDashTab('simulator')">🧪 Simulador de Forge</button>
-                <button class="dash-tab" onclick="switchDashTab('progression')">🗺️ Rota de Progressão</button>
+                <button class="dash-tab" onclick="switchDashTab('progression')">🗺️ Progressão & Quests</button>
                 <button class="dash-tab" onclick="switchDashTab('ultras')">🐉 Ultra Bosses</button>
-                <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage Viewer</button>
+                <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Buscar Charpage</button>
             </nav>
 
             <div class="dash-content-container">
@@ -276,42 +278,42 @@
                 <!-- ABA 1: SIMULADOR DE FORGE -->
                 <div id="dash-simulator" class="dash-panel active">
                     <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧪 Simulador de Encantamentos & Status Previsto</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Monte seu set de Forge e veja os status calculados em tempo real antes de gastar gold no jogo.</p>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Simule seu set e consulte os detalhes diretamente em <a href="http://aqwwiki.wikidot.com/forge-enhancements" target="_blank" class="wiki-link">Forge Enhancements Wiki ↗</a>.</p>
 
                     <div class="sim-grid">
                         <div>
                             <div class="sim-group">
                                 <label>Classe:</label>
                                 <select id="sim-class" onchange="runSimulation()">
-                                    <option value="vhl">Void Highlord (Solo DPS)</option>
-                                    <option value="archmage">ArchMage (Farming AoE)</option>
-                                    <option value="ap">ArchPaladin (Suporte Tank)</option>
+                                    <option value="vhl">Void Highlord</option>
+                                    <option value="archmage">ArchMage</option>
+                                    <option value="ap">ArchPaladin</option>
                                 </select>
                             </div>
                             <div class="sim-group">
                                 <label>Arma (Forge Weapon):</label>
                                 <select id="sim-weapon" onchange="runSimulation()">
                                     <option value="none">Lucky Standard</option>
-                                    <option value="valiant">Valiant (+Stats / +HP)</option>
-                                    <option value="smite">Smite (+Crit Burst)</option>
-                                    <option value="elysium">Elysium (Recupera Mana)</option>
+                                    <option value="valiant">Valiant</option>
+                                    <option value="smite">Smite</option>
+                                    <option value="elysium">Elysium</option>
                                 </select>
                             </div>
                             <div class="sim-group">
                                 <label>Capacete (Forge Helm):</label>
                                 <select id="sim-helm" onchange="runSimulation()">
                                     <option value="none">Lucky Standard</option>
-                                    <option value="pneuma">Pneuma (+INT / -HP)</option>
-                                    <option value="anima">Anima (+STR / -HP)</option>
-                                    <option value="vim">Vim (+DEX / -STR)</option>
+                                    <option value="pneuma">Pneuma</option>
+                                    <option value="anima">Anima</option>
+                                    <option value="vim">Vim</option>
                                 </select>
                             </div>
                             <div class="sim-group">
                                 <label>Capa (Forge Cape):</label>
                                 <select id="sim-cape" onchange="runSimulation()">
                                     <option value="none">Lucky Standard</option>
-                                    <option value="vainglory">Vainglory (+Dano / Sem Cura Direta)</option>
-                                    <option value="penitence">Penitence (+Defesa / -Evasão)</option>
+                                    <option value="vainglory">Vainglory</option>
+                                    <option value="penitence">Penitence</option>
                                 </select>
                             </div>
                         </div>
@@ -320,41 +322,51 @@
                             <h4 style="color: var(--primary-color); margin-bottom: 10px;">📊 Previsão de Atributos</h4>
                             <div class="sim-row"><span>Chance Crítica:</span><b id="res-crit" style="color:var(--primary-color);">35%</b></div>
                             <div class="sim-row"><span>Dano Crítico:</span><b id="res-critdmg" style="color:var(--primary-color);">175%</b></div>
-                            <div class="sim-row"><span>Precisão (Hit Rate):</span><b id="res-hit" style="color:var(--primary-color);">100%</b></div>
+                            <div class="sim-row"><span>Precisão:</span><b id="res-hit" style="color:var(--primary-color);">100%</b></div>
                             <div class="sim-row"><span>Redução de Dano:</span><b id="res-def" style="color:var(--primary-color);">15%</b></div>
 
                             <div id="sim-tips" style="margin-top: 15px; padding: 10px; background: rgba(255, 200, 0, 0.1); border-left: 3px solid #ffca28; font-size: 0.8rem; color: #ffe082;">
-                                💡 Dica: Altere os itens para analisar incompatibilidades.
+                                💡 Altere os itens para ver as dicas.
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ABA 2: PROGRESSÃO -->
+                <!-- ABA 2: PROGRESSÃO E WIKI LINKS -->
                 <div id="dash-progression" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">🗺️ Guia de Progressão de Conta (Lvl 1 - 100)</h3>
-                    <div style="line-height: 1.6; font-size: 0.9rem; color: #ddd;">
-                        <p><b>1. Nível 1 ao 30:</b> Foque na história principal dos 13 Chaos Lords e suba níveis rapidamente em <code>/join icestormarena</code>.</p><br>
-                        <p><b>2. Nível 30 ao 70:</b> Pegue a classe <b>Shaman</b> para farm e inicie a quest diária de 10 dias para pegar a <b>Lord of Order</b>.</p><br>
-                        <p><b>3. Nível 70+:</b> Libere os encantamentos em <code>/join forge</code> e faça o farm endgame de <b>Void Highlord</b> ou <b>ArchMage</b>.</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">🗺️ Rota de Progressão & Links das Quests</h3>
+                    <div style="line-height: 1.7; font-size: 0.9rem; color: #ddd;">
+                        <p><b>1. Nível 1 ao 30:</b> Complete a saga dos <a href="http://aqwwiki.wikidot.com/13-chaos-lords-sagas" target="_blank" class="wiki-link">13 Chaos Lords</a> e suba de nível no mapa <a href="http://aqwwiki.wikidot.com/icestormarena" target="_blank" class="wiki-link">/icestormarena</a>.</p>
+                        
+                        <p style="margin-top:10px;"><b>2. Nível 30 ao 70:</b> Conquiste a classe de farm <a href="http://aqwwiki.wikidot.com/shaman" target="_blank" class="wiki-link">Shaman</a> e inicie as diárias da quest <a href="http://aqwwiki.wikidot.com/lord-of-order-quests" target="_blank" class="wiki-link">Lord of Order Quests</a>.</p>
+                        
+                        <p style="margin-top:10px;"><b>3. Nível 70+:</b> Libere os encantamentos no mapa <a href="http://aqwwiki.wikidot.com/forge" target="_blank" class="wiki-link">/forge</a> e farme as classes endgame: 
+                            <a href="http://aqwwiki.wikidot.com/void-highlord-class" target="_blank" class="wiki-link">Void Highlord</a>, 
+                            <a href="http://aqwwiki.wikidot.com/legion-revenant-class" target="_blank" class="wiki-link">Legion Revenant</a> e 
+                            <a href="http://aqwwiki.wikidot.com/archmage-class" target="_blank" class="wiki-link">ArchMage</a>.
+                        </p>
+
+                        <p style="margin-top:10px;"><b>4. Armas Boosted (+50% Dano):</b>
+                            Farm da <a href="http://aqwwiki.wikidot.com/necrotic-sword-of-doom-weapon" target="_blank" class="wiki-link">Necrotic Sword of Doom (NSOD)</a> e da <a href="http://aqwwiki.wikidot.com/exalted-apocalypse" target="_blank" class="wiki-link">Exalted Apocalypse</a>.
+                        </p>
                     </div>
                 </div>
 
-                <!-- ABA 3: ULTRA BOSSES -->
+                <!-- ABA 3: ULTRA BOSSES COM LINKS DAS QUESTS -->
                 <div id="dash-ultras" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🐉 Guia Rápido de Ultra Bosses</h3>
-                    <p style="font-size: 0.88rem; color: #ccc;">Composições recomendadas para as batalhas semanais:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🐉 Guia Rápido & Mapas de Ultra Bosses</h3>
+                    <p style="font-size: 0.88rem; color: #ccc;">Consulte as estratégias e requisitos na wiki oficial:</p>
                     <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.88rem; color: #ddd; line-height: 1.8;">
-                        <li><b>Ultra Speaker:</b> Lord of Order, ArchPaladin, StoneCrusher, Legion Revenant / Apex DPS.</li>
-                        <li><b>Ultra Dage:</b> LightCaster, Dark Blood Shaman, PaladinChronomancer, Legion Revenant (Sem poções de HoT).</li>
+                        <li><b><a href="http://aqwwiki.wikidot.com/ultra-speaker" target="_blank" class="wiki-link">Ultra Speaker (/ultraspeaker)</a>:</b> Exige composições com <a href="http://aqwwiki.wikidot.com/lord-of-order" target="_blank" class="wiki-link">LoO</a>, <a href="http://aqwwiki.wikidot.com/archpaladin-class" target="_blank" class="wiki-link">AP</a> e <a href="http://aqwwiki.wikidot.com/stonecrusher" target="_blank" class="wiki-link">StoneCrusher</a>.</li>
+                        <li><b><a href="http://aqwwiki.wikidot.com/ultra-dage" target="_blank" class="wiki-link">Ultra Dage (/ultradage)</a>:</b> Proibido poções ou habilidades de HoT (Heal over Time). Usar <a href="http://aqwwiki.wikidot.com/lightcaster" target="_blank" class="wiki-link">LightCaster</a>.</li>
                     </ul>
                 </div>
 
-                <!-- ABA 4: BUSCA DE CHARPAGE -->
+                <!-- ABA 4: BUSCA CHARPAGE -->
                 <div id="dash-charsearch" class="dash-panel">
                     <h3 style="color: var(--primary-color); margin-bottom: 10px;">🔍 Visualizador de Charpage Oficial</h3>
                     <div class="char-search-inline">
-                        <input type="text" id="dash-search-input" placeholder="Digite o nome do jogador (ex: Artix)...">
+                        <input type="text" id="dash-search-input" placeholder="Digite o nickname exato (ex: Artix)...">
                         <button class="auth-btn" style="width: auto; padding: 0 20px;" onclick="searchCharpageDash()">Buscar</button>
                     </div>
                 </div>
@@ -364,7 +376,6 @@
     </main>
 
     <script>
-        // ESTADO DE AUTENTICAÇÃO E TEMA
         let isRegisterMode = false;
 
         function setTheme(theme) {
@@ -386,18 +397,16 @@
             if (!user || !pass) return;
 
             if (isRegisterMode) {
-                // SALVA A CONTA NO LOCALSTORAGE
                 localStorage.setItem(`user_${user}`, pass);
-                alert('Conta criada com sucesso! Você já pode acessar.');
+                alert('Conta criada com sucesso!');
                 isRegisterMode = false;
                 toggleAuthMode();
             } else {
-                // VERIFICA O LOGIN
                 const savedPass = localStorage.getItem(`user_${user}`);
                 if (savedPass && savedPass === pass) {
                     loginUser(user);
                 } else {
-                    alert('Usuário ou senha incorretos! (Dica: Se é o primeiro acesso, selecione "Cadastre-se").');
+                    alert('Usuário ou senha incorretos!');
                 }
             }
         }
@@ -416,7 +425,6 @@
             document.getElementById('btn-logout').style.display = 'none';
         }
 
-        // NAVEGAÇÃO DE ABAS DO DASHBOARD
         function switchDashTab(tabName) {
             document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
@@ -425,7 +433,6 @@
             event.target.classList.add('active');
         }
 
-        // LÓGICA DE SIMULAÇÃO
         function runSimulation() {
             const cls = document.getElementById('sim-class').value;
             const weapon = document.getElementById('sim-weapon').value;
