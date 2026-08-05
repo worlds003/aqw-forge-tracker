@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQW Forge Enhancements Tracker - Guia Completo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f111a;
+            --bg-secondary: #1a1d2d;
+            --bg-card: #23273a;
+            --accent-gold: #ffc107;
+            --accent-purple: #9966cc;
+            --accent-blue: #4682b4;
+            --accent-green: #2e8b57;
+            --accent-red: #b22222;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-primary); color: var(--text-main); padding: 20px; }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            padding: 25px 20px;
+            background: linear-gradient(180deg, rgba(255, 193, 7, 0.15) 0%, rgba(26, 29, 45, 0.9) 100%);
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 { color: var(--accent-gold); font-size: 2.2rem; margin-bottom: 8px; }
+        header p { color: var(--text-muted); font-size: 1rem; }
+
+        /* Painel de Dicionário Traduzido */
+        .translation-box {
+            background: var(--bg-secondary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-gold);
+            margin-bottom: 25px;
+        }
+
+        .translation-box h4 { color: var(--accent-gold); margin-bottom: 8px; font-size: 1rem; }
+        .translation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; font-size: 0.88rem; color: var(--text-muted); }
+        .translation-grid strong { color: var(--text-main); }
+
+        /* Card de Progresso Geral */
+        .overall-progress-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .progress-bar-bg {
+            background: #0f172a;
+            height: 26px;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .progress-text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        /* NAVEGAÇÃO DE ABAS */
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-btn:hover { background: var(--border-color); }
+        .tab-btn.active[data-tab="req"] { border-color: var(--accent-gold); background: rgba(255,193,7,0.15); }
+        .tab-btn.active[data-tab="avarice"] { border-color: var(--accent-purple); background: rgba(153,102,204,0.15); }
+        .tab-btn.active[data-tab="arcana"] { border-color: var(--accent-blue); background: rgba(70,130,180,0.15); }
+        .tab-btn.active[data-tab="elysium"] { border-color: var(--accent-green); background: rgba(46,139,87,0.15); }
+        .tab-btn.active[data-tab="dauntless"] { border-color: var(--accent-red); background: rgba(178,34,34,0.15); }
+
+        /* CARDS E GRID DE ITENS */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+
+        .item-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .item-title { font-size: 1.1rem; font-weight: bold; color: #fff; }
+        .item-badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #334155;
+            color: #cbd5e1;
+        }
+
+        .item-details { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; }
+        .item-details strong { color: var(--text-main); }
+
+        .wiki-link {
+            display: inline-block;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
+        .wiki-link:hover { text-decoration: underline; }
+
+        /* CONTROLES DE QUANTIDADE */
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .btn-count {
+            background: #334155;
+            color: #fff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .btn-count:hover { background: #475569; }
+
+        .count-input {
+            width: 70px;
+            text-align: center;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 4px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* BORDAS INDICADORAS DE STATUS */
+        .card-complete { border-left: 5px solid #10b981; }
+        .card-partial { border-left: 5px solid #f59e0b; }
+        .card-zero { border-left: 5px solid #ef4444; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fa-solid fa-fire-flame-curved"></i> AQW Forge Enhancements Tracker</h1>
+        <p>Painel Integrado de Farm e Tradução (Praxis ➔ Avarice ➔ Arcana ➔ Elysium ➔ Dauntless)</p>
+    </header>
+
+    <!-- GUIA RÁPIDO DE DICIONÁRIO EM PORTUGUÊS -->
+    <div class="translation-box">
+        <h4><i class="fa-solid fa-language"></i> Tradução da Interface de Quests do AQW:</h4>
+        <div class="translation-grid">
+            <div><strong>Turn In:</strong> Entregar Missão</div>
+            <div><strong>Requirements:</strong> Requisitos Necessários</div>
+            <div><strong>Insignia:</strong> Moeda Semanal de Ultra Boss</div>
+            <div><strong>Merge Shop:</strong> Loja de Criação / Troca</div>
+            <div><strong>Daily / Weekly:</strong> Diária / Semanal</div>
+            <div><strong>Item Dropped:</strong> Item de Recompensa</div>
+        </div>
+    </div>
+
+    <!-- PROGRESSO GERAL -->
+    <div class="overall-progress-card">
+        <div style="display: flex; justify-content: space-between; font-weight: bold;">
+            <span>Progresso Geral da Jornada Forge</span>
+            <span id="overall-percentage">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="overall-bar"></div>
+            <div class="progress-text-overlay" id="overall-text">0 de 0 itens concluídos</div>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="req"><i class="fa-solid fa-list-check"></i> Pré-Requisitos</button>
+        <button class="tab-btn" data-tab="avarice"><i class="fa-solid fa-coins"></i> Avarice</button>
+        <button class="tab-btn" data-tab="arcana"><i class="fa-solid fa-wand-magic-sparkles"></i> Arcana's Concerto</button>
+        <button class="tab-btn" data-tab="elysium"><i class="fa-solid fa-bolt"></i> Elysium</button>
+        <button class="tab-btn" data-tab="dauntless"><i class="fa-solid fa-skull"></i> Dauntless</button>
+    </div>
+
+    <!-- CONTEÚDO DAS ABAS -->
+    <div class="tab-content active" id="tab-req"><div class="items-grid" id="grid-req"></div></div>
+    <div class="tab-content" id="tab-avarice"><div class="items-grid" id="grid-avarice"></div></div>
+    <div class="tab-content" id="tab-arcana"><div class="items-grid" id="grid-arcana"></div></div>
+    <div class="tab-content" id="tab-elysium"><div class="items-grid" id="grid-elysium"></div></div>
+    <div class="tab-content" id="tab-dauntless"><div class="items-grid" id="grid-dauntless"></div></div>
+</div>
+
+<script>
+const itemsData = {
+    req: [
+        { id: 'req_1', name: 'Blacksmithing Rank 10', current: 0, max: 1, type: 'Reputação', map: '/join forge', npc: 'Cysero', monster: 'Slimes / Elemental Quests', drop: 'Blacksmithing Rep', wiki: 'http://aqwwiki.wikidot.com/blacksmithing-faction' },
+        { id: 'req_2', name: 'Pyromancer Class', current: 0, max: 1, type: 'Classe Base', map: '/join firewar', npc: 'Xang', monster: 'Fluffy / Fire War Monsters', drop: 'Shards of Fire (84)', wiki: 'http://aqwwiki.wikidot.com/pyromancer-class-non-ac' },
+        { id: 'req_3', name: 'Awescention Completed', current: 0, max: 1, type: 'Saga Completa', map: '/join museum', npc: 'Valencia', monster: 'Bosses Globais', drop: 'Relics of Awe', wiki: 'http://aqwwiki.wikidot.com/awescention' },
+        { id: 'req_4', name: 'ChronoSpan Rank 10', current: 0, max: 1, type: 'Reputação', map: '/join chronospan', npc: 'Quests Diárias', monster: 'Mummies & Bosses', drop: 'ChronoSpan Rep', wiki: 'http://aqwwiki.wikidot.com/chronospan-faction' }
+    ],
+    avarice: [
+        { id: 'ava_1', name: 'Indulgence', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Ezrajal', drop: 'Ezrajal Essentials (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+        { id: 'ava_2', name: 'Gluttony', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Warden Elfhame', drop: 'Warden Essentials (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+        { id: 'ava_3', name: 'Wrath', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Engineer', drop: 'Engineer Essentials (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+        { id: 'ava_4', name: 'Sloth', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Sloth Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+        { id: 'ava_5', name: 'Lust', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Lust Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+        { id: 'ava_6', name: 'Envy', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Envy Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' },
+        { id: 'ava_7', name: 'Pride', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Unmapped Minion', drop: 'Pride Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/avarice' }
+    ],
+    arcana: [
+        { id: 'arc_1', name: 'Prince Darkon\'s Poleaxe', current: 0, max: 1, type: 'Arma Requisição', map: '/join astravia', npc: 'Darkon', monster: 'Darkon Boss', drop: 'Prince Darkon\'s Poleaxe', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
+        { id: 'arc_2', name: 'Darkon\'s Debris 2 (Reconstructed)', current: 0, max: 1, type: 'Arma Requisição', map: '/join eridani', npc: 'Darkon', monster: 'Receipt Farm', drop: 'Darkon Receipt (x100)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
+        { id: 'arc_3', name: 'Synthetic Magi Fluid', current: 0, max: 300, type: 'Reagente Ultra', map: '/join darkcarnax', npc: 'Cysero', monster: 'Nightmarish Carnax', drop: 'Synthetic Magi Fluid (x10)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
+        { id: 'arc_4', name: 'Elemental Intent', current: 0, max: 30, type: 'Reagente', map: '/join archmage', npc: 'Book of Magus', monster: 'Mana Core Monster', drop: 'Elemental Intent (x1)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' }
+    ],
+    elysium: [
+        { id: 'ely_1', name: 'Archfiend Essence Fragment', current: 0, max: 3, type: 'Reagente Nulgath', map: '/join tercessuinotlim', npc: 'Willpower', monster: 'Nulgath Boss', drop: 'Fiend Token (x10)', wiki: 'http://aqwwiki.wikidot.com/elysium' },
+        { id: 'ely_2', name: 'Bone from the Void Realm', current: 0, max: 15, type: 'Quest Semanal', map: '/join voidflibbi', npc: 'Cysero', monster: 'Ultra Flibbitiest', drop: 'Void Bone (x1)', wiki: 'http://aqwwiki.wikidot.com/elysium' },
+        { id: 'ely_3', name: 'Azalith\'s Essence', current: 0, max: 1, type: 'Boss Drop', map: '/join celestialarenab', npc: 'Aramenthat', monster: 'Azalith Boss', drop: 'Azalith\'s Essence (x1)', wiki: 'http://aqwwiki.wikidot.com/elysium' }
+    ],
+    dauntless: [
+        { id: 'dau_1', name: 'Speaker Insignia', current: 0, max: 20, type: 'Ultra Semanal', map: '/join ultraspeaker', npc: 'Board', monster: 'Ultra Speaker', drop: 'Speaker Insignia (4/sem)', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
+        { id: 'dau_2', name: 'Infernal Flame Pyromancer', current: 0, max: 1, type: 'Traje/Classe', map: '/join firewar', npc: 'Xang', monster: 'Fire War Boss', drop: 'Pyromancer Class', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
+        { id: 'dau_3', name: 'Malgor\'s ShadowFlame Blade', current: 0, max: 1, type: 'Arma Storyline', map: '/join shadowmound', npc: 'Malgor', monster: 'Malgor ShadowBoss', drop: 'ShadowFlame Blade', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
+        { id: 'dau_4', name: 'Malgor the ShadowLord (Armor)', current: 0, max: 1, type: 'Armadura Final', map: '/join streamwar', npc: 'Malgor', monster: 'ShadowLord Boss', drop: 'ShadowLord Armor', wiki: 'http://aqwwiki.wikidot.com/dauntless' },
+        { id: 'dau_5', name: 'ShadowLord\'s Helm', current: 0, max: 1, type: 'Yelmo Final', map: '/join streamwar', npc: 'Malgor', monster: 'ShadowLord Boss', drop: 'ShadowLord Helm', wiki: 'http://aqwwiki.wikidot.com/dauntless' }
+    ]
+};
+
+// Funções do Dashboard
+function loadProgress() {
+    const saved = localStorage.getItem('aqw_forge_progress');
+    if (saved) {
+        const parsed = JSON.parse(saved);
+        Object.keys(itemsData).forEach(cat => {
+            itemsData[cat].forEach(item => {
+                if (parsed[item.id] !== undefined) item.current = parsed[item.id];
+            });
+        });
+    }
+}
+
+function saveProgress() {
+    const toSave = {};
+    Object.keys(itemsData).forEach(cat => {
+        itemsData[cat].forEach(item => {
+            toSave[item.id] = item.current;
+        });
+    });
+    localStorage.setItem('aqw_forge_progress', JSON.stringify(toSave));
+    updateOverall();
+}
+
+function renderCategory(cat) {
+    const container = document.getElementById(`grid-${cat}`);
+    container.innerHTML = '';
+
+    itemsData[cat].forEach(item => {
+        const percentage = Math.min(100, Math.round((item.current / item.max) * 100));
+        let statusClass = 'card-zero';
+        if (percentage === 100) statusClass = 'card-complete';
+        else if (percentage > 0) statusClass = 'card-partial';
+
+        const card = document.createElement('div');
+        card.className = `item-card ${statusClass}`;
+        card.innerHTML = `
+            <div>
+                <div class="item-header">
+                    <div class="item-title">${item.name}</div>
+                    <span class="item-badge">${item.type}</span>
+                </div>
+                <div class="item-details">
+                    <div>📍 <strong>Endereço:</strong> ${item.map}</div>
+                    <div>👤 <strong>NPC:</strong> ${item.npc}</div>
+                    <div>⚔️ <strong>Monstro:</strong> ${item.monster}</div>
+                    <div>🎁 <strong>Drop/Qtd:</strong> ${item.drop}</div>
+                    <a href="${item.wiki}" target="_blank" class="wiki-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver na AQW Wiki</a>
+                </div>
+            </div>
+            <div>
+                <div style="font-size: 0.85rem; font-weight: bold; margin-bottom: 5px;">Concluído: ${percentage}%</div>
+                <div class="counter-controls">
+                    <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', -1)">-</button>
+                    <input type="number" class="count-input" value="${item.current}" max="${item.max}" min="0" onchange="setItem('${cat}', '${item.id}', this.value)">
+                    <span style="color: var(--text-muted)">/ ${item.max}</span>
+                    <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', 1)">+</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function updateItem(cat, id, delta) {
+    const item = itemsData[cat].find(i => i.id === id);
+    if (item) {
+        item.current = Math.max(0, Math.min(item.max, item.current + delta));
+        saveProgress();
+        renderCategory(cat);
+    }
+}
+
+function setItem(cat, id, val) {
+    const item = itemsData[cat].find(i => i.id === id);
+    if (item) {
+        item.current = Math.max(0, Math.min(item.max, parseInt(val) || 0));
+        saveProgress();
+        renderCategory(cat);
+    }
+}
+
+function updateOverall() {
+    let totalMax = 0;
+    let totalCurrent = 0;
+
+    Object.keys(itemsData).forEach(cat => {
+        itemsData[cat].forEach(item => {
+            totalMax += item.max;
+            totalCurrent += item.current;
+        });
+    });
+
+    const pct = totalMax > 0 ? Math.round((totalCurrent / totalMax) * 100) : 0;
+    document.getElementById('overall-percentage').innerText = `${pct}%`;
+    document.getElementById('overall-bar').style.width = `${pct}%`;
+    document.getElementById('overall-text').innerText = `${totalCurrent} de ${totalMax} Reagentes Obtidos`;
+}
+
+// Troca de Abas
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById(`tab-${tabId}`).classList.add('active');
+    });
+});
+
+// Inicialização
+loadProgress();
+Object.keys(itemsData).forEach(renderCategory);
+updateOverall();
+</script>
+
+</body>
+</html>
