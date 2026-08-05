@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQWorlds BR - Portal do Jogador & Wiki Hub</title>
+    <title>AQWorlds BR - Portal Definitivo & Wiki Hub</title>
     <style>
         /* ==========================================
            1. VARIÁVEIS DE TEMA E CONFIGURAÇÃO
            ========================================== */
         :root {
             --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBlYj_R1BXPxaOT04B0vE57iDUfqW31nLhDAZz6GwnvMGTa3IYtU54ydrw&s=10');
-            --bg-overlay: rgba(6, 11, 20, 0.88);
+            --bg-overlay: rgba(6, 11, 20, 0.90);
             --primary-color: #00d2ff;
             --accent-color: #3a7bd5;
             --text-color: #f1f1f1;
-            --card-bg: rgba(10, 20, 35, 0.92);
+            --card-bg: rgba(10, 20, 35, 0.94);
             --border-color: rgba(0, 210, 255, 0.4);
         }
 
@@ -22,21 +22,21 @@
             --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBlYj_R1BXPxaOT04B0vE57iDUfqW31nLhDAZz6GwnvMGTa3IYtU54ydrw&s=10');
             --primary-color: #00d2ff;
             --border-color: rgba(0, 210, 255, 0.4);
-            --card-bg: rgba(10, 20, 35, 0.92);
+            --card-bg: rgba(10, 20, 35, 0.94);
         }
 
         [data-theme="nation"] {
             --bg-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUN0Dox83HvX8qM74IPxJHHFNPXoqTp0_YZkIIe_IbftVHTaxdtDeYC96j&s=10');
             --primary-color: #ff2a2a;
             --border-color: rgba(255, 42, 42, 0.4);
-            --card-bg: rgba(35, 10, 10, 0.92);
+            --card-bg: rgba(35, 10, 10, 0.94);
         }
 
         [data-theme="shadow"] {
             --bg-image: linear-gradient(135deg, #0f0614 0%, #1e0b29 100%);
             --primary-color: #a29bfe;
             --border-color: rgba(162, 155, 254, 0.4);
-            --card-bg: rgba(25, 10, 30, 0.92);
+            --card-bg: rgba(25, 10, 30, 0.94);
         }
 
         @keyframes fadeIn {
@@ -68,8 +68,8 @@
         header {
             width: 100%; padding: 15px 30px;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0, 0, 0, 0.9); border-bottom: 2px solid var(--primary-color);
-            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
+            background: rgba(0, 0, 0, 0.92); border-bottom: 2px solid var(--primary-color);
+            backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100;
         }
 
         .logo h1 {
@@ -93,10 +93,10 @@
             font-weight: bold; font-size: 0.8rem; display: none;
         }
 
-        main { max-width: 1100px; width: 90%; margin: 30px 0; }
+        main { max-width: 1200px; width: 92%; margin: 30px 0; }
 
         /* LANDING PAGE (DESLOGADO) */
-        .landing-grid { display: grid; grid-template-columns: 1fr 350px; gap: 25px; animation: fadeIn 0.4s ease-out; }
+        .landing-grid { display: grid; grid-template-columns: 1fr 360px; gap: 25px; animation: fadeIn 0.4s ease-out; }
 
         .news-section {
             background: var(--card-bg); border: 1px solid var(--border-color);
@@ -143,16 +143,16 @@
         }
 
         nav.dashboard-nav {
-            display: flex; gap: 5px; background: rgba(0,0,0,0.8);
+            display: flex; gap: 2px; background: rgba(0,0,0,0.85);
             border: 1px solid var(--border-color); border-top: none; border-bottom: none;
-            overflow-x: auto;
+            overflow-x: auto; padding: 0 5px;
         }
 
         .dash-tab {
-            flex: 1; min-width: 140px; padding: 14px;
+            flex: 1; min-width: 130px; padding: 12px 8px;
             background: transparent; border: none; color: #ccc;
-            font-weight: bold; cursor: pointer; font-size: 0.85rem;
-            text-align: center; border-bottom: 3px solid transparent;
+            font-weight: bold; cursor: pointer; font-size: 0.78rem;
+            text-align: center; border-bottom: 3px solid transparent; white-space: nowrap;
         }
 
         .dash-tab.active {
@@ -162,18 +162,18 @@
 
         .dash-content-container {
             background: var(--card-bg); border: 1px solid var(--border-color);
-            border-top: none; padding: 25px; border-radius: 0 0 8px 8px;
-            backdrop-filter: blur(12px);
+            border-top: none; padding: 30px; border-radius: 0 0 8px 8px;
+            backdrop-filter: blur(12px); min-height: 500px;
         }
 
         .dash-panel { display: none; }
         .dash-panel.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-        /* BARRAS DE PROGRESSO E CONTEÚDO NATIVO */
+        /* COMPONENTES INTERNOS EXPANDIDOS */
         .progress-bar-container {
             width: 100%; background: rgba(0,0,0,0.6);
             border: 1px solid var(--border-color); border-radius: 10px;
-            height: 20px; margin: 15px 0; overflow: hidden; position: relative;
+            height: 22px; margin: 15px 0; overflow: hidden; position: relative;
         }
 
         .progress-bar-fill {
@@ -183,37 +183,44 @@
 
         .progress-text {
             position: absolute; width: 100%; text-align: center;
-            top: 1px; font-size: 0.75rem; font-weight: bold; text-shadow: 0 0 3px #000;
+            top: 2px; font-size: 0.75rem; font-weight: bold; text-shadow: 0 0 3px #000;
         }
 
         .checklist-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem;
+            display: flex; align-items: center; gap: 12px; padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.9rem;
+        }
+        .checklist-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); }
+
+        .bag-calc-box, .drop-calc-box {
+            background: rgba(0, 0, 0, 0.45); border: 1px solid var(--border-color);
+            padding: 20px; border-radius: 6px; margin-top: 15px;
         }
 
-        .checklist-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
-
-        .bag-calc-box {
-            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-color);
-            padding: 15px; border-radius: 6px; margin-top: 15px;
-        }
-
-        .bag-calc-box input {
+        .bag-calc-box input, .drop-calc-box input, .drop-calc-box select {
             padding: 8px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color);
-            color: #fff; border-radius: 4px; width: 100px; outline: none; margin-left: 10px;
+            color: #fff; border-radius: 4px; outline: none; margin: 5px 0;
         }
 
         .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .sim-group { margin-bottom: 12px; }
-        .sim-group label { display: block; font-size: 0.8rem; color: var(--primary-color); margin-bottom: 4px; font-weight: bold; }
-        .sim-group select { width: 100%; padding: 8px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; }
-        .sim-box { background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: 6px; padding: 15px; }
-        .sim-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; }
+        .sim-group { margin-bottom: 14px; }
+        .sim-group label { display: block; font-size: 0.82rem; color: var(--primary-color); margin-bottom: 4px; font-weight: bold; }
+        .sim-group select { width: 100%; padding: 9px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; }
+        .sim-box { background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; }
+        .sim-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.88rem; }
 
         .guide-box {
             background: rgba(0,0,0,0.4); border-left: 4px solid var(--primary-color);
-            padding: 12px 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; font-size: 0.88rem; line-height: 1.6;
+            padding: 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; font-size: 0.9rem; line-height: 1.6;
         }
+
+        .wiki-table {
+            width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; background: rgba(0,0,0,0.3);
+        }
+        .wiki-table th, .wiki-table td {
+            border: 1px solid rgba(255,255,255,0.1); padding: 10px; text-align: left;
+        }
+        .wiki-table th { background: rgba(0, 210, 255, 0.15); color: var(--primary-color); }
 
         .char-search-inline { display: flex; gap: 10px; margin-bottom: 20px; }
         .char-search-inline input { flex: 1; padding: 10px; background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: white; border-radius: 4px; }
@@ -229,7 +236,7 @@
     <!-- CABEÇALHO -->
     <header>
         <div class="logo">
-            <h1>⚔️ AQWorlds BR</h1>
+            <h1>⚔️ AQWorlds BR Hub</h1>
         </div>
 
         <div class="header-tools">
@@ -245,26 +252,36 @@
         <div id="public-landing" class="landing-grid">
             <section class="news-section">
                 <h2 style="color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
-                    📰 Notícias & Atualizações do AQW
+                    📰 Notícias & Notas de Atualização
                 </h2>
 
                 <article class="news-article">
                     <span style="font-size: 0.75rem; background: var(--primary-color); color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
-                        EVENTO SEMANAL
+                        EVENTO DA SEMANA
                     </span>
-                    <h3 style="color: #fff; margin: 8px 0;">🔥 Guerra Sombria: Invasão das Sombras</h3>
+                    <h3 style="color: #fff; margin: 8px 0;">🔥 Invasão Sombria & Bônus de XP</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Esta semana o evento principal traz batalhas no mapa <b>/shadowinvasion</b>. Aproveite o bônus de <b>2x Reputação e XP</b> ativo durante todo o fim de semana para upar suas classes rapidamente!
+                        Acesse o mapa <b>/shadowinvasion</b> para enfrentar os novos desafios da temporada. O servidor está com bônus permanente de <b>2x XP, Gold e Reputação</b> ativo durante todo o final de semana.
                     </p>
                 </article>
 
                 <article class="news-article">
                     <span style="font-size: 0.75rem; background: #ffca28; color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
-                        BALANCEAMENTO
+                        ATUALIZAÇÃO DE SISTEMA
                     </span>
-                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Ajustes de Classes de Suporte</h3>
+                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Balanceamento de Suportes Oficiais</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        A equipe oficial aplicou melhorias na sinergia das classes <b>ArchPaladin</b> e <b>Lord of Order</b>, otimizando a mitigação de dano para confrontos contra chefes difíceis.
+                        A equipe de balanceamento ajustou habilidades defensivas de classes cruciais para Ultra Bosses, como <b>ArchPaladin</b> e <b>Lord of Order</b>, facilitando o encaixe de turnos nas lutas coordenadas.
+                    </p>
+                </article>
+
+                <article class="news-article">
+                    <span style="font-size: 0.75rem; background: #2ed573; color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
+                        NOVIDADE NA WIKI INTERNA
+                    </span>
+                    <h3 style="color: #fff; margin: 8px 0;">📚 Enciclopédia de Forge Integrada</h3>
+                    <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
+                        Todas as informações sobre encantamentos avançados e rotas de farm de facções foram traduzidas e estruturadas em abas dedicadas para visualização instantânea dentro do nosso site.
                     </p>
                 </article>
             </section>
@@ -273,7 +290,7 @@
             <aside class="auth-card">
                 <h3 id="auth-title">🔐 Área do Jogador</h3>
                 <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">
-                    Faça login ou cadastre-se para acessar o simulador de status, progresso e ferramentas completas.
+                    Faça login ou cadastre-se para desbloquear ferramentas avançadas, simuladores e guias interativos.
                 </p>
 
                 <form class="auth-form" onsubmit="handleAuth(event)">
@@ -295,18 +312,20 @@
             <div class="dashboard-welcome">
                 <div>
                     <h2>Bem-vindo, <span id="user-display-name" style="color: var(--primary-color);">Hero</span>! 👋</h2>
-                    <p style="font-size: 0.8rem; color: #aaa;">Sua central interativa de guias e ferramentas do AQW.</p>
+                    <p style="font-size: 0.8rem; color: #aaa;">Sua central interativa de ferramentas, calculadoras e dados do AQW.</p>
                 </div>
                 <button class="auth-btn" style="padding: 6px 15px;" onclick="switchDashTab('charsearch')">🔎 Buscar Charpage</button>
             </div>
 
-            <!-- NAVEGAÇÃO DE ABAS -->
+            <!-- NAVEGAÇÃO DE ABAS EXPANDIDA -->
             <nav class="dashboard-nav">
-                <button class="dash-tab active" onclick="switchDashTab('simulator')">🧪 Simulador de Forge</button>
-                <button class="dash-tab" onclick="switchDashTab('progression')">🗺️ Progresso (Checklist)</button>
-                <button class="dash-tab" onclick="switchDashTab('inventory')">🎒 Sacolas / Bag</button>
-                <button class="dash-tab" onclick="switchDashTab('ultras')">🐉 Guia de Ultra Bosses</button>
-                <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage Viewer</button>
+                <button class="dash-tab active" onclick="switchDashTab('simulator')">🧪 Simulador Forge</button>
+                <button class="dash-tab" onclick="switchDashTab('progression')">🗺️ Progresso (1-100)</button>
+                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Tier List de Classes</button>
+                <button class="dash-tab" onclick="switchDashTab('factions')">📜 Guia de Facções</button>
+                <button class="dash-tab" onclick="switchDashTab('tools')">🧮 Calculadoras</button>
+                <button class="dash-tab" onclick="switchDashTab('ultras')">🐉 Ultra Bosses</button>
+                <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage</button>
             </nav>
 
             <div class="dash-content-container">
@@ -406,25 +425,105 @@
                     </div>
                 </div>
 
-                <!-- ABA 3: INVENTÁRIO / SACOLAS -->
-                <div id="dash-inventory" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🎒 Calculadora de Espaço na Mochila (Bag Slots)</h3>
-                    <p style="font-size: 0.85rem; color: #ccc;">Insira o número atual de espaços na sua mochila para calcular o custo exato em AdventureCoins até o limite máximo do jogo (300 slots).</p>
+                <!-- ABA 3: TIER LIST DE CLASSES -->
+                <div id="dash-classes" class="dash-panel">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">⚔️ Guia & Tier List das Melhores Classes</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Análise traduzida das classes mais fortes do jogo divididas por categorias de utilidade:</p>
 
-                    <div class="bag-calc-box">
-                        <label style="font-size:0.9rem; font-weight:bold;">Seus slots atuais:</label>
-                        <input type="number" id="current-bag-slots" value="40" min="40" max="300" oninput="calculateBagCost()">
-                        
-                        <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; font-size: 0.9rem; line-height: 1.8;">
-                            <p><b>Espaços Faltantes para o Limite (300):</b> <span id="calc-missing-slots" style="color:var(--primary-color);">260</span> slots</p>
-                            <p><b>Custo Total Estimado (200 ACs por slot):</b> <span id="calc-ac-cost" style="color:#ffca28; font-weight:bold;">52,000 ACs</span></p>
-                        </div>
+                    <div class="guide-box">
+                        <strong style="color: var(--primary-color); font-size: 1rem;">1. Void Highlord (VHL) - Categoria: Solo Bossing / Tank</strong>
+                        <p style="margin-top: 5px; color: #ddd;">
+                            Considerada uma das melhores classes para derrotar chefes difíceis sozinhos. Possui altíssima mitigação de dano passiva, redução de ataque do oponente e boa recuperação de vida. Ideal para campanhas prolongadas.
+                        </p>
+                    </div>
+
+                    <div class="guide-box">
+                        <strong style="color: var(--primary-color); font-size: 1rem;">2. ArchMage - Categoria: Farm Supremo (AoE)</strong>
+                        <p style="margin-top: 5px; color: #ddd;">
+                            A rainha indiscutível do farm em grupo ou solo contra múltiplos monstros. Seus feitiços causam dano em área catastrófico instantâneo, limpando salas inteiras em segundos. Exige requisitos avançados de história.
+                        </p>
+                    </div>
+
+                    <div class="guide-box">
+                        <strong style="color: var(--primary-color); font-size: 1rem;">3. Lord of Order (LoO) - Categoria: Suporte Universal</strong>
+                        <p style="margin-top: 5px; color: #ddd;">
+                            Gratuita e indispensável. Qualquer equipe para Ultra Bosses exige um LoO pelo seu aumento massivo de defesa, resistência e cura constante para todos os aliados da sala.
+                        </p>
                     </div>
                 </div>
 
-                <!-- ABA 4: GUIA DE ULTRA BOSSES -->
+                <!-- ABA 4: GUIA DE FACÇÕES -->
+                <div id="dash-factions" class="dash-panel">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">📜 Guia de Reputações & Facções Principais</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Saiba onde farmar e quais recompensas vale a pena resgatar em cada facção:</p>
+
+                    <table class="wiki-table">
+                        <tr>
+                            <th>Facção</th>
+                            <th>Melhor Mapa de Farm</th>
+                            <th>Recompensa Principal / Utilidade</th>
+                        </tr>
+                        <tr>
+                            <td><b>Arcangrove</b></td>
+                            <td>`/join arcangrove`</td>
+                            <td>Desbloqueia a classe <b>Shaman</b> (excelente para farm e bosses mágicos).</td>
+                        </tr>
+                        <tr>
+                            <td><b>BladeOfAwe</b></td>
+                            <td>`/join awescamp`</td>
+                            <td>Permite forjar a espada lendária Blade of Awe e seus itens associados.</td>
+                        </tr>
+                        <tr>
+                            <td><b>DoomWood</b></td>
+                            <td>`/join doomwood`</td>
+                            <td>Acesso a missões avançadas de paladino e itens com temática sagrada.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Sandsea</b></td>
+                            <td>`/join sandsea`</td>
+                            <td>Essencial para obter itens clássicos e progressão de histórias secundárias.</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- ABA 5: CALCULADORAS (BAG & DROPS) -->
+                <div id="dash-tools" class="dash-panel">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🧮 Ferramentas e Calculadoras Úteis</h3>
+                    
+                    <!-- Calculadora de Bag -->
+                    <div class="bag-calc-box">
+                        <h4 style="color: var(--primary-color); margin-bottom: 8px;">🎒 Calculadora de Espaço na Mochila</h4>
+                        <label style="font-size:0.85rem;">Seus slots atuais:</label><br>
+                        <input type="number" id="current-bag-slots" value="40" min="40" max="300" oninput="calculateBagCost()">
+                        
+                        <div style="margin-top: 10px; font-size: 0.88rem; line-height: 1.6;">
+                            <p><b>Espaços Faltantes para 300:</b> <span id="calc-missing-slots" style="color:var(--primary-color);">260</span> slots</p>
+                            <p><b>Custo Total (200 ACs/slot):</b> <span id="calc-ac-cost" style="color:#ffca28; font-weight:bold;">52,000 ACs</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Simulador de Drop Rate -->
+                    <div class="drop-calc-box" style="margin-top: 20px;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 8px;">🎲 Simulador de Probabilidade de Drop (%)</h4>
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                            <div>
+                                <label style="font-size:0.8rem;">Chance do Item (%):</label><br>
+                                <input type="number" id="drop-rate" value="1" min="0.1" max="100" style="width: 100px;" oninput="calculateDropProbability()">
+                            </div>
+                            <div>
+                                <label style="font-size:0.8rem;">Tentativas Feitas:</label><br>
+                                <input type="number" id="drop-tries" value="50" min="1" max="10000" style="width: 100px;" oninput="calculateDropProbability()">
+                            </div>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.88rem;">
+                            Chance acumulada de ter obtido o item pelo menos uma vez: <b id="drop-result" style="color: var(--primary-color);">39.5%</b>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ABA 6: ULTRA BOSSES -->
                 <div id="dash-ultras" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🐉 Guia Completo & Estratégias de Ultra Bosses</h3>
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🐉 Guia Completo de Ultra Bosses</h3>
                     <p style="font-size: 0.88rem; color: #ccc; margin-bottom: 15px;">Instruções traduzidas das composições e táticas obrigatórias:</p>
 
                     <div class="guide-box">
@@ -442,7 +541,7 @@
                     </div>
                 </div>
 
-                <!-- ABA 5: CHARPAGE VIEWER -->
+                <!-- ABA 7: CHARPAGE VIEWER -->
                 <div id="dash-charsearch" class="dash-panel">
                     <h3 style="color: var(--primary-color); margin-bottom: 10px;">🔍 Visualizador de Charpage Oficial</h3>
                     <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Digite o nome do personagem para abrir o perfil diretamente no servidor do jogo:</p>
@@ -508,6 +607,7 @@
             runSimulation();
             calculateBagCost();
             updateProgress();
+            calculateDropProbability();
         }
 
         function logout() {
@@ -532,6 +632,15 @@
             const acCost = missing * 200;
             document.getElementById('calc-missing-slots').innerText = missing;
             document.getElementById('calc-ac-cost').innerText = acCost.toLocaleString('en-US') + " ACs";
+        }
+
+        function calculateDropProbability() {
+            const p = parseFloat(document.getElementById('drop-rate').value) / 100;
+            const n = parseInt(document.getElementById('drop-tries').value) || 1;
+            if (isNaN(p) || p <= 0) return;
+
+            const cumulativeChance = (1 - Math.pow(1 - p, n)) * 100;
+            document.getElementById('drop-result').innerText = cumulativeChance.toFixed(1) + "%";
         }
 
         function updateProgress() {
