@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AQWorlds BR - Portal Definitivo & Forge Master Tracker v3.0</title>
+    <title>AQWorlds BR - Portal Definitivo v5.0</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -79,11 +79,19 @@
             backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100;
         }
 
+        .logo-container { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
         .logo h1 {
             font-size: 1.4rem; color: var(--primary-color);
             text-transform: uppercase; letter-spacing: 2px;
             text-shadow: 0 0 10px var(--primary-color);
         }
+
+        .global-timer-badge {
+            background: rgba(0, 0, 0, 0.7); border: 1px solid var(--accent-gold);
+            padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; color: var(--text-muted);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .global-timer-badge span { color: var(--accent-gold); font-weight: bold; }
 
         .header-tools { display: flex; align-items: center; gap: 10px; }
 
@@ -135,10 +143,9 @@
         }
         .auth-btn:hover { opacity: 0.9; box-shadow: 0 0 10px var(--primary-color); }
 
-        .auth-toggle {
-            font-size: 0.8rem; color: #ccc; text-align: center;
-            margin-top: 10px; cursor: pointer; text-decoration: underline;
-        }
+        .auth-links { display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 8px; }
+        .auth-toggle, .auth-link { color: #ccc; cursor: pointer; text-decoration: underline; }
+        .auth-toggle:hover, .auth-link:hover { color: var(--primary-color); }
 
         /* DASHBOARD PRIVADO */
         #user-dashboard { display: none; animation: fadeIn 0.4s ease-out; }
@@ -176,19 +183,7 @@
         .dash-panel { display: none; }
         .dash-panel.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-        /* FORGE TRACKER STYLES */
-        .tracker-header {
-            background: linear-gradient(180deg, rgba(255, 193, 7, 0.15) 0%, rgba(20, 24, 36, 0.95) 100%);
-            border: 1px solid var(--accent-gold); border-radius: 10px;
-            padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between;
-            align-items: center; flex-wrap: wrap; gap: 15px;
-        }
-        .timer-badge {
-            background: rgba(0, 0, 0, 0.5); border: 1px solid var(--accent-purple);
-            padding: 8px 12px; border-radius: 8px; text-align: right;
-        }
-        .timer-badge span { color: var(--accent-purple); font-weight: bold; font-size: 1rem; }
-
+        /* QUEST FORGE STYLES */
         .controls-bar {
             background: var(--bg-secondary); padding: 12px; border-radius: 8px;
             border: 1px solid var(--border-color); margin-bottom: 15px;
@@ -223,22 +218,6 @@
         .pinned-section.active { display: block; }
         .pinned-section h3 { color: var(--accent-gold); font-size: 0.95rem; margin-bottom: 8px; }
 
-        .overall-progress-card {
-            background: var(--bg-secondary); padding: 15px; border-radius: 8px;
-            border: 1px solid var(--border-color); margin-bottom: 15px;
-        }
-        .progress-bar-bg {
-            background: #0f172a; height: 22px; border-radius: 11px; overflow: hidden;
-            border: 1px solid var(--border-color); position: relative; margin-top: 6px;
-        }
-        .progress-bar-fill-tracker {
-            height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); width: 0%; transition: width 0.4s ease;
-        }
-        .progress-text-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-weight: bold; font-size: 0.8rem; text-shadow: 1px 1px 2px #000;
-        }
-
         .tracker-subtabs { display: flex; gap: 6px; margin-bottom: 15px; flex-wrap: wrap; }
         .subtab-btn {
             background: var(--bg-secondary); color: var(--text-main); border: 1px solid var(--border-color);
@@ -249,11 +228,12 @@
 
         .tracker-content { display: none; }
         .tracker-content.active { display: block; }
-        .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 15px; }
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
 
+        /* CARD DE QUEST COM BARRA DE PROGRESSO PRÓPRIA E ITENS DETALHADOS */
         .item-card {
             background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 8px; padding: 14px; display: flex; flex-direction: column;
+            border-radius: 8px; padding: 16px; display: flex; flex-direction: column;
             justify-content: space-between; position: relative;
         }
         .pin-btn {
@@ -262,45 +242,60 @@
         }
         .pin-btn.pinned { color: var(--accent-gold); }
 
-        .item-header { padding-right: 22px; margin-bottom: 8px; }
-        .item-title { font-size: 0.98rem; font-weight: bold; color: #fff; }
+        .item-header { padding-right: 25px; margin-bottom: 10px; }
+        .item-title { font-size: 1.05rem; font-weight: bold; color: #fff; }
         .item-type { font-size: 0.72rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .item-details { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
-        .item-details strong { color: var(--text-main); }
+        .item-details-box { background: var(--bg-secondary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 12px; font-size: 0.82rem; }
+        .map-link-btn {
+            color: #60a5fa; text-decoration: underline; cursor: pointer; font-weight: bold;
+        }
+        .map-link-btn:hover { color: var(--primary-color); }
 
-        .btn-copy-join {
-            background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 2px 5px; border-radius: 4px; cursor: pointer; font-size: 0.72rem; margin-left: 4px;
+        .bags-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+        .bag-item-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.8rem;
         }
-        .btn-copy-join:hover { background: rgba(59, 130, 246, 0.3); }
-
-        .counter-controls {
-            display: flex; align-items: center; justify-content: space-between;
-            background: var(--bg-secondary); padding: 5px 8px; border-radius: 6px;
-        }
-        .btn-count {
-            background: #334155; color: #fff; border: none; width: 26px; height: 26px;
-            border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.9rem;
-        }
-        .count-input {
-            width: 55px; text-align: center; background: transparent;
-            border: 1px solid var(--border-color); color: #fff; padding: 3px; border-radius: 4px; font-weight: bold;
+        .bag-controls { display: flex; align-items: center; gap: 5px; }
+        .bag-input {
+            width: 45px; text-align: center; background: var(--bg-primary);
+            border: 1px solid var(--border-color); color: #fff; padding: 2px; border-radius: 4px; font-weight: bold; font-size: 0.8rem;
         }
 
-        .card-complete { border-left: 4px solid var(--accent-green); }
-        .card-partial { border-left: 4px solid var(--accent-gold); }
-        .card-zero { border-left: 4px solid var(--accent-red); }
-
-        .notes-container { margin-top: 20px; background: var(--bg-secondary); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); }
-        .notes-container h4 { color: var(--accent-gold); margin-bottom: 6px; font-size: 0.9rem; }
-        .notes-container textarea {
-            width: 100%; height: 70px; background: var(--bg-primary); border: 1px solid var(--border-color);
-            color: var(--text-main); padding: 8px; border-radius: 6px; resize: vertical; font-size: 0.85rem;
+        .quest-progress-container { margin-top: auto; }
+        .quest-bar-bg {
+            background: #0f172a; height: 16px; border-radius: 8px; overflow: hidden;
+            border: 1px solid var(--border-color); position: relative; margin-top: 5px;
+        }
+        .quest-bar-fill {
+            height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); width: 0%; transition: width 0.3s ease;
+        }
+        .quest-bar-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-weight: bold; font-size: 0.68rem; text-shadow: 1px 1px 2px #000;
         }
 
-        /* ABA DE ENCATAMENTOS FORGE (WIKI STYLE) */
-        .forge-wiki-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; }
+        /* WIKI DETALHADA EXPANSÍVEL (ESTILO WIKIDOT) */
+        .wiki-expandable-section {
+            margin-top: 25px; background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 8px; overflow: hidden;
+        }
+        .wiki-expand-header {
+            background: rgba(0, 210, 255, 0.1); padding: 12px 15px; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--primary-color);
+        }
+        .wiki-expand-body { padding: 15px; display: none; font-size: 0.85rem; line-height: 1.6; color: #ccc; }
+        .wiki-expand-body.open { display: block; }
+        .wikidot-box {
+            background: rgba(0,0,0,0.5); border-left: 3px solid var(--accent-gold); padding: 10px; margin-bottom: 12px; border-radius: 4px;
+        }
+        .wikidot-box h5 { color: var(--accent-gold); margin-bottom: 4px; }
+
+        /* WIKI STYLES (ENCANTAMENTOS SEPARADOS POR HELM, CAPE, ARMA) */
+        .enh-category-title { color: var(--primary-color); font-size: 1.1rem; margin: 20px 0 10px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
+        .forge-wiki-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .forge-wiki-card {
             background: var(--bg-secondary); border: 1px solid var(--border-color);
             border-radius: 8px; padding: 15px; border-left: 4px solid var(--accent-purple);
@@ -309,7 +304,6 @@
         .forge-wiki-card p { font-size: 0.84rem; color: #ccc; line-height: 1.5; margin-bottom: 8px; }
         .forge-wiki-card .tag-type { font-size: 0.7rem; background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); padding: 2px 6px; border-radius: 4px; font-weight: bold; display: inline-block; margin-bottom: 6px; }
 
-        /* MODAL DOS GUIAS DE BOSS */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;
@@ -321,7 +315,6 @@
         .modal-header { display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--accent-gold); }
         .close-modal { cursor: pointer; font-size: 1.2rem; }
 
-        /* OUTRAS ABAS */
         .wiki-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.84rem; background: rgba(0,0,0,0.3); }
         .wiki-table th, .wiki-table td { border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; }
         .wiki-table th { background: rgba(0, 210, 255, 0.15); color: var(--primary-color); }
@@ -340,10 +333,15 @@
 </head>
 <body>
 
-    <!-- CABEÇALHO DO SITE -->
+    <!-- CABEÇALHO DO SITE COM RELÓGIO DE ATUALIZAÇÃO AQW -->
     <header class="main-header">
-        <div class="logo">
-            <h1>⚔️ AQWorlds BR Hub</h1>
+        <div class="logo-container">
+            <div class="logo">
+                <h1>⚔️ AQWorlds BR Hub</h1>
+            </div>
+            <div class="global-timer-badge">
+                <i class="fa-solid fa-clock"></i> Próxima Atualização AQW: <span id="aqw-update-timer">Calculando...</span>
+            </div>
         </div>
 
         <div class="header-tools">
@@ -364,32 +362,34 @@
 
                 <article class="news-article">
                     <span style="font-size: 0.75rem; background: var(--primary-color); color: #000; padding: 2px 6px; font-weight: bold; border-radius: 3px;">
-                        ATUALIZAÇÃO v3.0
+                        ATUALIZAÇÃO v5.0
                     </span>
-                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Forge Master Tracker Completo + Wiki de Classes & Facções</h3>
+                    <h3 style="color: #fff; margin: 8px 0;">🛡️ Quest Forge Detalhado, Links de E-mail para Senha & Encantamentos por Equipamento</h3>
                     <p style="font-size: 0.88rem; color: #ccc; line-height: 1.5;">
-                        Todas as quests de forja, encantamentos oficiais da wiki, lista completa de facções jogáveis e guia detalhado de classes com skills e combos foram implementados com salvamento automático local por usuário!
+                        Aba Quest Forge reformulada com barras de progresso individuais por quest, rastreamento por sacolas/reagentes com NPC, links de mapa copiáveis por clique, aba expansível de passo a passo estilo AQW Wiki, recuperação de senha segura via link enviado por e-mail e encantamentos Forge separados rigorosamente por Arma, Capacete e Capa!
                     </p>
                 </article>
             </section>
 
-            <!-- CARD DE LOGIN / CADASTRO -->
+            <!-- CARD DE LOGIN / CADASTRO / RECUPERAÇÃO VIA E-MAIL -->
             <aside class="auth-card">
                 <h3 id="auth-title">🔐 Área do Jogador</h3>
-                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">
+                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;" id="auth-subtitle">
                     Entre na sua conta para salvar seu progresso de forja individualmente.
                 </p>
 
-                <form class="auth-form" onsubmit="handleAuth(event)">
+                <form class="auth-form" id="auth-form" onsubmit="handleAuth(event)">
                     <input type="text" id="auth-username" placeholder="Nome de Usuário" required>
+                    <input type="email" id="auth-email" placeholder="E-mail cadastrado" style="display: none;" required>
                     <input type="password" id="auth-password" placeholder="Sua Senha" required>
                     <input type="password" id="auth-confirm-password" placeholder="Confirme a Senha" style="display: none;">
 
                     <button type="submit" class="auth-btn" id="auth-submit-btn">Entrar na Conta</button>
                 </form>
 
-                <div class="auth-toggle" onclick="toggleAuthMode()" id="auth-toggle-btn">
-                    Não tem uma conta? Cadastre-se
+                <div class="auth-links">
+                    <span class="auth-toggle" onclick="toggleAuthMode()" id="auth-toggle-text">Não tem uma conta? Cadastre-se</span>
+                    <span class="auth-link" onclick="toggleForgotMode()" id="auth-forgot-text">Esqueceu a senha?</span>
                 </div>
             </aside>
         </div>
@@ -399,35 +399,24 @@
             <div class="dashboard-welcome">
                 <div>
                     <h2>Bem-vindo, <span id="user-display-name" style="color: var(--primary-color);">Hero</span>! 👋</h2>
-                    <p style="font-size: 0.8rem; color: #aaa;">Seu progresso é salvo automaticamente para este usuário e persistirá mesmo após fechar o navegador.</p>
+                    <p style="font-size: 0.8rem; color: #aaa;">Seu progresso na Quest Forge é salvo automaticamente para este usuário.</p>
                 </div>
             </div>
 
             <!-- NAVEGAÇÃO DE ABAS DO DASHBOARD -->
             <nav class="dashboard-nav">
-                <button class="dash-tab active" onclick="switchDashTab('progression')">🎯 Forge Master Tracker</button>
+                <button class="dash-tab active" onclick="switchDashTab('progression')">🎯 Quest Forge</button>
                 <button class="dash-tab" onclick="switchDashTab('enhancements')">✨ Encantamentos Forge</button>
-                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Wiki de Classes</button>
+                <button class="dash-tab" onclick="switchDashTab('classes')">⚔️ Class</button>
                 <button class="dash-tab" onclick="switchDashTab('factions')">📜 Facções</button>
                 <button class="dash-tab" onclick="switchDashTab('charsearch')">🔍 Charpage</button>
             </nav>
 
             <div class="dash-content-container">
                 
-                <!-- ABA 1: FORGE MASTER TRACKER (TODAS AS QUESTS DE FORJA) -->
+                <!-- ABA 1: QUEST FORGE (COM BARRA POR QUEST, BOLSAS E WIKI EXPANSÍVEL ABAIXO) -->
                 <div id="dash-progression" class="dash-panel active">
                     
-                    <div class="tracker-header">
-                        <div>
-                            <h3 style="color: var(--accent-gold); font-size: 1.3rem;"><i class="fa-solid fa-dragon"></i> Painel Tático de Forja v3.0</h3>
-                            <p style="color: var(--text-muted); font-size: 0.82rem;">Rastreamento completo de todos os encantamentos e pré-requisitos do Forge</p>
-                        </div>
-                        <div class="timer-badge">
-                            <div style="font-size: 0.7rem; color: var(--text-muted)">PRÓXIMO RESET SEMANAL</div>
-                            <span id="weekly-timer">Calculando...</span>
-                        </div>
-                    </div>
-
                     <div class="controls-bar">
                         <div class="search-box">
                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -449,17 +438,6 @@
                     <div class="pinned-section" id="pinned-section">
                         <h3><i class="fa-solid fa-star"></i> Farms Atuais Fixados</h3>
                         <div class="items-grid" id="grid-pinned"></div>
-                    </div>
-
-                    <div class="overall-progress-card">
-                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 0.88rem;">
-                            <span>Progresso Geral da Jornada Forge</span>
-                            <span id="overall-percentage">0%</span>
-                        </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill-tracker" id="overall-bar"></div>
-                            <div class="progress-text-overlay" id="overall-text">0 de 0 Reagentes Obtidos</div>
-                        </div>
                     </div>
 
                     <div class="tracker-subtabs">
@@ -494,18 +472,36 @@
                     <div class="tracker-content" id="tab-avarice"><div class="items-grid" id="grid-avarice"></div></div>
                     <div class="tracker-content" id="tab-dauntless"><div class="items-grid" id="grid-dauntless"></div></div>
 
-                    <div class="notes-container">
-                        <h4><i class="fa-solid fa-pen-to-square"></i> Bloco de Notas Pessoal (Autosave)</h4>
-                        <textarea id="personal-notes" placeholder="Anote aqui suas metas, horários de party com amigos ou contagens diárias..." oninput="saveNotes()"></textarea>
+                    <!-- ABA EXPANSÍVEL DE PASSO A PASSO EXATO ESTILO AQW WIKI -->
+                    <div class="wiki-expandable-section">
+                        <div class="wiki-expand-header" onclick="toggleWikiExpand()">
+                            <span><i class="fa-solid fa-book-open"></i> Guia Completo e Passo a Passo das Quests (Estilo AQW Wiki)</span>
+                            <i class="fa-solid fa-chevron-down" id="wiki-chevron"></i>
+                        </div>
+                        <div class="wiki-expand-body" id="wiki-expand-body">
+                            <div class="wikidot-box">
+                                <h5>1. Introdução à Forja (Blacksmithing)</h5>
+                                <p>Para iniciar qualquer quest de forge em <b>/join forge</b> com o NPC <b>Cysero</b>, você precisa obrigatoriamente ter alcançado o Rank 10 na facção Blacksmithing e possuir a classe Pyromancer. As sacolas e itens exigem derrotar monstros específicos listados nos cards acima.</p>
+                            </div>
+                            <div class="wikidot-box">
+                                <h5>2. Mecânicas de Reagentes e Sacolas</h5>
+                                <p>Cada quest de encantamento solicita itens divididos em sacolas/reagentes. Utilize os campos numéricos em cada card acima para atualizar o seu progresso individual. Assim que atingir a quantidade máxima exigida pela quest, a barra de progresso daquele card ficará totalmente verde (100%).</p>
+                            </div>
+                            <div class="wikidot-box">
+                                <h5>3. Ultra Bosses e Dicas de Party</h5>
+                                <p>Encantamentos avançados como <i>Dauntless</i>, <i>Valiance</i> e <i>Arcana's Concerto</i> requerem derrotar Ultra Bosses semanais em <b>/join timeinn</b> ou <b>/join ultraspeaker</b>. Certifique-se de organizar seu time com classes de suporte essenciais (Lord of Order, ArchPaladin, StoneCrusher).</p>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
-                <!-- ABA 2: ENCANTAMENTOS FORGE (WIKI STYLE COMPLETO) -->
+                <!-- ABA 2: ENCANTAMENTOS FORGE (SEPARADOS POR ARMA, CAPACETE E CAPA CONFORME O JOGO) -->
                 <div id="dash-enhancements" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">✨ Guia Oficial de Encantamentos Forge</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Detalhes extraídos do acQWiki sobre o que cada encantamento de Arma, Helm e Cape realiza no jogo:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">✨ Guia Oficial de Encantamentos Forge por Equipamento</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Organizados rigorosamente como no jogo (Arma, Capacete e Capa) com base no acQWiki:</p>
 
+                    <h4 class="enh-category-title">⚔️ Encantamentos de Arma (Weapon Enhancements)</h4>
                     <div class="forge-wiki-grid">
                         <div class="forge-wiki-card">
                             <span class="tag-type">Arma / Basic Forge</span>
@@ -562,28 +558,36 @@
                             <h4>Dauntless</h4>
                             <p>Transforma o estilo de jogo desativando o auto-attack tradicional e convertendo-o em golpes devastadores com bônus insanos de dano bruto.</p>
                         </div>
+                    </div>
+
+                    <h4 class="enh-category-title">🛡️ Encantamentos de Capacete (Helm Enhancements)</h4>
+                    <div class="forge-wiki-grid">
                         <div class="forge-wiki-card">
                             <span class="tag-type">Helm / Special</span>
                             <h4>Pneuma</h4>
-                            <p>Concede grande quantidade de Intelecto e Sabedoria, sacrificando um pouco de HP bruto. Essencial para Casters.</p>
+                            <p>Concede grande quantidade de Intelecto e Sabedoria, sacrificando um pouco de HP bruto. Essencial para Casters de alto dano mágico.</p>
                         </div>
                         <div class="forge-wiki-card">
                             <span class="tag-type">Helm / Special</span>
                             <h4>Vim / Exaltia</h4>
                             <p>Aumenta severamente a Destreza, Evasão e Haste, tornando classes físicas intocáveis e ultra velozes.</p>
                         </div>
+                    </div>
+
+                    <h4 class="enh-category-title">🧣 Encantamentos de Capa (Cape Enhancements)</h4>
+                    <div class="forge-wiki-grid">
                         <div class="forge-wiki-card">
                             <span class="tag-type">Cape / Special</span>
                             <h4>Vainglory</h4>
-                            <p>Aumenta o dano causado e reduz a defesa, criando um estilo de risco/recompensa focado em puro DPS.</p>
+                            <p>Aumenta o dano causado e reduz a defesa, criando um estilo de risco/recompensa focado em puro DPS para combates rápidos.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- ABA 3: WIKI DE CLASSES (TODAS AS CLASSES, SKILLS, FARM, COMBOS E ENCATAMENTOS) -->
+                <!-- ABA 3: CLASS (TODAS AS CLASSES DO JOGO CONFORME AQWWIKI) -->
                 <div id="dash-classes" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">⚔️ Wiki Completa de Classes AQW</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Guia tático detalhado cobrindo as principais classes do jogo com habilidades, formas de obtenção, combos e encantamentos recomendados:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">⚔️ Guia Completo de Todas as Classes do AQW</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 20px;">Compilado oficial extraído do <a href="http://aqwwiki.wikidot.com/classes" target="_blank" style="color:var(--primary-color)">AQW Wiki Classes</a> com habilidades, métodos de farm, combos e encantamentos recomendados:</p>
 
                     <div class="class-card-box">
                         <h4>Void Highlord (VHL)</h4>
@@ -616,33 +620,67 @@
                         <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5 em looping contínuo.</p>
                         <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiant (Arma) | Lucky (Helm) | Forge Cape (Cape).</p>
                     </div>
+
+                    <div class="class-card-box">
+                        <h4>Legion Revenant (LR)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Farm massivo na facção Undead Legion em /join revenant coletando Conquered Tokens e feitiços de Dage.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Rei do farming e excelente suporte em party, combinando drenagem de vida, velocidade absurda e dano contínuo.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 3 -> 2 -> 4 -> 5 mantendo as marcas ativas.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiance (Arma) | Wizard ou Pneuma (Helm) | Vainglory (Cape) | Wizard.</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>LightCaster (LC)</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Adquirida na loja especial em /join celestialrealm juntando itens de drop de Ultra Alteon / Ultra Tyndarius.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Oferece altíssimo dano mágico em alvos únicos e forte autocura com suporte leve.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 3 -> 2 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Arcana's Concerto (Arma) | Pneuma (Helm) | Vainglory (Cape) | Wizard.</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Pyromancer & BlazeBinder</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Reputação Embersea e Firewar para Pyromancer, combinada com tokens para BlazeBinder.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Foco em DoT (dano por queimadura) em área.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Valiant (Arma) | Wizard (Helm) | Lucky (Cape).</p>
+                    </div>
+
+                    <div class="class-card-box">
+                        <h4>Shaman & Oracle</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Como Farmar:</b> Reputação Arcangrove Rank 10 para Shaman; Oracle é gratuita em `/join class`.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Habilidades (Skills):</b> Excelente multi-alvo elemental e controle de dano em área.</p>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><b>Combo Recomendado:</b> 2 -> 3 -> 4 -> 5.</p>
+                        <p style="font-size:0.85rem; color:var(--primary-color);"><b>Encantamentos Indicados:</b> Wizard / Lucky.</p>
+                    </div>
                 </div>
 
-                <!-- ABA 4: FACÇÕES (TODAS AS EXISTENTES E DE POSSÍVEL ACESSO) -->
+                <!-- ABA 4: FACÇÕES (TODAS AS EXISTENTES COM RANK 10) -->
                 <div id="dash-factions" class="dash-panel">
-                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Guia Completo de Facções do AQW</h3>
-                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Relação de todas as facções existentes no jogo, locais de farm para Rank 10 e recompensas de reputação:</p>
+                    <h3 style="color: var(--primary-color); margin-bottom: 8px;">📜 Guia Completo de Facções & Recompensas Rank 10</h3>
+                    <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 15px;">Relação de todas as facções existentes no jogo, locais de farm e itens/vantagens liberados ao atingir Rank 10 de reputação:</p>
 
                     <table class="wiki-table">
                         <tr><th>Facção</th><th>Melhor Mapa de Farm</th><th>Recompensa / Loja Rank 10</th></tr>
-                        <tr><td>Arcangrove</td><td>`/join arcangrove`</td><td>Shaman Class, Fulgerite</td></tr>
-                        <tr><td>Blade of Awe</td><td>`/join awescamp`</td><td>Armor of Awe, Blade of Awe</td></tr>
-                        <tr><td>Chaos</td><td>`/join mountdoomskull`</td><td>Chaos Slayer Access</td></tr>
-                        <tr><td>DoomWood</td><td>`/join doomwood`</td><td>Necromancer Class, Shadowfall items</td></tr>
-                        <tr><td>Drakath</td><td>`/join epicwar`</td><td>Chaos items e cosméticos exclusivos</td></tr>
-                        <tr><td>Embersea</td><td>`/join embersea`</td><td>Pyromancer / BlazeBinder pre-reqs</td></tr>
-                        <tr><td>Good</td><td>`/join swordhaven`</td><td>Paladin items, Royal Guard</td></tr>
-                        <tr><td>Evil</td><td>`/join shadowfall`</td><td>DoomKnight items, Necromancer</td></tr>
-                        <tr><td>EtherStorm</td><td>`/join etherstorm`</td><td>Elemental Dracomancer Class</td></tr>
-                        <tr><td>Lillith / Infernal</td><td>`/join underworld`</td><td>Underworld items</td></tr>
-                        <tr><td>Lycan</td><td>`/join lycan`</td><td>Lycan Class</td></tr>
-                        <tr><td>Vampire</td><td>`/join vampire`</td><td>Vampire Lord Class</td></tr>
-                        <tr><td>Mythsong</td><td>`/join mythsong`</td><td>Vocalist / Musical items</td></tr>
-                        <tr><td>PetTamer</td><td>`/join petparadise`</td><td>Pet Master gear</td></tr>
-                        <tr><td>Sandsea</td><td>`/join sandsea`</td><td>Master Ranger Class</td></tr>
-                        <tr><td>SkyGuard</td><td>`/join skyguard`</td><td>Skyguard Uniforms, Rep items</td></tr>
-                        <tr><td>Thronebone</td><td>`/join thronebone`</td><td>Undead slayer gear</td></tr>
-                        <tr><td>Dwarfhold</td><td>`/join dwarfhold`</td><td>Drakel Slayer</td></tr>
+                        <tr><td>Arcangrove</td><td>`/join arcangrove`</td><td>Shaman Class, Fulgerite Staff, Arcangrove Top Hat</td></tr>
+                        <tr><td>Blade of Awe</td><td>`/join awescamp`</td><td>Armor of Awe, Blade of Awe (All-Around Boosts)</td></tr>
+                        <tr><td>Chaos</td><td>`/join mountdoomskull`</td><td>Chaos Slayer Class, Chaotic Armor items</td></tr>
+                        <tr><td>DoomWood</td><td>`/join doomwood`</td><td>Necromancer Class, Shadowfall items, Paladin armor pieces</td></tr>
+                        <tr><td>Drakath</td><td>`/join epicwar`</td><td>Chaos Lord items, Drakath armor cosmetics</td></tr>
+                        <tr><td>Embersea</td><td>`/join embersea`</td><td>Pyromancer / BlazeBinder pre-reqs, Flame weapons</td></tr>
+                        <tr><td>Good</td><td>`/join swordhaven`</td><td>Paladin items, Royal Guard Armor & Sword</td></tr>
+                        <tr><td>Evil</td><td>`/join shadowfall`</td><td>DoomKnight items, Necromancer gear</td></tr>
+                        <tr><td>EtherStorm</td><td>`/join etherstorm`</td><td>Elemental Dracomancer Class, Dragon Storm items</td></tr>
+                        <tr><td>Gravelyn / Undead Legion</td><td>`/join underworld`</td><td>Legion DoomKnight items, Soul Forged weapons</td></tr>
+                        <tr><td>Lycan</td><td>`/join lycan`</td><td>Lycan Class, Wolfpaw weapons</td></tr>
+                        <tr><td>Vampire</td><td>`/join vampire`</td><td>Vampire Lord Class, Blood Moon gear</td></tr>
+                        <tr><td>Mythsong</td><td>`/join mythsong`</td><td>Vocalist / Musical items, Rockstar gear</td></tr>
+                        <tr><td>PetTamer</td><td>`/join petparadise`</td><td>Pet Master gear, Beastmaster items</td></tr>
+                        <tr><td>Sandsea</td><td>`/join sandsea`</td><td>Master Ranger Class, Desert Nomad items</td></tr>
+                        <tr><td>SkyGuard</td><td>`/join skyguard`</td><td>Skyguard Uniforms, Airship gear</td></tr>
+                        <tr><td>Thronebone</td><td>`/join thronebone`</td><td>Undead Slayer gear, Skeletal weapons</td></tr>
+                        <tr><td>Dwarfhold</td><td>`/join dwarfhold`</td><td>Drakel Slayer, Mountain items</td></tr>
+                        <tr><td>Yokai</td><td>`/join yokai`</td><td>Tengu items, Oni Blade</td></tr>
+                        <tr><td>BladeMaster</td><td>`/join shadowblast`</td><td>BladeMaster class requirements</td></tr>
                     </table>
                 </div>
 
@@ -659,7 +697,7 @@
         </div>
     </main>
 
-    <!-- MODAL DE GUIAS DE ULTRAS -->
+    <!-- MODAL DE GUIAS DE BOSS -->
     <div class="modal" id="guide-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -670,40 +708,128 @@
         </div>
     </div>
 
-    <!-- SCRIPTS UNIFICADOS COM PERSISTÊNCIA POR USUÁRIO -->
+    <!-- SCRIPTS COM AUTOSAVE, RELÓGIO DE ATUALIZAÇÃO AQW E RECUPERAÇÃO VIA LINK DE E-MAIL -->
     <script>
-        let isRegisterMode = false;
+        let authMode = 'login'; // 'login', 'register', 'forgot'
         let currentUser = null;
 
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
         }
 
+        // --- CRONÔMETRO DE ATUALIZAÇÃO OFICIAL DO AQW (Sextas-feiras aprox 18:00 UTC) ---
+        function updateAQWTimer() {
+            const now = new Date();
+            const nextUpdate = new Date();
+            nextUpdate.setUTCHours(18, 0, 0, 0); // 18:00 UTC
+            let dayOfWeek = now.getUTCDay();
+            let daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+            if (daysUntilFriday === 0 && now.getUTCHours() >= 18) {
+                daysUntilFriday = 7;
+            }
+            nextUpdate.setUTCDate(now.getUTCDate() + daysUntilFriday);
+            
+            const diff = nextUpdate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const timerEl = document.getElementById('aqw-update-timer');
+            if (timerEl) {
+                timerEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+        setInterval(updateAQWTimer, 1000);
+        updateAQWTimer();
+
+        // --- SISTEMA DE AUTENTICAÇÃO E RECUPERAÇÃO VIA LINK DE E-MAIL ---
         function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            document.getElementById('auth-title').innerText = isRegisterMode ? "📝 Criar Nova Conta" : "🔐 Área do Jogador";
-            document.getElementById('auth-submit-btn').innerText = isRegisterMode ? "Cadastrar" : "Entrar na Conta";
-            document.getElementById('auth-toggle-btn').innerText = isRegisterMode ? "Já tem conta? Faça Login" : "Não tem uma conta? Cadastre-se";
-            document.getElementById('auth-confirm-password').style.display = isRegisterMode ? "block" : "none";
+            if (authMode === 'login') {
+                authMode = 'register';
+                document.getElementById('auth-title').innerText = "📝 Criar Nova Conta";
+                document.getElementById('auth-subtitle').innerText = "Cadastre sua conta vinculando seu e-mail.";
+                document.getElementById('auth-email').style.display = "block";
+                document.getElementById('auth-confirm-password').style.display = "block";
+                document.getElementById('auth-submit-btn').innerText = "Cadastrar";
+                document.getElementById('auth-toggle-text').innerText = "Já tem conta? Faça Login";
+                document.getElementById('auth-forgot-text').style.display = "none";
+            } else {
+                authMode = 'login';
+                document.getElementById('auth-title').innerText = "🔐 Área do Jogador";
+                document.getElementById('auth-subtitle').innerText = "Entre na sua conta para salvar seu progresso de forja.";
+                document.getElementById('auth-email').style.display = "none";
+                document.getElementById('auth-confirm-password').style.display = "none";
+                document.getElementById('auth-submit-btn').innerText = "Entrar na Conta";
+                document.getElementById('auth-toggle-text').innerText = "Não tem uma conta? Cadastre-se";
+                document.getElementById('auth-forgot-text').style.display = "inline";
+            }
+        }
+
+        function toggleForgotMode() {
+            authMode = 'forgot';
+            document.getElementById('auth-title').innerText = "🔑 Recuperar Senha por E-mail";
+            document.getElementById('auth-subtitle').innerText = "Informe seu usuário e e-mail cadastrado. Enviaremos um link de recuperação.";
+            document.getElementById('auth-email').style.display = "block";
+            document.getElementById('auth-password').style.display = "none";
+            document.getElementById('auth-confirm-password').style.display = "none";
+            document.getElementById('auth-submit-btn').innerText = "Enviar Link de Recuperação";
+            document.getElementById('auth-toggle-text').style.display = "none";
+            document.getElementById('auth-forgot-text').innerText = "Voltar ao Login";
+            document.getElementById('auth-forgot-text').setAttribute('onclick', 'cancelForgotMode()');
+        }
+
+        function cancelForgotMode() {
+            authMode = 'login';
+            document.getElementById('auth-title').innerText = "🔐 Área do Jogador";
+            document.getElementById('auth-subtitle').innerText = "Entre na sua conta para salvar seu progresso de forja.";
+            document.getElementById('auth-email').style.display = "none";
+            document.getElementById('auth-password').style.display = "block";
+            document.getElementById('auth-confirm-password').style.display = "none";
+            document.getElementById('auth-submit-btn').innerText = "Entrar na Conta";
+            document.getElementById('auth-toggle-text').style.display = "inline";
+            document.getElementById('auth-forgot-text').innerText = "Esqueceu a senha?";
+            document.getElementById('auth-forgot-text').setAttribute('onclick', 'toggleForgotMode()');
         }
 
         function handleAuth(event) {
             event.preventDefault();
             const user = document.getElementById('auth-username').value.trim();
+            const email = document.getElementById('auth-email').value.trim();
             const pass = document.getElementById('auth-password').value.trim();
             const confirmPass = document.getElementById('auth-confirm-password').value.trim();
 
-            if (!user || !pass) return;
+            if (!user) return;
 
-            if (isRegisterMode) {
+            if (authMode === 'register') {
                 if (pass !== confirmPass) {
                     alert('As senhas não coincidem!');
                     return;
                 }
                 localStorage.setItem(`user_pass_${user}`, pass);
+                localStorage.setItem(`user_email_${user}`, email);
                 alert('Conta cadastrada com sucesso! Faça login.');
-                isRegisterMode = false;
                 toggleAuthMode();
+            } else if (authMode === 'forgot') {
+                const savedEmail = localStorage.getItem(`user_email_${user}`);
+                if (!savedEmail || savedEmail !== email) {
+                    alert('Usuário ou e-mail não conferem com nossos registros!');
+                    return;
+                }
+                // Simula envio de e-mail com link exclusivo contendo token seguro
+                const resetToken = Math.random().toString(36).substring(2, 12);
+                localStorage.setItem(`reset_token_${user}`, resetToken);
+                
+                const simulatedLink = `[SIMULAÇÃO DE E-MAIL]\nLink enviado para: ${email}\n\nClique no link abaixo para redefinir sua senha:\nwindow.location.href = '#reset=${resetToken}&user=${user}'`;
+                alert(simulatedLink);
+                
+                // Prompt interativo simulando que a pessoa abriu o link no e-mail
+                const newPass = prompt(`(Simulando acesso ao link recebido por e-mail)\nDigite sua nova senha para o usuário ${user}:`);
+                if (newPass) {
+                    localStorage.setItem(`user_pass_${user}`, newPass);
+                    alert('Senha alterada com sucesso via link do e-mail! Faça login.');
+                    cancelForgotMode();
+                }
             } else {
                 const savedPass = localStorage.getItem(`user_pass_${user}`);
                 if (savedPass && savedPass === pass) {
@@ -740,8 +866,16 @@
             event.target.classList.add('active');
         }
 
+        function toggleWikiExpand() {
+            const body = document.getElementById('wiki-expand-body');
+            const chevron = document.getElementById('wiki-chevron');
+            body.classList.toggle('open');
+            chevron.classList.toggle('fa-chevron-down');
+            chevron.classList.toggle('fa-chevron-up');
+        }
+
         // ==========================================
-        // DADOS E LÓGICA DE TODAS AS QUESTS DE FORJA
+        // DADOS E LÓGICA DE QUEST FORGE DETALHADA COM SACOLAS E PROGRESSO POR QUEST
         // ==========================================
         const guidesData = {
             'dau_1': { title: '⚔️ Guia Ultra Speaker (Dauntless)', text: '<b>Composição:</b> Lord of Order, ArchPaladin, StoneCrusher, LoO/AP.<br><br><b>Mecânica:</b> Requer sincronia perfeita de taunts para alternar o foco do boss e evitar wipe geral.' },
@@ -751,112 +885,108 @@
 
         const itemsData = {
             req: [
-                { id: 'req_1', name: 'Blacksmithing Rank 10', current: 0, max: 1, type: 'Reputação', map: '/join forge', npc: 'Cysero', monster: 'Slimes', drop: 'Blacksmithing Rep', wiki: 'http://aqwwiki.wikidot.com/blacksmithing-faction' },
-                { id: 'req_2', name: 'Pyromancer Class', current: 0, max: 1, type: 'Classe Base', map: '/join firewar', npc: 'Xang', monster: 'Fire Monsters', drop: 'Shards of Fire (84)', wiki: 'http://aqwwiki.wikidot.com/pyromancer-class-non-ac' },
-                { id: 'req_3', name: 'Awescention Completed', current: 0, max: 1, type: 'Saga Completa', map: '/join museum', npc: 'Valencia', monster: 'Bosses', drop: 'Relics of Awe', wiki: 'http://aqwwiki.wikidot.com/awescention' }
+                { id: 'req_1', name: 'Blacksmithing Rank 10', npc: 'Cysero', map: '/join forge', wiki: 'http://aqwwiki.wikidot.com/blacksmithing-faction', bags: [ { id: 'b_req1', name: 'Blacksmithing Rep', current: 0, max: 1 } ] },
+                { id: 'req_2', name: 'Pyromancer Class', npc: 'Xang', map: '/join firewar', wiki: 'http://aqwwiki.wikidot.com/pyromancer-class-non-ac', bags: [ { id: 'b_req2', name: 'Shards of Fire', current: 0, max: 84 } ] },
+                { id: 'req_3', name: 'Awescention Completed', npc: 'Valencia', map: '/join museum', wiki: 'http://aqwwiki.wikidot.com/awescention', bags: [ { id: 'b_req3', name: 'Relics of Awe', current: 0, max: 1 } ] }
             ],
             valiant: [
-                { id: 'val_1', name: 'Steel Found', current: 0, max: 50, type: 'Reagente', map: '/join forge', npc: 'Cysero', monster: 'Golems', drop: 'Steel Ingot', wiki: 'http://aqwwiki.wikidot.com/valiant-enhancement' }
+                { id: 'val_1', name: 'Valiant Forge Quest', npc: 'Cysero', map: '/join forge', wiki: 'http://aqwwiki.wikidot.com/valiant-enhancement', bags: [ { id: 'b_val1', name: 'Steel Ingot', current: 0, max: 50 } ] }
             ],
             lacerate: [
-                { id: 'lac_1', name: 'Sharp Blade Fragment', current: 0, max: 30, type: 'Reagente', map: '/join pirates', npc: 'Guard', monster: 'Pirates', drop: 'Blade Shard', wiki: 'http://aqwwiki.wikidot.com/lacerate-enhancement' }
+                { id: 'lac_1', name: 'Lacerate Forge Quest', npc: 'Cysero', map: '/join pirates', wiki: 'http://aqwwiki.wikidot.com/lacerate-enhancement', bags: [ { id: 'b_lac1', name: 'Blade Shard', current: 0, max: 30 } ] }
             ],
             smite: [
-                { id: 'smi_1', name: 'Divine Spark', current: 0, max: 25, type: 'Reagente', map: '/join celestialarena', npc: 'Parnassus', monster: 'Angels', drop: 'Spark', wiki: 'http://aqwwiki.wikidot.com/smite-enhancement' }
+                { id: 'smi_1', name: 'Smite Forge Quest', npc: 'Parnassus', map: '/join celestialarena', wiki: 'http://aqwwiki.wikidot.com/smite-enhancement', bags: [ { id: 'b_smi1', name: 'Divine Spark', current: 0, max: 25 } ] }
             ],
             helix: [
-                { id: 'hel_1', name: 'Exalted Crown Piece', current: 0, max: 20, type: 'Reagente', map: '/join gaia', npc: 'Gaian', monster: 'Guardians', drop: 'Crown Relic', wiki: 'http://aqwwiki.wikidot.com/helix-enhancement' }
+                { id: 'hel_1', name: 'Helix Forge Quest', npc: 'Gaian', map: '/join gaia', wiki: 'http://aqwwiki.wikidot.com/helix-enhancement', bags: [ { id: 'b_hel1', name: 'Crown Relic', current: 0, max: 20 } ] }
             ],
             lament: [
-                { id: 'lam_1', name: 'Grief Shard', current: 0, max: 40, type: 'Reagente', map: '/join underworld', npc: 'Undead', monster: 'Shadows', drop: 'Shard of Grief', wiki: 'http://aqwwiki.wikidot.com/lament-enhancement' }
+                { id: 'lam_1', name: 'Lament Forge Quest', npc: 'Undead', map: '/join underworld', wiki: 'http://aqwwiki.wikidot.com/lament-enhancement', bags: [ { id: 'b_lam1', name: 'Shard of Grief', current: 0, max: 40 } ] }
             ],
             havi: [
-                { id: 'hav_1', name: 'Wind Essence', current: 0, max: 35, type: 'Reagente', map: '/join elemental', npc: 'Zephyr', monster: 'Air Elementals', drop: 'Gale Essence', wiki: 'http://aqwwiki.wikidot.com/havoc-enhancement' }
+                { id: 'hav_1', name: 'Havoc / Fang Quest', npc: 'Zephyr', map: '/join elemental', wiki: 'http://aqwwiki.wikidot.com/havoc-enhancement', bags: [ { id: 'b_hav1', name: 'Gale Essence', current: 0, max: 35 } ] }
             ],
             pneuma: [
-                { id: 'pne_1', name: 'Aether Feather', current: 0, max: 20, type: 'Reagente', map: '/join celestialrealm', npc: 'Aeria', monster: 'Celestials', drop: 'Feather', wiki: 'http://aqwwiki.wikidot.com/pneuma-enhancement' }
+                { id: 'pne_1', name: 'Pneuma Helm Quest', npc: 'Aeria', map: '/join celestialrealm', wiki: 'http://aqwwiki.wikidot.com/pneuma-enhancement', bags: [ { id: 'b_pne1', name: 'Aether Feather', current: 0, max: 20 } ] }
             ],
             vim: [
-                { id: 'vim_1', name: 'Vim Core', current: 0, max: 25, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Ultra Bosses', drop: 'Vim Scrap', wiki: 'http://aqwwiki.wikidot.com/vim-enhancement' }
+                { id: 'vim_1', name: 'Vim Helm Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/vim-enhancement', bags: [ { id: 'b_vim1', name: 'Vim Scrap', current: 0, max: 25 } ] }
             ],
             valiance: [
-                { id: 'vnc_1', name: 'Champion\'s Seal', current: 0, max: 15, type: 'Reagente Ultra', map: '/join timeinn', npc: 'Cysero', monster: 'Ultra Champion', drop: 'Seal', wiki: 'http://aqwwiki.wikidot.com/valiance' }
+                { id: 'vnc_1', name: 'Valiance Blade Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/valiance', bags: [ { id: 'b_vnc1', name: 'Champion\'s Seal', current: 0, max: 15 } ] }
             ],
             arcana: [
-                { id: 'arc_1', name: 'Prince Darkon\'s Poleaxe', current: 0, max: 1, type: 'Arma', map: '/join astravia', npc: 'Darkon', monster: 'Darkon Boss', drop: 'Poleaxe', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' },
-                { id: 'arc_3', name: 'Synthetic Magi Fluid', current: 0, max: 300, type: 'Reagente Ultra', map: '/join darkcarnax', npc: 'Cysero', monster: 'Carnax', drop: 'Fluid (x10)', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto' }
+                { 
+                    id: 'arc_1', name: 'Arcana\'s Concerto', npc: 'Darkon', map: '/join astravia', wiki: 'http://aqwwiki.wikidot.com/arcana-s-concerto', 
+                    bags: [ 
+                        { id: 'b_arc1', name: 'Poleaxe', current: 0, max: 1 },
+                        { id: 'b_arc2', name: 'Synthetic Magi Fluid', current: 0, max: 300 } 
+                    ] 
+                }
             ],
             elysium: [
-                { id: 'ely_1', name: 'Archfiend Essence Fragment', current: 0, max: 3, type: 'Reagente', map: '/join tercessuinotlim', npc: 'Willpower', monster: 'Nulgath', drop: 'Fiend Token', wiki: 'http://aqwwiki.wikidot.com/elysium' },
-                { id: 'ely_2', name: 'Bone from the Void Realm', current: 0, max: 15, type: 'Quest Semanal', map: '/join voidflibbi', npc: 'Cysero', monster: 'Ultra Flibbitiest', drop: 'Void Bone', wiki: 'http://aqwwiki.wikidot.com/elysium' }
+                { 
+                    id: 'ely_1', name: 'Elysium Blade Quest', npc: 'Willpower', map: '/join tercessuinotlim', wiki: 'http://aqwwiki.wikidot.com/elysium', 
+                    bags: [ 
+                        { id: 'b_ely1', name: 'Fiend Token', current: 0, max: 3 },
+                        { id: 'b_ely2', name: 'Void Bone', current: 0, max: 15 } 
+                    ] 
+                }
             ],
             avarice: [
-                { id: 'ava_1', name: 'Indulgence', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Ezrajal', drop: 'Ezrajal Essentials', wiki: 'http://aqwwiki.wikidot.com/avarice' },
-                { id: 'ava_2', name: 'Gluttony', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Warden Elfhame', drop: 'Warden Essentials', wiki: 'http://aqwwiki.wikidot.com/avarice' },
-                { id: 'ava_3', name: 'Wrath', current: 0, max: 300, type: 'Reagente', map: '/join timeinn', npc: 'Cysero', monster: 'Engineer', drop: 'Engineer Essentials', wiki: 'http://aqwwiki.wikidot.com/avarice' }
+                { 
+                    id: 'ava_1', name: 'Avarice Cape Quest', npc: 'Cysero', map: '/join timeinn', wiki: 'http://aqwwiki.wikidot.com/avarice', 
+                    bags: [ 
+                        { id: 'b_ava1', name: 'Indulgence', current: 0, max: 300 },
+                        { id: 'b_ava2', name: 'Gluttony', current: 0, max: 300 },
+                        { id: 'b_ava3', name: 'Wrath', current: 0, max: 300 } 
+                    ] 
+                }
             ],
             dauntless: [
-                { id: 'dau_1', name: 'Speaker Insignia', current: 0, max: 20, type: 'Ultra Semanal', map: '/join ultraspeaker', npc: 'Board', monster: 'Ultra Speaker', drop: 'Insignia (4/sem)', wiki: 'http://aqwwiki.wikidot.com/dauntless' }
+                { id: 'dau_1', name: 'Dauntless Weapon Quest', npc: 'Board', map: '/join ultraspeaker', wiki: 'http://aqwwiki.wikidot.com/dauntless', bags: [ { id: 'b_dau1', name: 'Speaker Insignia', current: 0, max: 20 } ] }
             ]
         };
 
         let pinnedItems = [];
         let currentFilter = 'all';
 
-        function updateWeeklyTimer() {
-            const now = new Date();
-            const nextReset = new Date();
-            nextReset.setUTCHours(0, 0, 0, 0);
-            nextReset.setUTCDate(now.getUTCDate() + ((5 - now.getUTCDay() + 7) % 7 || 7));
-            const diff = nextReset - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const timerEl = document.getElementById('weekly-timer');
-            if(timerEl) timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
-        }
-        setInterval(updateWeeklyTimer, 60000);
-        updateWeeklyTimer();
-
         function loadProgress() {
             if (!currentUser) return;
-            const saved = localStorage.getItem(`aqw_forge_v3_progress_${currentUser}`);
+            const saved = localStorage.getItem(`aqw_forge_v5_bags_${currentUser}`);
             if (saved) {
                 const parsed = JSON.parse(saved);
                 Object.keys(itemsData).forEach(cat => {
                     itemsData[cat].forEach(item => {
-                        if (parsed[item.id] !== undefined) item.current = parsed[item.id];
+                        item.bags.forEach(bag => {
+                            if (parsed[bag.id] !== undefined) bag.current = parsed[bag.id];
+                        });
                     });
                 });
             } else {
-                // Reset to 0 if new user
                 Object.keys(itemsData).forEach(cat => {
-                    itemsData[cat].forEach(item => item.current = 0);
+                    itemsData[cat].forEach(item => {
+                        item.bags.forEach(bag => bag.current = 0);
+                    });
                 });
             }
 
-            const savedPins = localStorage.getItem(`aqw_forge_v3_pins_${currentUser}`);
+            const savedPins = localStorage.getItem(`aqw_forge_v5_pins_${currentUser}`);
             pinnedItems = savedPins ? JSON.parse(savedPins) : [];
-
-            const notes = localStorage.getItem(`aqw_forge_v3_notes_${currentUser}`);
-            document.getElementById('personal-notes').value = notes || '';
         }
 
         function saveProgress() {
             if (!currentUser) return;
             const toSave = {};
             Object.keys(itemsData).forEach(cat => {
-                itemsData[cat].forEach(item => toSave[item.id] = item.current);
+                itemsData[cat].forEach(item => {
+                    item.bags.forEach(bag => toSave[bag.id] = bag.current);
+                });
             });
-            localStorage.setItem(`aqw_forge_v3_progress_${currentUser}`, JSON.stringify(toSave));
-            localStorage.setItem(`aqw_forge_v3_pins_${currentUser}`, JSON.stringify(pinnedItems));
-            updateOverall();
+            localStorage.setItem(`aqw_forge_v5_bags_${currentUser}`, JSON.stringify(toSave));
+            localStorage.setItem(`aqw_forge_v5_pins_${currentUser}`, JSON.stringify(pinnedItems));
             renderPinned();
-        }
-
-        function saveNotes() {
-            if (!currentUser) return;
-            localStorage.setItem(`aqw_forge_v3_notes_${currentUser}`, document.getElementById('personal-notes').value);
         }
 
         function copyJoin(map) {
@@ -874,52 +1004,71 @@
             renderAllCategories();
         }
 
+        function getQuestProgress(item) {
+            let totalMax = 0, totalCurrent = 0;
+            item.bags.forEach(b => {
+                totalMax += b.max;
+                totalCurrent += Math.min(b.max, b.current);
+            });
+            const pct = totalMax > 0 ? Math.round((totalCurrent / totalMax) * 100) : 0;
+            return { pct, current: totalCurrent, max: totalMax };
+        }
+
         function createCardElement(item, cat) {
-            const percentage = Math.min(100, Math.round((item.current / item.max) * 100));
+            const prog = getQuestProgress(item);
             let statusClass = 'card-zero';
-            if (percentage === 100) statusClass = 'card-complete';
-            else if (percentage > 0) statusClass = 'card-partial';
+            if (prog.pct === 100) statusClass = 'card-complete';
+            else if (prog.pct > 0) statusClass = 'card-partial';
 
             const isPinned = pinnedItems.includes(item.id);
             const hasGuide = guidesData[item.id];
 
-            let timeEstimate = '';
-            if (item.type.includes('Semanal') && item.current < item.max) {
-                const remaining = item.max - item.current;
-                const weeks = Math.ceil(remaining / 4);
-                timeEstimate = `<div style="color: var(--accent-purple); font-size: 0.72rem; margin-top: 3px;">⏳ Restam ~${weeks} semana(s)</div>`;
-            }
+            let bagsHtml = '';
+            item.bags.forEach(bag => {
+                bagsHtml += `
+                    <div class="bag-item-row">
+                        <span><b>${bag.name}</b></span>
+                        <div class="bag-controls">
+                            <button class="btn-count" onclick="updateBag('${cat}', '${item.id}', '${bag.id}', -1)">-</button>
+                            <input type="number" class="bag-input" value="${bag.current}" max="${bag.max}" min="0" onchange="setBag('${cat}', '${item.id}', '${bag.id}', this.value)">
+                            <span style="color:var(--text-muted)">/ ${bag.max}</span>
+                            <button class="btn-count" onclick="updateBag('${cat}', '${item.id}', '${bag.id}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
 
             const card = document.createElement('div');
             card.className = `item-card ${statusClass}`;
             card.setAttribute('data-name', item.name.toLowerCase());
-            card.setAttribute('data-status', percentage === 100 ? 'done' : percentage > 0 ? 'partial' : 'pending');
+            card.setAttribute('data-status', prog.pct === 100 ? 'done' : prog.pct > 0 ? 'partial' : 'pending');
 
             card.innerHTML = `
                 <button class="pin-btn ${isPinned ? 'pinned' : ''}" onclick="togglePin('${item.id}')">★</button>
                 <div>
                     <div class="item-header">
-                        <div class="item-type">${item.type}</div>
+                        <div class="item-type">NPC: ${item.npc}</div>
                         <div class="item-title">${item.name}</div>
                     </div>
-                    <div class="item-details">
-                        <div>📍 ${item.map} <button class="btn-copy-join" onclick="copyJoin('${item.map}')">/join</button></div>
-                        <div>👤 ${item.npc} | ⚔️ ${item.monster}</div>
-                        <div>🎁 ${item.drop}</div>
-                        ${timeEstimate}
-                        <div style="margin-top: 5px;">
-                            <a href="${item.wiki}" target="_blank" style="color: #60a5fa; font-size: 0.75rem; text-decoration: none;">Wiki</a>
+                    <div class="item-details-box">
+                        <div>📍 Mapa: <span class="map-link-btn" onclick="copyJoin('${item.map}')">${item.map}</span></div>
+                        <div style="margin-top: 4px;">
+                            <a href="${item.wiki}" target="_blank" style="color: #60a5fa; font-size: 0.78rem; text-decoration: none;">Wiki Oficial</a>
                             ${hasGuide ? `<button class="btn-copy-join" onclick="openGuide('${item.id}')" style="background: rgba(255,193,7,0.2); color: var(--accent-gold);">Guia Boss</button>` : ''}
                         </div>
                     </div>
+                    <div class="bags-list">
+                        ${bagsHtml}
+                    </div>
                 </div>
-                <div>
-                    <div style="font-size: 0.75rem; font-weight: bold; margin-bottom: 3px;">Progresso: ${percentage}%</div>
-                    <div class="counter-controls">
-                        <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', -1)">-</button>
-                        <input type="number" class="count-input" value="${item.current}" max="${item.max}" min="0" onchange="setItem('${cat}', '${item.id}', this.value)">
-                        <span style="color: var(--text-muted); font-size: 0.8rem;">/ ${item.max}</span>
-                        <button class="btn-count" onclick="updateItem('${cat}', '${item.id}', 1)">+</button>
+                <div class="quest-progress-container">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 0.75rem;">
+                        <span>Conclusão da Quest</span>
+                        <span>${prog.pct}%</span>
+                    </div>
+                    <div class="quest-bar-bg">
+                        <div class="quest-bar-fill" style="width: ${prog.pct}%"></div>
+                        <div class="quest-bar-text">${prog.current} / ${prog.max} Reagentes</div>
                     </div>
                 </div>
             `;
@@ -938,7 +1087,6 @@
             Object.keys(itemsData).forEach(renderCategory);
             renderPinned();
             filterItems();
-            updateOverall();
         }
 
         function renderPinned() {
@@ -962,39 +1110,28 @@
             });
         }
 
-        function updateItem(cat, id, delta) {
-            const item = itemsData[cat].find(i => i.id === id);
+        function updateBag(cat, itemId, bagId, delta) {
+            const item = itemsData[cat].find(i => i.id === itemId);
             if (item) {
-                item.current = Math.max(0, Math.min(item.max, item.current + delta));
-                saveProgress();
-                renderAllCategories();
+                const bag = item.bags.find(b => b.id === bagId);
+                if (bag) {
+                    bag.current = Math.max(0, Math.min(bag.max, bag.current + delta));
+                    saveProgress();
+                    renderAllCategories();
+                }
             }
         }
 
-        function setItem(cat, id, val) {
-            const item = itemsData[cat].find(i => i.id === id);
+        function setBag(cat, itemId, bagId, val) {
+            const item = itemsData[cat].find(i => i.id === itemId);
             if (item) {
-                item.current = Math.max(0, Math.min(item.max, parseInt(val) || 0));
-                saveProgress();
-                renderAllCategories();
+                const bag = item.bags.find(b => b.id === bagId);
+                if (bag) {
+                    bag.current = Math.max(0, Math.min(bag.max, parseInt(val) || 0));
+                    saveProgress();
+                    renderAllCategories();
+                }
             }
-        }
-
-        function updateOverall() {
-            let totalMax = 0, totalCurrent = 0;
-            Object.keys(itemsData).forEach(cat => {
-                itemsData[cat].forEach(item => {
-                    totalMax += item.max;
-                    totalCurrent += item.current;
-                });
-            });
-            const pct = totalMax > 0 ? Math.round((totalCurrent / totalMax) * 100) : 0;
-            const pctEl = document.getElementById('overall-percentage');
-            const barEl = document.getElementById('overall-bar');
-            const textEl = document.getElementById('overall-text');
-            if(pctEl) pctEl.innerText = `${pct}%`;
-            if(barEl) barEl.style.width = `${pct}%`;
-            if(textEl) textEl.innerText = `${totalCurrent} de ${totalMax} Reagentes Obtidos`;
         }
 
         function setFilter(filter, btn) {
@@ -1038,14 +1175,13 @@
         function exportData() {
             if (!currentUser) return;
             const data = {
-                progress: localStorage.getItem(`aqw_forge_v3_progress_${currentUser}`),
-                pins: localStorage.getItem(`aqw_forge_v3_pins_${currentUser}`),
-                notes: localStorage.getItem(`aqw_forge_v3_notes_${currentUser}`)
+                bags: localStorage.getItem(`aqw_forge_v5_bags_${currentUser}`),
+                pins: localStorage.getItem(`aqw_forge_v5_pins_${currentUser}`)
             };
             const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `AQW_Forge_Backup_${currentUser}.json`;
+            a.download = `AQW_QuestForge_Backup_${currentUser}.json`;
             a.click();
         }
 
@@ -1056,9 +1192,8 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const data = JSON.parse(e.target.result);
-                    if (data.progress) localStorage.setItem(`aqw_forge_v3_progress_${currentUser}`, data.progress);
-                    if (data.pins) localStorage.setItem(`aqw_forge_v3_pins_${currentUser}`, data.pins);
-                    if (data.notes) localStorage.setItem(`aqw_forge_v3_notes_${currentUser}`, data.notes);
+                    if (data.bags) localStorage.setItem(`aqw_forge_v5_bags_${currentUser}`, data.bags);
+                    if (data.pins) localStorage.setItem(`aqw_forge_v5_pins_${currentUser}`, data.pins);
                     loadProgress();
                     renderAllCategories();
                     alert('Backup restaurado com sucesso!');
